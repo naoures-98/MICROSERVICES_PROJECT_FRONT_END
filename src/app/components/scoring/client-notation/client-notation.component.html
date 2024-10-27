@@ -383,18 +383,19 @@
                         <h5 class="custom-label mb-3">Score Client</h5>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="adjustedScore" class="form-label">Score Ajusté</label>
-                                <input type="text" class="form-control" [disabled]="true" required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
-                            </div>
+                            
                             <div class="form-group me-3">
                                 <label for="finalScore" class="form-label">Score Final</label>
                                 <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
                             </div>
+                            <div class="form-group me-3">
+                                <label for="pd" class="form-label">PD</label>
+                                <input type="text" class="form-control" [disabled]="true" required #pd="ngModel" [(ngModel)]="corporate.clientNotation.pd" name="pd" id="pd">
+                            </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="retailNote" class="form-label">Decision Octroi</label>
+                                <label for="retailNote" class="form-label">Niveau</label>
                                 <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
                             </div>
                             <div class="form-group me-3">
