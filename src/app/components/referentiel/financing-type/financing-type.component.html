@@ -1,0 +1,135 @@
+<div class="container mt-5">
+    <h2>Gestion des Types de financement</h2>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeModal">
+            Ajouter une nouvelle Type de Financement
+        </button>
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeImportExcelModal">
+            Import EXCEL
+        </button>
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CODE TYPE DE FINANCEMENT</th>
+                <th>NOM  TYPE DE FINANCEMENT</th>
+                <th>NATURE DE FINANCEMENT</th>
+                <th>DATE CREATION</th>
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let finType of filteredFinancingType | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ finType.id }}</td>
+                <td>{{ finType.financingTypeCode }}</td>
+                <td>{{ finType.description }}</td>
+                <td>{{ finType.financingNature?.projectNature }}</td>
+                <td>{{ finType.createAt }}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editFinancingType(finType)" data-bs-target="#finTypeEditModal">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(finType.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<!-- Modal pour ajouter une nouvelle Type de financment  -->
+<div class="modal fade" id="finTypeModal" tabindex="-1" aria-labelledby="finTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="finTypeModalLabel">Créer une nouvelle  Type de financement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="finTypeForm" (ngSubmit)="onSubmit()" #finTypeForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="codeFinType" class="form-label">Code Type de Financement</label>
+                        <input type="text" class="form-control" required #codeFinType="ngModel" [(ngModel)]="finType.financingTypeCode" name="codeFinType" id="codeFinType">
+                    </div>
+                    <div *ngIf="codeFinType.touched && codeFinType.invalid" class="alert alert-danger">Code Type de Financement est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="finTypeName" class="form-label">Nom Type de Financement</label>
+                        <input type="text" class="form-control" required #finTypeName="ngModel" [(ngModel)]="finType.description" name="finTypeName" id="finTypeName">
+                    </div>
+                    <div *ngIf="finTypeName.touched && finTypeName.invalid" class="alert alert-danger">Nom Type de Financement  est obligatoire !</div>
+                    <div class="mb-3">
+                        <label for="financingNatureSelect" class="form-label">Sélectionner la Nature de Financement</label>
+                        <select id="financingNatureSelect" #finNature="ngModel"  [(ngModel)]="selectedFinancingNatureId" name="financingNature" class="form-select" required>
+                          <option *ngFor="let nature of financingNatures" [value]="nature.id">{{ nature.projectNature }}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="finNature.touched && finNature.invalid" class="alert alert-danger">Nom Nature de Financement  est obligatoire !</div>
+
+                    <button class="btn btn-success" [disabled]="!finTypeForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal pour modifier une type de Financement  -->
+<div class="modal fade" id="finTypeEditModal" tabindex="-1" aria-labelledby="finTypeEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="finTypeEditModalLabel">Modifier Type de Financement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="finTypeEditForm" (ngSubmit)="onEditSubmit()" #editFinTypeForm="ngForm">
+
+                    <div class="form-group mb-3">
+                        <label for="editCodeFinType" class="form-label">Code Type de Financement</label>
+                        <input type="text" class="form-control"   [disabled]="true" required #editCodeFinType="ngModel" [(ngModel)]="finType.financingTypeCode" name="finTypeCode" id="finTypeCode">
+                    </div>
+                    <div *ngIf="editCodeFinType.touched && editCodeFinType.invalid" class="alert alert-danger">Code Type de Financement est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="editFinTypeName" class="form-label">Nom Type de Financement</label>
+                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="finType.description" name="name" id="editFinTypeName">
+                    </div>
+                    <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Type de Financement est obligatoire !</div>
+                    <div class="mb-3">
+                        <label for="financingNatureSelect" class="form-label">Sélectionner la Nature de Financement</label>
+                        <select id="financingNatureSelect" #finNature="ngModel"  [(ngModel)]="selectedFinancingNatureId" name="financingNature" class="form-select" required>
+                            <option *ngFor="let nature of financingNatures" [value]="nature.id">{{ nature.projectNature }}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="finTypeName.touched && finTypeName.invalid" class="alert alert-danger">Nom Nature de Financement  est obligatoire !</div>
+
+                    
+                    <button class="btn btn-success" [disabled]="!editFinTypeForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer cette Type de Financement
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

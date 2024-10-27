@@ -1,0 +1,111 @@
+<div class="container mt-5">
+    <h2>Gestion des Segments Client</h2>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentModal">
+            Ajouter un nouveau Segment Client
+        </button>
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentImportExcelModal">
+            Import EXCEL
+        </button>
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CODE SEGMENT</th>
+                <th>NOM SEGMENT</th>
+                <th>DATE CREATION</th>
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliSegConf  of filteredClientSegmentConfig | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ cliSegConf.id }}</td>
+                <td>{{ cliSegConf.segmentCode }}</td>
+                <td>{{ cliSegConf.description }}</td>
+                <td>{{ cliSegConf.createAt }}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editClientSegmentConfig(cliSegConf)" data-bs-target="#segmentEditModal">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(cliSegConf.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<!-- Modal pour ajouter une nouvelle agence -->
+<div class="modal fade" id="segmentModal" tabindex="-1" aria-labelledby="segmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="segmentModalLabel">Créer un nouveau Segment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="segmentForm" (ngSubmit)="onSubmit()" #segmentForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="codeSegment" class="form-label">Code Segment</label>
+                        <input type="text" class="form-control" required #codeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="codeSegment" id="codeSegment">
+                    </div>
+                    <div *ngIf="codeSegment.touched && codeSegment.invalid" class="alert alert-danger">Code Segment est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="segmentName" class="form-label">Nom Segment</label>
+                        <input type="text" class="form-control" required #segmentName="ngModel" [(ngModel)]="cliSegConf.description" name="segmentName" id="segmentName">
+                    </div>
+                    <div *ngIf="segmentName.touched && segmentName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
+
+                    <button class="btn btn-success" [disabled]="!segmentForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal pour modifier une devise  -->
+<div class="modal fade" id="segmentEditModal" tabindex="-1" aria-labelledby="segmentEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="segmentEditModalLabel">Modifier Segment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="segmentEditForm" (ngSubmit)="onEditSubmit()" #editSegmentForm="ngForm">
+
+                    <div class="form-group mb-3">
+                        <label for="editCodeSegment" class="form-label">Code Segment</label>
+                        <input type="text" class="form-control"   [disabled]="true" required #editCodeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="segmentCode" id="segmentCode">
+                    </div>
+                    <div *ngIf="editCodeSegment.touched && editCodeSegment.invalid" class="alert alert-danger">Code Segment est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="editSegmentName" class="form-label">Nom Segment</label>
+                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="cliSegConf.description" name="name" id="editSegmentName">
+                    </div>
+                    <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
+                    <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce Segment ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

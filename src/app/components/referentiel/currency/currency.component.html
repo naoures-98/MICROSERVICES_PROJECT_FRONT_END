@@ -1,0 +1,111 @@
+<div class="container mt-5">
+    <h2>Gestion des devises</h2>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#currencyModal">
+            Ajouter une nouvelle devise
+        </button>
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#currencyImportExcelModal">
+            Import EXCEL
+        </button>
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CODE DEVISE</th>
+                <th>DEVISE</th>
+                <th>DATE CREATION</th>
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let currency of filteredCurrencies | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ currency.id }}</td>
+                <td>{{ currency.internalCode }}</td>
+                <td>{{ currency.name }}</td>
+                <td>{{ currency.createAt }}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editCurrency(currency)" data-bs-target="#currencyEditModal">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(currency.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<!-- Modal pour ajouter une nouvelle agence -->
+<div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="currencyModalLabel">Créer une nouvelle  Devise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="currencyForm" (ngSubmit)="onSubmit()" #currencyForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="codeCurrency" class="form-label">Code Devise</label>
+                        <input type="text" class="form-control" required #codeCurrency="ngModel" [(ngModel)]="currency.internalCode" name="codeCurrency" id="codeCurrency">
+                    </div>
+                    <div *ngIf="codeCurrency.touched && codeCurrency.invalid" class="alert alert-danger">Code Devise est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="currencyName" class="form-label">Nom Devise</label>
+                        <input type="text" class="form-control" required #currencyName="ngModel" [(ngModel)]="currency.name" name="currencyName" id="currencyName">
+                    </div>
+                    <div *ngIf="currencyName.touched && currencyName.invalid" class="alert alert-danger">Nom Devise est obligatoire !</div>
+
+                    <button class="btn btn-success" [disabled]="!currencyForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal pour modifier une devise  -->
+<div class="modal fade" id="currencyEditModal" tabindex="-1" aria-labelledby="currencyEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="currencyEditModalLabel">Modifier Devise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="currencyEditForm" (ngSubmit)="onEditSubmit()" #editCurrencyForm="ngForm">
+
+                    <div class="form-group mb-3">
+                        <label for="editCodeCurrency" class="form-label">Code Devise</label>
+                        <input type="text" class="form-control"   [disabled]="true" required #editCodeCurrency="ngModel" [(ngModel)]="currency.internalCode" name="currencyCode" id="currencyCode">
+                    </div>
+                    <div *ngIf="editCodeCurrency.touched && editCodeCurrency.invalid" class="alert alert-danger">Code Devise est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="editCurrencyName" class="form-label">Nom Devise</label>
+                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="currency.name" name="name" id="editCurrencyName">
+                    </div>
+                    <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Devise est obligatoire !</div>
+                    <button class="btn btn-success" [disabled]="!editCurrencyForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer cette Devise ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

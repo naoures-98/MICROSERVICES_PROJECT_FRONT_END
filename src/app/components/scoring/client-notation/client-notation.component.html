@@ -1,0 +1,769 @@
+<div class="container mt-5">
+    <h2>Liste  des  Clients Personnes Morales</h2>
+    <div class="container mt-5">
+
+        <input type="text" [(ngModel)]="searchTextCorpo" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>IDENTIFIANT</th>
+                <th>REFERENCE DEMANDE</th>
+                <th>CATEGORIE CLEINT</th>
+                <th>NOM RAISON SOCIALE</th>
+                                
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let corporate  of filteredCorporates | paginate: { itemsPerPage: itemsPerPageCorpo, currentPage: pCorpo }">
+                <td>{{ corporate.id }}</td>
+                <td>{{ corporate.clientRequest }}</td>
+                <td>{{ corporate.contractReference }}</td>
+                <td>{{ corporate.clientCategory }}</td>
+                <td>{{ corporate.raisonSocial }}</td>
+                
+                <td class="text-center">
+                    <button type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" 
+                    data-bs-target="#corpoDetailsModal"
+                    (click)="showDetailsCorporate(corporate)">
+                        <!-- (click)="showDetails(corporate)" -->
+                        Gestion Note Client
+                    </button>
+                    <!--button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editCorporate(corporate)" data-bs-target="#corpoEditModal">
+                        Edit
+                    </!--button-->
+                    <!--button class="btn btn-danger" (click)="openDeleteModal(corporate.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                    Delete
+                    </!--button-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="pCorpo = $event"></pagination-controls>
+</div>
+
+
+
+<!-- Modal pour detailler les données client   -->
+<div class="modal fade" id="corpoDetailsModal" tabindex="-1" aria-labelledby="corpoDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="corpoDetailsModalLabel">Détails client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="corpoDetailsForm" #corpoDetailsForm="ngForm">
+                    
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Agence</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoCodeAgence" class="form-label">Code Agence</label>
+                                <input type="text" class="form-control" [disabled]="true" required 
+                                    [(ngModel)]="corporate.branch.branchCode" 
+                                    [value]="corporate.branch.id"
+                                    name="branchCode" id="corpoCodeAgence">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoNomAgence" class="form-label">Nom Agence</label>
+                                <input type="text" class="form-control" [disabled]="true" required 
+                                    [(ngModel)]="corporate.branch.description" 
+                                    name="branchName" id="corpoNomAgence">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Demande</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoAnnee" class="form-label">Année</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoClientIdentifier" class="form-label">Identifiant Client</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoRequestRef" class="form-label">Référence demande</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h4 class="custom-label mb-3">Données client</h4>
+                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoClientCategory" class="form-label">Catégorie client</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoClientCategory="ngModel" [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoRaisonSociale" class="form-label">Nom raison sociale</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoCreationDate" class="form-label">Date Création</label>
+                                <input type="date" class="form-control" [disabled]="true" required #corpoCreationDate="ngModel" [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoNbYearExercice" class="form-label">Nombre d'années d'exercice</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoNbYearExercice="ngModel" 
+                                [(ngModel)]="corporate.nbYearExercice" name="nbYearExercice" id="nbYearExercice">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoCreationPlace" class="form-label">Lieu de création</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoNis" class="form-label">Numero NIS</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoNumRegi" class="form-label">Numero Registre de commerce</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoActivitySector" class="form-label">Secteur d'activité</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoActivitySector="ngModel" [(ngModel)]="corporate.activitySector.description" name="activitySector" id="activitySector">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoEmail" class="form-label">Email</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoEmail="ngModel" [(ngModel)]="corporate.email" name="email" id="email">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoTel" class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoTel="ngModel" [(ngModel)]="corporate.telephone" name="telephone" id="telephone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border p-3 rounded mb-4">
+                        <br>
+                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h5>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">1 - Historique avec la banque</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoRelationEntryDate" class="form-label">Date d'entrée en relation avec la Banque </label>
+                                    <input type="date" class="form-control" [disabled]="true" required #corpoRelationEntryDate="ngModel" 
+                                    [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+                                    >
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoSeniorityRelation" class="form-label">Ancienneté relation avec la banque</label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                    
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoJuridicalForm" class="form-label">Forme Juridique</label>
+                                    <select id="formeJuridiqueSelect" [disabled]="true" #corpoFormeJuridique="ngModel"  
+                                    [(ngModel)]="corporate.juridicalForm.juridicalFormCode" 
+                                    name="corpoJuridicalForm" class="form-select" required
+                                    >
+                                        <option *ngFor="let forme of juridicalForms" [value]="forme.juridicalFormCode">{{ forme.description}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoFiablityFinancialStatus" class="form-label">Fiabilité des états financiers</label>
+                                    <select id="corpoFiablityFinancialStatus" [disabled]="true" #corpoFiablityFinancialStatus="ngModel"  
+                                    [(ngModel)]="corporate.fiablityFinancialStatus" name="corpoFiablityFinancialStatus" 
+                                    class="form-select" required>
+                                        <option [value]="'certifiés avec rapport CAC'">Etats financiers certifiés ou attestés avec rapport CAC</option>
+                                        <option [value]="'certifiés sans rapport CAC'">Etats financiers certifiés ou attestés sans rapport CAC</option>
+                                        <option [value]="'certifiés avec reserves'">Etats financiers certifiés avec réserves</option>
+                                        <option [value]="'non certifiés'">Etats financiers non certifiés</option>
+                                    </select>                            
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoEvolutionMarche" class="form-label">Evolution marché/ secteur d'activité</label>
+                                    <select id="corpoEvolutionMarche" [disabled]="true" #corpoEvolutionMarche="ngModel"  
+                                    [(ngModel)]="corporate.evolutionMarche" name="corpoEvolutionMarche" 
+                                    class="form-select" required>
+                                        <option [value]="'secteur en croissance avec debonnes perspectives'">Marché / secteur en croissance avec de bonnes perspectives</option>
+                                        <option [value]="'secteur stable avec debonnes perspectives'">Marché / secteur stable avec de bonnes perspectives</option>
+                                        <option [value]="'secteur stable'">Marché / secteur stable</option>
+                                        <option [value]="'secteur en recul avec amélioration en perspectives'">Marché / secteur en recul avec une amélioration en perspectives</option>
+                                        <option [value]="'secteur en recul sans perspectives'">Marché / secteur en recul sans perspectives de reprise</option>
+
+                                    </select>                            
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoPositionnementCommerce" class="form-label">Positionnement vis à vis de la concurrence</label>
+                                    <select id="corpoPositionnementCommerce" [disabled]="true" #corpoPositionnementCommerce="ngModel"  
+                                    [(ngModel)]="corporate.positionnementCommerce" name="corpoPositionnementCommerce" 
+                                    class="form-select" required>
+                                        <option [value]="'Leader sur le marché'">Leader sur le marché</option>
+                                        <option [value]="'Challenger / Spécialiste'">Challenger / Spécialiste</option>
+                                        <option [value]="'Suiveur'">Suiveur</option>
+                                        <option [value]="'Outsider'">Outsider</option>
+                                        <option [value]="'Sortant sur le marché'">Sortant sur le marché</option>
+
+                                    </select>                            
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                    </div>
+                    <div class="border p-3 rounded mb-4">
+                        <br>
+                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h5>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoComportementClient" class="form-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
+                                    <select id="corpoComportementClient" [disabled]="true" #corpoComportementClient="ngModel"  
+                                    [(ngModel)]="corporate.comportementClient" name="corpoComportementClient" 
+                                    class="form-select" required>
+                                        <option [value]="'compte crediteur'">Le compte fonctionne structurellement créditeur ou dans ses limites </option>
+                                        <option [value]="'compte debiteur avec depassement occasionnel'">Le compte est débiteur avec dépassement d'autorisation occasionnel</option>
+                                        <option [value]="'compte debiteur avec depassement recurrent'">Le compte est débiteur avec dépassement récurrent d'autorisation</option>
+                                        <option [value]="'compte debiteur sans autorisation'">Le compte est débiteur sans autorisation</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoPayementIncident" class="form-label">INCIDENTS DE PAIEMENT  </label>
+                                    <select id="corpoPayementIncident" [disabled]="true"  #corpoPayementIncident="ngModel"  
+                                    [(ngModel)]="corporate.payementIncident" name="corpoPayementIncident" 
+                                    class="form-select" required>
+                                        <option [value]="'Aucun incident'">Aucun incident  sur les 12 derniers mois </option>
+                                        <option [value]="'1 Incident régularisé'">1 Incident régularisé sur les 12 derniers mois</option>
+                                        <option [value]="'Supérieur à 1 incident régularisé'">Supérieur à 1 incident régularisé sur les 12 derniers mois</option>
+                                        <option [value]="'Incidents non régularisés'">Incidents non régularisés</option>
+                                        <option [value]="'Nouveau client'">Nouveau client</option>
+
+
+                                    </select>
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoUnpaidPresence" class="form-label">2-SITUATION DES ENGAGEMENTS  </label>
+                                    <select id="corpoUnpaidPresence" [disabled]="true" #corpoUnpaidPresence="ngModel"  
+                                    [(ngModel)]="corporate.unpaidPresence" name="corpoUnpaidPresence" 
+                                    class="form-select" required>
+                                        <option [value]="'Aucun impayé'">Aucun impayé sur les 12 derniers mois </option>
+                                        <option [value]="'Au plus 1 impayé régularisé'">Au plus 1 impayé régularisé sur les 12 derniers mois</option>
+                                        <option [value]="'Plus d un impayé régularisé'">Plus d'un impayé régularisé sur les 12 derniers mois</option>
+                                        <option [value]="'Incidents non régularisés'">Incidents non régularisés</option>
+                                        <option [value]="'Nouveau client'">Nouveau client</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                    
+                        
+                        
+                    </div>
+                    <div class="border p-3 rounded mb-4">
+                        <br>
+                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h5>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">RENTABILITE</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoFinancialRentability" class="form-label">Rentabilité économique</label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoFinancialRentability="ngModel" 
+                                    [(ngModel)]="corporate.financialRentability" name="financialRentability" id="financialRentability">
+                                </div>
+                                
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoFondRoulement" class="form-label">Fonds de roulement (FR) </label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoFondRoulement="ngModel" 
+                                    [(ngModel)]="corporate.fondRoulement" name="fondRoulement" id="fondRoulement">
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoTauxFondRoulement" class="form-label">Taux de couverture du BFR  </label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoTauxFondRoulement="ngModel" 
+                                    [(ngModel)]="corporate.tauxFondRoulement" name="tauxFondRoulement" id="tauxFondRoulement">
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h5 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h5>
+                            <hr class="mb-3">
+                            <div class="form-row mb-3 d-flex align-items-end">
+                                <div class="form-group me-3">
+                                    <label for="corpoAutonomieFinanciere" class="form-label">Autonomie financière (Capitaux propres/Total du bilan)   </label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoAutonomieFinanciere="ngModel" 
+                                    [(ngModel)]="corporate.autonomieFinanciere" name="autonomieFinanciere" id="autonomieFinanciere">
+                                </div>
+                                <div class="form-group me-3">
+                                    <label for="corpoLiquiditeGenerale" class="form-label">Liquidité générale   </label>
+                                    <input type="text" class="form-control" [disabled]="true" required #corpoLiquiditeGenerale="ngModel" 
+                                    [(ngModel)]="corporate.liquiditeGenerale" name="liquiditeGenerale" id="liquiditeGenerale">
+                                </div>
+                            </div>
+                            
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+                        
+                    </div>
+
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Engagement</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoFinancingType" class="form-label">Type de Financement</label>
+                                <input type="text" class="form-control" [disabled]="true" required #corpoFinancingType="ngModel" [(ngModel)]="corporate.financingType.description" name="financingTypeId" id="financingTypeId">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoStartDate" class="form-label">Date début</label>
+                                <input type="date" class="form-control" [disabled]="true" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="corpoEndDate" class="form-label">Date Fin</label>
+                                <input type="date" class="form-control" [disabled]="true" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
+                            </div>
+                        </div>
+                        
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    
+                    <div class="border p-3 rounded mb-4" *ngIf="corporate.clientNotation!=null"> 
+                        <h5 class="custom-label mb-3">Score Client</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="adjustedScore" class="form-label">Score Ajusté</label>
+                                <input type="text" class="form-control" [disabled]="true" required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="finalScore" class="form-label">Score Final</label>
+                                <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailNote" class="form-label">Decision Octroi</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="classe" class="form-label">Classe</label>
+                                <input type="text" class="form-control" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    
+                    <!-- Uncomment to add a submit button -->
+                    <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
+                </form>
+                <div class="modal-footer">
+				    <button class="btn btn-success"  type="submit" (click)="calculerScoreCorporate(corporate)">Calcul note Client</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="container mt-5">
+    <h2>Liste des  Clients Personnes Physiques</h2>
+    <div class="container mt-5">
+
+        <input type="text" [(ngModel)]="searchTextRetail" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>IDENTIFIANT</th>
+                <th>REFERENCE DEMANDE</th>
+                <th>CIVILITE</th>
+                <th>NOM</th>
+                <th>PRENOM</th>
+                
+                
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let retail  of filteredRetails | paginate: { itemsPerPage: itemsPerPageRetail, currentPage: pRetail }">
+                <td>{{ retail.id }}</td>
+                <td>{{ retail.clientRequest }}</td>
+                <td>{{ retail.contractReference }}</td>
+                <td>{{ retail.civility }}</td>
+                <td>{{ retail.lastName }}</td>
+                <td>{{ retail.firstName }}</td>
+                
+                <td class="text-center">
+                    <button type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal"
+                        data-bs-target="#retailDetailsModal"
+                        (click)="showDetails(retail)">
+                        <!--(click)="showDetails(retail)"-->
+                        Gestion Note Client
+                    </button>
+                    <!--button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editRetail(retail)" data-bs-target="#retailEditModal">
+                        Edit
+                    </!--button-->
+                    <!--button class="btn btn-danger" (click)="openDeleteModal(retail.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                        Delete
+                    </!--button-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="pRetail = $event"></pagination-controls>
+</div>
+
+
+<!-- Modal pour detailler les données client particulier   -->
+<div class="modal fade" id="retailDetailsModal" tabindex="-1" aria-labelledby="retailDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="retailDetailsModalLabel">Détails client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="retailDetailsForm" #retailDetailsForm="ngForm">
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Agence</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailCodeAgence" class="form-label">Code Agence</label>
+                                <input type="text" class="form-control" [disabled]="true" required 
+                                    [(ngModel)]="retail.branch.branchCode" 
+                                    [value]="retail.branch.id"
+                                    name="branchCode" id="retailCodeAgence">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailNomAgence" class="form-label">Nom Agence</label>
+                                <input type="text" class="form-control" [disabled]="true" required 
+                                    [(ngModel)]="retail.branch.description" 
+                                    name="branchName" id="retailNomAgence">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Demande</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailAnnee" class="form-label">Année</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailAnnee="ngModel" [(ngModel)]="retail.year" name="year" id="year">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailClientIdentifier" class="form-label">Identifiant Client</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" name="clientRequest" id="clientRequest">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailRequestRef" class="form-label">Référence demande</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailRequestRef="ngModel" [(ngModel)]="retail.contractReference" name="contractReference" id="contractReference">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h4 class="custom-label mb-3">Données client</h4>
+                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailCivilite" class="form-label">Civilité</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailCivilite="ngModel" [(ngModel)]="retail.civility" name="civility" id="civility">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSexe" class="form-label">Sexe</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailSexe="ngModel" [(ngModel)]="retail.gender" name="gender" id="gender">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailFamilySituation" class="form-label">Situation de Famille</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailFirstName" class="form-label">Prenom</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailFirstName="ngModel" [(ngModel)]="retail.firstName" name="firstName" id="firstName">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailLastName" class="form-label">Nom</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
+                            </div>
+
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailBirthDate" class="form-label">Date Naissance</label>
+                                <input type="date" class="form-control" [disabled]="true" required #retailBirthDate="ngModel" [(ngModel)]="retail.birthDate" name="birthDate" id="birthDate">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailAge" class="form-label">Age</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmail" class="form-label">Email</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailEmail="ngModel" [(ngModel)]="retail.email" name="email" id="email">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTel" class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailTel="ngModel" [(ngModel)]="retail.telephone" name="telephone" id="telephone">
+                            </div>
+                        </div>
+                                                
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h4 class="custom-label mb-3">Données Financement</h4>
+                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                                                
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailProfession" class="form-label">Profession</label>
+                                <input type="text" class="form-control" [disabled]="true"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailEmploiStatus" class="form-label">Statut Emplois</label>
+                                <select class="form-control" required [disabled]="true"  [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
+                                    <option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
+                                </select>
+                                <!--input type="text" class="form-control"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+                            </div>
+                            
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailRevenu" class="form-label">Revenues Client</label>
+                                <input type="text" class="form-control"  [disabled]="true" required #retailRevenu="ngModel" 
+                                [(ngModel)]="retail.revenu" name="revenu" id="revenu">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailNbrDependents" class="form-label">Nombre des personnes a charge</label>
+                                <input type="text" class="form-control"  [disabled]="true" required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            
+                            <div class="form-group me-3">
+                                <label for="retailRelationEntryDate" class="form-label">Date d'entrée en relation avec la Banque </label>
+                                <input type="date" class="form-control" required #retailRelationEntryDate="ngModel" 
+                                [(ngModel)]="retail.relationEntryDate" [disabled]="true" name="relationEntryDate" id="relationEntryDate"
+                                >
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSeniorityRelation" class="form-label">Ancienneté relation avec la banque</label>
+                                <input type="texy" class="form-control" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                <!--input type="text" class="form-control"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+                        <h5 class="custom-label mb-3">Employeur / Contrepartie </h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmployerSize" class="form-label">Taille de l'employeur</label>
+                                <select id="employerSizeSelect" #retailEmployerSize="ngModel"  [disabled]="true"
+                                [(ngModel)]="retail.employerSize" name="retailEmployerSize" 
+                                class="form-select" required>
+                                    <option [value]="'Grande Entreprise'">GE</option>
+                                    <option [value]="'PME'">PME</option>
+                                    <option [value]="'PME'">TPE</option>
+                                </select>
+                                <!--input type="text" class="form-control"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailActivitySector" class="form-label">Secteur d'activité </label>
+                                <select id="activitySectorSelect" #retailActivitySector="ngModel"  [disabled]="true"
+                                [(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
+                                class="form-select" required>
+                                    <option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            
+                            <div class="form-group me-3">
+                                <label for="retailEmployementEntryDate" class="form-label">Date Création </label>
+                                <input type="date" class="form-control" [disabled]="true" required #retailEmployementEntryDate="ngModel" 
+                                [(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
+                                >
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailNbYearExperience" class="form-label">Ancienneté de l'employeur</label>
+                                <input type="texy" class="form-control" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
+                                <!--input type="text" class="form-control"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Données Engagement</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailFinancingType" class="form-label">Type de Financement</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailStartDate" class="form-label">Date début</label>
+                                <input type="date" class="form-control" [disabled]="true" required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailEndDate" class="form-label">Date Fin</label>
+                                <input type="date" class="form-control" [disabled]="true" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+                            </div>
+                        </div>
+                        
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    <div class="border p-3 rounded mb-4"> 
+                        <h5 class="custom-label mb-3">Comportement client </h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEcheance" class="form-label">Echeance</label>
+                                <input type="text" class="form-control" required #retailEcheance="ngModel" 
+                                [(ngModel)]="retail.echeance" [disabled]="true" name="echeance" id="echeance"
+                                >
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTauxEndettement" class="form-label">Taux d'endettement</label>
+                                <input type="text" class="form-control"  required #retailTauxEndettement="ngModel" 
+                                [(ngModel)]="retail.deptRatio" [disabled]="true" name="deptRatio" id="deptRatio"
+                                [disabled]="true">
+                            </div>
+                            
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailUnpaiedPresence" class="form-label">Comportement client (Banque & Secteur) Presence d'impayé </label>
+                                <select id="retailUnpaiedPresence" #retailImpaye="ngModel"  
+                                [(ngModel)]="retail.unpaidPresence" [disabled]="true" name="retailUnpaiedPresence" 
+                                class="form-select" required>
+                                <option [value]="'Aucun impayé'">Aucun impayé et IMP Secteur (Non)</option>
+                                <option [value]="'impayé inf 2 mois'">Impayés Inf à deux mois (< 2 Mois)</option>
+                                <option [value]="'impayé sup 2 mois'">2 Mois < Impayés <= 3 Mois</option>
+                                <option [value]="'impayé sup 3 mois'">Impayés Sup à 3 Mois et IMP Secteur (oui)</option>
+                            </select>
+                                
+                                <!--input type="text" class="form-control"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailPayementIncident" class="form-label">Incidents de paiement </label>
+                                <select id="retailPayementIncident" #retailPayementIncident="ngModel"  
+                                [(ngModel)]="retail.payementIncident" [disabled]="true" name="retailPayementIncident" 
+                                class="form-select" required>
+                                <option [value]="'Aucun incident'">Aucun incident</option>
+                                <option [value]="'incident de paiement sur cheque'">Incidents de paiement sur chéque durant les 3 derniers mois</option>
+    
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    <!--@if(isScored){--> 
+                    @if(isScored || retail.clientNotation != null){
+                    <div class="border p-3 rounded mb-4" *ngIf=" retail.clientNotation != null "> 
+                        <h5 class="custom-label mb-3">Score Client</h5>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            
+                            <div class="form-group me-3">
+                                <label for="finalScore" class="form-label">Score Final</label>
+                                <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="retail.clientNotation.finalScore" name="finalScore" id="finalScore">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="pd" class="form-label">PD</label>
+                                <input type="text" class="form-control" [disabled]="true" required #pd="ngModel" [(ngModel)]="retail.clientNotation.pd" name="pd" id="pd">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailNote" class="form-label">Niveau</label>
+                                <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="retail.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="classe" class="form-label">Classe</label>
+                                <input type="text" class="form-control" [disabled]="true" required #classe="ngModel" [(ngModel)]="retail.clientNotation.classe" name="classe" id="classe">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    }
+                    <!-- }-->
+                    <!-- Uncomment to add a submit button -->
+                    <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
+                </form>
+                <div class="modal-footer">
+				    <button class="btn btn-success"  type="submit" (click)="calculerScoreRetail(retail)">Calcul note Client</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

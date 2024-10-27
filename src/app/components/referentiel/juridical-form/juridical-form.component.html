@@ -1,0 +1,111 @@
+<div class="container mt-5">
+    <h2>Gestion des Formes Juridiques</h2>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#jFormModal">
+            Ajouter une nouvelle Forme Juridique
+        </button>
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#jFormImportExcelModal">
+            Import EXCEL
+        </button>
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CODE FORME JURIDIQUE</th>
+                <th>NOM FORME JURIDIQUE</th>
+                <th>DATE CREATION</th>
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let jForm of filteredJForms | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ jForm.id }}</td>
+                <td>{{ jForm.juridicalFormCode }}</td>
+                <td>{{ jForm.description }}</td>
+                <td>{{ jForm.createAt }}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editJForm(jForm)" data-bs-target="#jFormEditModal">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(jForm.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<!-- Modal pour ajouter une nouvelle JfORM -->
+<div class="modal fade" id="jFormModal" tabindex="-1" aria-labelledby="jFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jFormModalLabel">Créer une nouvelle  Forme Juridique</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="jFormForm" (ngSubmit)="onSubmit()" #jFormForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="codeJForm" class="form-label">Code Forme Juridique </label>
+                        <input type="text" class="form-control" required #codeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="codeJForm" id="codeJForm">
+                    </div>
+                    <div *ngIf="codeJForm.touched && codeJForm.invalid" class="alert alert-danger">Code Forme Juridique est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="jFormName" class="form-label">Nom Forme Juridique</label>
+                        <input type="text" class="form-control" required #jFormName="ngModel" [(ngModel)]="jForm.description" name="jFormName" id="jFormName">
+                    </div>
+                    <div *ngIf="jFormName.touched && jFormName.invalid" class="alert alert-danger">Nom Forme Juridique est obligatoire !</div>
+
+                    <button class="btn btn-success" [disabled]="!jFormForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour modifier une Forme Juridique  -->
+<div class="modal fade" id="jFormEditModal" tabindex="-1" aria-labelledby="jFormEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jFormEditModalLabel">Modifier Forme Juridique</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="jFormEditForm" (ngSubmit)="onEditSubmit()" #editJFormForm="ngForm">
+
+                    <div class="form-group mb-3">
+                        <label for="editCodeJForm" class="form-label">Code Forme Juridique</label>
+                        <input type="text" class="form-control"   [disabled]="true" required #editCodeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="jFormCode" id="jFormCode">
+                    </div>
+                    <div *ngIf="editCodeJForm.touched && editCodeJForm.invalid" class="alert alert-danger">Code Forme Juridique est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="editJFormName" class="form-label">Nom Forme Juridique</label>
+                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="jForm.description" name="name" id="editJFormName">
+                    </div>
+                    <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Forme Juridique est obligatoire !</div>
+                    <button class="btn btn-success" [disabled]="!editJFormForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer cette Forme Juridique ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+/* styles.css ou app.component.css */
+.ng-toast {
+    width: 530px !important; /* Largeur de la notification */
+    position: absolute !important; /* Position absolue */
+    top: 110px !important; /* Position du haut */
+    left: 80%; /* Centrer horizontalement */
+   /* transform: translateX(-50%); /* Ajuster pour centrer */
+    display: block !important; /* S'assurer qu'elle s'affiche */
+    z-index: 5000; /* Assurez-vous que le toast soit au-dessus d'autres éléments */
+}

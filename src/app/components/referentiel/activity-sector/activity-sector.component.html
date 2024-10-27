@@ -1,0 +1,114 @@
+<div class="container mt-5">
+    <h2>Gestion des Secteurs d'activité</h2>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityModal">
+            Ajouter un nouveau secteur d'Activité
+        </button>
+        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityImportExcelModal">
+            Import EXCEL
+        </button>
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CODE ACTIVITE</th>
+                <th>NOM NOM</th>
+                <th>DATE CREATION</th>
+                <th class="text-center">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let activity of filteredActivities | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ activity.id }}</td>
+                <td>{{ activity.code }}</td>
+                <td>{{ activity.description }}</td>
+                <td>{{ activity.createAt }}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editActivity(activity)" data-bs-target="#activityEditModal">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(activity.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<!-- Modal pour ajouter un nouveau secteur -->
+<div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="activityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityModalLabel">Créer un nouveau secteur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="activityForm" (ngSubmit)="onSubmit()" #activityForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="codeActivity" class="form-label">Code Secteur</label>
+                        <input type="text" class="form-control" required #codeActivity="ngModel" [(ngModel)]="activity.code" name="codeActivity" id="codeActivity">
+                    </div>
+                    <div *ngIf="codeActivity.touched && codeActivity.invalid" class="alert alert-danger">Code secteur est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="activityName" class="form-label">Nom du Secteur</label>
+                        <input type="text" class="form-control" required #activityName="ngModel" [(ngModel)]="activity.description" name="activityName" id="activityName">
+                    </div>
+                    <div *ngIf="activityName.touched && activityName.invalid" class="alert alert-danger">Nom Secteur est obligatoire !</div>
+
+                    <button class="btn btn-success" [disabled]="!activityForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour modifier un nouveau secteur  -->
+<div class="modal fade" id="activityEditModal" tabindex="-1" aria-labelledby="activityEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityEditModalLabel">Modifier Secteur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="activityEditForm" (ngSubmit)="onEditSubmit()" #editActivityForm="ngForm">
+
+                    <div class="form-group mb-3">
+                        <label for="editCodeactivity" class="form-label">Code Secteur</label>
+                        <input type="text" class="form-control"   [disabled]="true" required #editCodeActivity="ngModel" [(ngModel)]="activity.code" name="activityCode" id="activityCode">
+                    </div>
+                    <div *ngIf="editCodeActivity.touched && editCodeActivity.invalid" class="alert alert-danger">Code secteur est obligatoire !</div>
+                    <div class="form-group mb-3">
+                        <label for="editActivityName" class="form-label">Nom Secteur</label>
+                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="activity.description" name="name" id="editActivityName">
+                    </div>
+                    <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom secteur est obligatoire !</div>
+                    <button class="btn btn-success" [disabled]="!editActivityForm.form.valid" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce Secteur ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

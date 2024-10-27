@@ -1,0 +1,87 @@
+<div class="tabs-container">
+  <input type="radio" id="tab1" name="tab" checked>
+  <label for="tab1">Qualitative</label>
+  <input type="radio" id="tab2" name="tab">
+  <label for="tab2">Comportement</label>
+  <input type="radio" id="tab3" name="tab">
+  <label for="tab3">Financement</label>
+
+  <div class="tabs">
+    <div class="tab" id="content1">
+      <h3>Qualitative</h3>
+      <div class="form-group">
+        <label for="qualitativeVariable1">Variable 1</label>
+        <input type="text" id="qualitativeVariable1" class="form-control" name="qualitativeVariable1" required>
+      </div>
+      <div class="form-group">
+        <label for="qualitativeVariable2">Variable 2</label>
+        <input type="text" id="qualitativeVariable2" class="form-control"  name="qualitativeVariable2" required>
+      </div>
+    </div>
+    <div class="tab" id="content2">
+      <h3>Comportement</h3>
+      <div class="form-group">
+        <label for="comportementVariable1">Variable 1</label>
+        <input type="text" id="comportementVariable1" class="form-control"  name="comportementVariable1" required>
+      </div>
+      <div class="form-group">
+        <label for="comportementVariable2">Variable 2</label>
+        <input type="text" id="comportementVariable2" class="form-control"  name="comportementVariable2" required>
+      </div>
+    </div>
+    <div class="tab" id="content3">
+      <h3>Financement</h3>
+      <div class="form-group">
+        <label for="financementVariable1">Variable 1</label>
+        <input type="text" id="financementVariable1" class="form-control"  name="financementVariable1" required>
+      </div>
+      <div class="form-group">
+        <label for="financementVariable2">Variable 2</label>
+        <input type="text" id="financementVariable2" class="form-control"  name="financementVariable2" required>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="submit" class="btn btn-primary" >Soumettre</button>
+
+
+
+
+<div class="top-section">
+
+</div>
+<div class="middle-section"></div>
+<div class="bottom-section"></div>
+
+
+
+<div style="width: 75%;">
+    <canvas id="myChart"></canvas> <!-- assurez-vous que l'ID est 'myChart' -->
+  </div>
+  
+
+<div class="container">
+    <h2 class="mb-4">Tableau de Bord des Clients</h2>
+  
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let client of clients">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ client.name }}</h5>
+            <p class="card-text">
+              <strong>Score Final :</strong> {{ client.clientNotation.finalScore }}<br>
+              <strong>Score Ajusté :</strong> {{ client.clientNotation.adjustedScore }}<br>
+              <strong>Décision d'Octroi :</strong> {{ client.clientNotation.decisionOctroi }}<br>
+              <strong>Classe :</strong> {{ client.clientNotation.classe }}<br>
+              <strong>Date de Notation :</strong> {{ client.clientNotation.notationDate | date:'shortDate' }}
+            </p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" (click)="viewDetails(client)">Voir les détails</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,59 @@
+/* Styles pour le conteneur général */
+.container {
+    background-color: #FFFFFF; /* Couleur de fond blanche */
+    color: #000000; /* Texte gris foncé pour un bon contraste */
+    
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère pour la profondeur */
+  }
+  /* Styles pour les titres */
+  h1, h2 {
+    color: #000000; /* Noir pour les titres */
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E0E0E0; /* Ligne de séparation en bas */
+    padding-bottom: 10px;
+  }
+  
+  input[type="text"]:focus, select:focus {
+    border-color: #D32F2F; /* Bordure rouge en focus */
+    box-shadow: 0 0 8px rgba(211, 47, 47, 0.3); /* Ombre rouge légère en focus */
+    outline: none; /* Supprimer le contour par défaut */
+  }
+  
+  /* Styles pour les groupes de formulaire */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  button:hover {
+    background-color: #D32F2F; /* Rouge au survol */
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2); /* Ombre rouge plus prononcée au survol */
+  }
+  
+
+/* detail-button.component.css */
+.modal-dialog {
+    max-width: 1300px; /* Ajustez la largeur selon vos besoins */
+}
+
+/* styles.css ou le fichier CSS associé */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Ajustez l'espacement entre les champs */
+}
+
+.form-group {
+    flex: 1; /* Permet aux groupes de prendre une largeur égale */
+}
+/* styles.css ou le fichier CSS associé */
+.custom-container {
+    border: 1px solid #ccc; /* Bordure grise */
+    padding: 1rem; /* Espacement intérieur */
+    border-radius: 0.5rem; /* Coins arrondis */
+    margin-bottom: 1rem; /* Espacement en bas */
+}
+hr {
+    border: 1px solid #ccc; /* Couleur et épaisseur de la ligne */
+    margin: 1rem 0; /* Espacement vertical */
+}

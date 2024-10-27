@@ -1,0 +1,112 @@
+.tabs-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.tabs-container input[type="radio"] {
+  display: none;
+}
+
+.tabs-container label {
+  padding: 10px 20px;
+  margin-right: 5px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  transition: background-color 0.3s ease;
+}
+
+.tabs-container label:hover {
+  background-color: #ddd;
+}
+
+.tabs-container input[type="radio"]:checked + label {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.tabs {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.tab {
+  display: none;
+}
+
+#tab1:checked ~ .tabs #content1,
+#tab2:checked ~ .tabs #content2,
+#tab3:checked ~ .tabs #content3 {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container {
+    margin-top: 20px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-footer {
+    text-align: right;
+  }
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
