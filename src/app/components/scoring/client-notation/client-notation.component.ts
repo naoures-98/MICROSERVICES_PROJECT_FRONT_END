@@ -16,6 +16,7 @@ import { ClientSegmentConfigService } from '../../../services/client-segment-con
 import { ClientSegmentConfig } from '../../../classes/client-segment-config';
 import { JuridicalForm } from '../../../classes/juridical-form';
 import { ActivitySector } from '../../../classes/activity-sector';
+import { ClientScore } from '../../../classes/ClientScore';
 
 @Component({
   selector: 'app-client-notation',
@@ -37,6 +38,9 @@ export class ClientNotationComponent  implements OnInit{
   itemsPerPageRetail: number = 10; // Nombre d'éléments par page
   clientScore : number =0;
   corporates : Corporate[]=[];
+
+
+
   corporate: Corporate = new Corporate();
   clientSegmentConfig: ClientSegmentConfig = new ClientSegmentConfig();
   retails : Retail[]=[];
@@ -194,6 +198,7 @@ export class ClientNotationComponent  implements OnInit{
 
 
   calculerScoreCorporate(selectedCorporate : any ){
+    
     this.toast.info('Calcul du score en cours...');
     console.log("selectedCorporate = "+selectedCorporate.id);
     this.clientNotationService.getAllClientNotationByClient(selectedCorporate.id).subscribe(
@@ -201,21 +206,21 @@ export class ClientNotationComponent  implements OnInit{
         console.log("getAllClientNotationByClient = "+res);
         if(res != null ){
           this.clientNotation = res;
-
-			console.log("clientNotation = "+this.clientNotation);
+          console.log("clientNotation = "+this.clientNotation);
+			    console.log("clientNotation.id = "+this.clientNotation.id);
 		}  
 		// Calcul du score Age de la Société
 		if(this.corporate.nbYearExercice!==null){
-		  
-		  if(Number(this.corporate.nbYearExercice )<= 1)
+
+      if(Number(this.corporate.nbYearExercice )<= 1)
 			this.scoreNbYearExercice = 0 ;
-		  else if (Number(this.corporate.nbYearExercice ) > 1  && Number(this.corporate.nbYearExercice ) <= 2)
+      else if (Number(this.corporate.nbYearExercice ) > 1  && Number(this.corporate.nbYearExercice ) <= 2)
 			this.scoreNbYearExercice = 5 ;
-		  else if (Number(this.corporate.nbYearExercice ) >2 && Number(this.corporate.nbYearExercice ) <= 5)
+      else if (Number(this.corporate.nbYearExercice ) >2 && Number(this.corporate.nbYearExercice ) <= 5)
 			this.scoreNbYearExercice = 10 ;
-		  else if (Number(this.corporate.nbYearExercice ) >5 && Number(this.corporate.nbYearExercice ) <= 15)
+      else if (Number(this.corporate.nbYearExercice ) >5 && Number(this.corporate.nbYearExercice ) <= 15)
 			this.scoreNbYearExercice = 15 ;
-		  else
+      else
 			this.scoreNbYearExercice = 20 ;
 		}
 		//score avec ponderation
@@ -224,33 +229,33 @@ export class ClientNotationComponent  implements OnInit{
 		
 		//Score ancienneté avec la banque
 		if(this.corporate.seniorityRelation != null){
-		  if(Number(this.corporate.seniorityRelation)   <= 1 )
-		  this.scoreNbYearRelationBanque = 0 ;
-		  else if(Number(this.corporate.seniorityRelation)  > 1 && Number(this.corporate.seniorityRelation)  <=2 )
-		  this.scoreNbYearRelationBanque = 5 ;
-		  else if(Number(this.corporate.seniorityRelation)  > 2 && Number(this.corporate.seniorityRelation)  <=5)
-		  this.scoreNbYearRelationBanque = 10 ;
-		  else if(Number(this.corporate.seniorityRelation)  > 5 && Number(this.corporate.seniorityRelation)  <=10)
-		  this.scoreNbYearRelationBanque = 15 ;
-		  else if(Number(this.corporate.seniorityRelation) > 10)
-		  this.scoreNbYearRelationBanque = 20 ;
+      if(Number(this.corporate.seniorityRelation)   <= 1 )
+        this.scoreNbYearRelationBanque = 0 ;
+      else if(Number(this.corporate.seniorityRelation)  > 1 && Number(this.corporate.seniorityRelation)  <=2 )
+        this.scoreNbYearRelationBanque = 5 ;
+      else if(Number(this.corporate.seniorityRelation)  > 2 && Number(this.corporate.seniorityRelation)  <=5)
+        this.scoreNbYearRelationBanque = 10 ;
+      else if(Number(this.corporate.seniorityRelation)  > 5 && Number(this.corporate.seniorityRelation)  <=10)
+        this.scoreNbYearRelationBanque = 15 ;
+      else if(Number(this.corporate.seniorityRelation) > 10)
+        this.scoreNbYearRelationBanque = 20 ;
 		}
 		//score avec ponderation
 		this.scoreNbYearRelationBanque = this.scoreNbYearRelationBanque * 0.50;	
 		
-	  
-		
+      
+      
 		// Calcul du score Forme Juridique / qualite de l'actionnariat
 		if(this.corporate.juridicalForm!==null){
-		  if(this.corporate.juridicalForm.juridicalFormCode == "SA")
+      if(this.corporate.juridicalForm.juridicalFormCode == "SA")
 			this.scoreQualiteActionnariat = 0 ;
-		  else if(this.corporate.juridicalForm.juridicalFormCode == "SARL")
+      else if(this.corporate.juridicalForm.juridicalFormCode == "SARL")
 			this.scoreQualiteActionnariat = 5 ;
-		  else if(this.corporate.juridicalForm.juridicalFormCode == "AUTRES")
+      else if(this.corporate.juridicalForm.juridicalFormCode == "AUTRES")
 			this.scoreQualiteActionnariat = 10 ;
-		  else if(this.corporate.juridicalForm.juridicalFormCode == "SUARL")
+      else if(this.corporate.juridicalForm.juridicalFormCode == "SUARL")
 			this.scoreQualiteActionnariat = 15 ;
-		  else if(this.corporate.juridicalForm.juridicalFormCode == "ETATIQUES")
+      else if(this.corporate.juridicalForm.juridicalFormCode == "ETATIQUES")
 			this.scoreQualiteActionnariat = 20 ;
 		}	
 		//score avec ponderation
@@ -258,85 +263,85 @@ export class ClientNotationComponent  implements OnInit{
 		
 		// Calcul du score Fiablite des etats financiers 
 		if(this.corporate.fiablityFinancialStatus!==null){
-		  if(this.corporate.fiablityFinancialStatus == "certifiés avec rapport CAC")
+      if(this.corporate.fiablityFinancialStatus == "certifiés avec rapport CAC")
 			this.scoreFiabiliteEtatsFinanciers = 20 ;
-		  else if(this.corporate.fiablityFinancialStatus == "certifiés sans rapport CAC")
+      else if(this.corporate.fiablityFinancialStatus == "certifiés sans rapport CAC")
 			this.scoreFiabiliteEtatsFinanciers = 15 ;
-		  else if(this.corporate.fiablityFinancialStatus == "certifiés avec reserves")
+      else if(this.corporate.fiablityFinancialStatus == "certifiés avec reserves")
 			this.scoreFiabiliteEtatsFinanciers = 10 ;
-		  else if(this.corporate.fiablityFinancialStatus == "non certifiés")
+      else if(this.corporate.fiablityFinancialStatus == "non certifiés")
 			this.scoreFiabiliteEtatsFinanciers = 5 ;
-	  
+      
 		}	
 		//score avec ponderation
 		this.scoreFiabiliteEtatsFinanciers = this.scoreFiabiliteEtatsFinanciers * 0.30;	
-	  
+      
 		// Calcul du score Catégorie Client
 		if(this.corporate.clientCategory!==null){
-		  if(this.corporate.clientCategory ==ClientCategory.ASSURANCES || this.corporate.clientCategory == ClientCategory.ENTRPRENEUR_INDIVIDUEL ||
-		  this.corporate.clientCategory == ClientCategory.PROFESSION_LIBERALE)
-			this.scoreClientCategory = 5 ;
-		  else if (this.corporate.clientCategory == ClientCategory.PERSONNE_MORALE_PRIVEE || this.corporate.clientCategory == ClientCategory.PERSONNE_MORALE_PUBLIQUE )
-			this.scoreClientCategory = 10 ;
-		  else if (this.corporate.clientCategory == ClientCategory.BANQUE ||
-			this.corporate.clientCategory == ClientCategory.GRANDE_ENTREPRISE_PRIVE ||  
-		  this.corporate.clientCategory == ClientCategory.GRANDE_ENTREPRISE_PUBLIQUE )
-			this.scoreClientCategory = 15 ;
-		  else
-			this.scoreClientCategory = 15 ;
+      if(this.corporate.clientCategory ==ClientCategory.ASSURANCES || this.corporate.clientCategory == ClientCategory.ENTRPRENEUR_INDIVIDUEL ||
+        this.corporate.clientCategory == ClientCategory.PROFESSION_LIBERALE)
+        this.scoreClientCategory = 5 ;
+      else if (this.corporate.clientCategory == ClientCategory.PERSONNE_MORALE_PRIVEE || this.corporate.clientCategory == ClientCategory.PERSONNE_MORALE_PUBLIQUE )
+        this.scoreClientCategory = 10 ;
+      else if (this.corporate.clientCategory == ClientCategory.BANQUE ||
+        this.corporate.clientCategory == ClientCategory.GRANDE_ENTREPRISE_PRIVE ||  
+        this.corporate.clientCategory == ClientCategory.GRANDE_ENTREPRISE_PUBLIQUE )
+      this.scoreClientCategory = 15 ;
+      else
+        this.scoreClientCategory = 15 ;
 		}
 		//score avec ponderation
 		this.scoreClientCategory = this.scoreClientCategory * 0.35;
 		
-	  
-		
+      
+      
 		
 		// Calcul du score Secteur d'Activité
 		if(this.corporate.activitySector!==null){
-		  if(this.corporate.activitySector.code == "AGRICULTURE" || this.corporate.activitySector.code == "INDUSTRIE" ||
-			this.corporate.activitySector.code == "CONSTRUCTION" ||	this.corporate.activitySector.code == "SERVICES"){
-		  this.scoreActivitySector = 5 ;
-		  }else if (this.corporate.activitySector.code == "BANQUE" ||	this.corporate.activitySector.code == "ASSURANCE" || this.corporate.activitySector.code == "IMMOBILIER") {
-			this.scoreActivitySector = 10 ;
-		  } else if (this.corporate.activitySector.code == "ENTREPRENEURSHIP" || this.corporate.activitySector.code == "PUBLIC SERVICES"){
-			this.scoreActivitySector = 15;
-		  }
+      if(this.corporate.activitySector.code == "AGRICULTURE" || this.corporate.activitySector.code == "INDUSTRIE" ||
+        this.corporate.activitySector.code == "CONSTRUCTION" ||	this.corporate.activitySector.code == "SERVICES"){
+        this.scoreActivitySector = 5 ;
+      }else if (this.corporate.activitySector.code == "BANQUE" ||	this.corporate.activitySector.code == "ASSURANCE" || this.corporate.activitySector.code == "IMMOBILIER") {
+        this.scoreActivitySector = 10 ;
+      } else if (this.corporate.activitySector.code == "ENTREPRENEURSHIP" || this.corporate.activitySector.code == "PUBLIC SERVICES"){
+        this.scoreActivitySector = 15;
+      }
 		}else{
-		  this.scoreActivitySector = 0;
+      this.scoreActivitySector = 0;
 		}
 		//score avec ponderation
 		this.scoreActivitySector = this.scoreActivitySector * 0.35;	
 		
 		// Calcul evolution du marche
 		if(this.corporate.evolutionMarche!==null){
-		  if(this.corporate.evolutionMarche == "secteur en croissance avec debonnes perspectives" ){
+      if(this.corporate.evolutionMarche == "secteur en croissance avec debonnes perspectives" ){
 			this.scoreEvolutionMarche = 20 ;
-		  }else if (this.corporate.evolutionMarche== "secteur stable avec debonnes perspectives" ) {
+      }else if (this.corporate.evolutionMarche== "secteur stable avec debonnes perspectives" ) {
 			this.scoreEvolutionMarche = 15 ;
-		  } else if (this.corporate.evolutionMarche== "secteur stable" ){
+      } else if (this.corporate.evolutionMarche== "secteur stable" ){
 			this.scoreEvolutionMarche = 10;
-		  } else if (this.corporate.evolutionMarche== "secteur en recul avec amélioration en perspectives" ){
+      } else if (this.corporate.evolutionMarche== "secteur en recul avec amélioration en perspectives" ){
 			this.scoreEvolutionMarche = 5;
-		  } else if (this.corporate.evolutionMarche== "secteur en recul sans perspectives" ){
+      } else if (this.corporate.evolutionMarche== "secteur en recul sans perspectives" ){
 			this.scoreEvolutionMarche = 0;
-		  }
+      }
 		}
 		//score avec ponderation
 		this.scoreEvolutionMarche = this.scoreEvolutionMarche * 0.35;		
-	  
+      
 		// Calcul score positionnement vis a vis de la concurrence 
 		if(this.corporate.positionnementCommerce!==null){
-		  if(this.corporate.positionnementCommerce == "Leader sur le marché" ){
+      if(this.corporate.positionnementCommerce == "Leader sur le marché" ){
 			this.scoreVisVisConcurrence = 20 ;
-		  }else if (this.corporate.positionnementCommerce== "Challenger / Spécialiste" ) {
+      }else if (this.corporate.positionnementCommerce== "Challenger / Spécialiste" ) {
 			this.scoreVisVisConcurrence = 15 ;
-		  } else if (this.corporate.positionnementCommerce== "Suiveur" ){
+      } else if (this.corporate.positionnementCommerce== "Suiveur" ){
 			this.scoreVisVisConcurrence = 10;
-		  } else if (this.corporate.positionnementCommerce== "Outsider" ){
+      } else if (this.corporate.positionnementCommerce== "Outsider" ){
 			this.scoreVisVisConcurrence = 5;
-		  } else if (this.corporate.positionnementCommerce== "Sortant sur le marché" ){
+      } else if (this.corporate.positionnementCommerce== "Sortant sur le marché" ){
 			this.scoreVisVisConcurrence = 0;
-		  }
+    }
 		}
 		//score avec ponderation
 		this.scoreVisVisConcurrence = this.scoreVisVisConcurrence * 0.30;
@@ -351,44 +356,44 @@ export class ClientNotationComponent  implements OnInit{
 		
 		// Calcul score LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES 
 		if(this.corporate.comportementClient!==null){
-		  if(this.corporate.comportementClient == "compte crediteur" ){
+      if(this.corporate.comportementClient == "compte crediteur" ){
 			this.scoreLimiteAutorises = 20 ;
-		  }else if (this.corporate.comportementClient== "compte debiteur avec depassement occasionnel" ) {
+    }else if (this.corporate.comportementClient== "compte debiteur avec depassement occasionnel" ) {
 			this.scoreLimiteAutorises = 10 ;
-		  } else if (this.corporate.comportementClient== "compte debiteur avec depassement recurrent" ){
+    } else if (this.corporate.comportementClient== "compte debiteur avec depassement recurrent" ){
 			this.scoreLimiteAutorises = 5;
-		  } else if (this.corporate.comportementClient== "compte debiteur sans autorisation" ){
+    } else if (this.corporate.comportementClient== "compte debiteur sans autorisation" ){
 			this.scoreLimiteAutorises = 0;
-		  } 
+    } 
 		}
 		//score avec ponderation
 		this.scoreLimiteAutorises = this.scoreLimiteAutorises * 0.40;
 		
 		// Calcul score INCIDENTS DE PAIEMENT 
 		if(this.corporate.payementIncident!==null){
-		  if(this.corporate.payementIncident == "Aucun incident" ){
+      if(this.corporate.payementIncident == "Aucun incident" ){
 			this.scoreIncidentsPaiement = 20 ;
-		  }else if (this.corporate.payementIncident== "1 Incident régularisé" ) {
+      }else if (this.corporate.payementIncident== "1 Incident régularisé" ) {
 			this.scoreIncidentsPaiement = 15 ;
-		  } else if (this.corporate.payementIncident== "Supérieur à 1 incident régularisé" ){
+      } else if (this.corporate.payementIncident== "Supérieur à 1 incident régularisé" ){
 			this.scoreIncidentsPaiement = 5;
-		  } else if (this.corporate.payementIncident== "Incidents non régularisés" ){
+      } else if (this.corporate.payementIncident== "Incidents non régularisés" ){
 			this.scoreIncidentsPaiement = 0;
-		  } else if (this.corporate.payementIncident== "Nouveau client" ){
+      } else if (this.corporate.payementIncident== "Nouveau client" ){
 			this.scoreIncidentsPaiement = 10;
-		  } 
+      } 
 		}
 		//score avec ponderation
 		this.scoreIncidentsPaiement = this.scoreIncidentsPaiement * 0.60;
-		  
-		
+        
+      
 		this.scoreComportement = (this.scoreLimiteAutorises + this.scoreIncidentsPaiement) * 0.50 ;
 		
 		// Calcul score SITUATION DES ENGAGEMENTS
 		if(this.corporate.financialRentability!==null){
-		  if (Number(this.corporate.financialRentability) < 0 )
+      if (Number(this.corporate.financialRentability) < 0 )
 			this.scoreRentabiliteFinancieres = 0;
-		  else if (Number(this.corporate.financialRentability)  > 20 )
+      else if (Number(this.corporate.financialRentability)  > 20 )
 			this.scoreRentabiliteFinancieres = 20;
 		}
 		
@@ -398,9 +403,9 @@ export class ClientNotationComponent  implements OnInit{
 		//calcul score structure financiere / tresorerie 
 		//fr
 		if(this.corporate.fondRoulement!==null){
-		  if (Number(this.corporate.fondRoulement) < 0 )
+      if (Number(this.corporate.fondRoulement) < 0 )
 			this.scoreFondRoulements = 0;
-		  else if (Number(this.corporate.fondRoulement)  > 0.01 )
+      else if (Number(this.corporate.fondRoulement)  > 0.01 )
 			this.scoreFondRoulements = 20;
 		}
 		
@@ -409,9 +414,9 @@ export class ClientNotationComponent  implements OnInit{
 		
 		//BFR
 		if(this.corporate.tauxFondRoulement!==null){
-		  if (Number(this.corporate.tauxFondRoulement) < 40 )
+      if (Number(this.corporate.tauxFondRoulement) < 40 )
 			this.scoreTauxBFR = 0;
-		  else if (Number(this.corporate.tauxFondRoulement) >= 100 )
+      else if (Number(this.corporate.tauxFondRoulement) >= 100 )
 			this.scoreTauxBFR = 20;
 		}
 		
@@ -420,20 +425,20 @@ export class ClientNotationComponent  implements OnInit{
 		
 		//autonomie financiere
 		if(this.corporate.autonomieFinanciere!==null){
-		  if (Number (this.corporate.autonomieFinanciere) < 0 )
+      if (Number (this.corporate.autonomieFinanciere) < 0 )
 			this.scoreAutonomieFinancieres = 0;
-		  else if (Number (this.corporate.autonomieFinanciere) >= 40 )
+      else if (Number (this.corporate.autonomieFinanciere) >= 40 )
 			this.scoreAutonomieFinancieres = 20;
 		}
 		
 		//score avec ponderation
 		this.scoreAutonomieFinancieres = this.scoreAutonomieFinancieres * 0.50 ;	
-	  
+      
 		//score liquidité 
 		if(this.corporate.liquiditeGenerale!==null){
-		  if (Number (this.corporate.liquiditeGenerale) <= 0 )
+      if (Number (this.corporate.liquiditeGenerale) <= 0 )
 			this.scoreLiquiditeGenerale = 0;
-		  else if (Number (this.corporate.liquiditeGenerale) >= 2 )
+      else if (Number (this.corporate.liquiditeGenerale) >= 2 )
 			this.scoreLiquiditeGenerale = 20;
 		}
 		
@@ -444,74 +449,76 @@ export class ClientNotationComponent  implements OnInit{
 		
 		this.scoreStructureFinanciere = (this.scoreTauxBFR  + this.scoreFondRoulements) * 0.20;
 		
-	  
+      
 		this.scoreQualitatif = this.scoreHistoriqueEntreprise + this.scoreActionnariat +this.scoreMarcheSecteurActivite
 		this.scoreComportementale = (this.scoreSituationEngagement * 0.50 ) + this.scoreComportement;
 		this.scoreFinancierTotal = this.scoreRentabiliteFinancieres + this.scoreStructureFinanciere + this.scoreSolvabilite ;
-	  
+      
 		this.clientNotation.finalScore = (this.scoreQualitatif * this.pilierQualitatif ) + (this.scoreComportementale * this.pilierComportemental ) + (this.scoreFinancierTotal * this.pilierFinancier ) ; 
 		this.clientNotation.adjustedScore = ((Number(this.clientNotation.finalScore|| 0) -10 )*10) /10;
 		this.scoreProbabiliste = 1/ ( 1 + Math.exp( - (this.clientNotation.adjustedScore)));
-	  
+      
 		this.clientNotation.pd = 1 -this.scoreProbabiliste;
-	  
+      
 		if(Number(this.clientNotation.pd)  >= 0  && Number(this.clientNotation.pd) <=  0.0025){
-		  this.clientNotation.decisionOctroi = Decision.Excellente ;
+      this.clientNotation.decisionOctroi = Decision.Excellente ;
 		}else if (Number(this.clientNotation.pd)  >0.0025 && Number(this.clientNotation.pd) <=  0.04){
-		  this.clientNotation.decisionOctroi = Decision.Bonne ;
+      this.clientNotation.decisionOctroi = Decision.Bonne ;
 		}else if (Number(this.clientNotation.pd)  >0.04 && Number(this.clientNotation.pd) <=  0.2){
-		  this.clientNotation.decisionOctroi = Decision.Moyenne ;
+      this.clientNotation.decisionOctroi = Decision.Moyenne ;
 		}else {
-		  this.clientNotation.decisionOctroi = Decision.Mauvaise ;
+      this.clientNotation.decisionOctroi = Decision.Mauvaise ;
 		}
-	  
+    
 		if(Number(this.clientNotation.pd)  >= 0  && Number(this.clientNotation.pd) <=  0.0025){
-		  this.clientNotation.classe = Classe.A ;
+      this.clientNotation.classe = Classe.A ;
 		}else if (Number(this.clientNotation.pd)  >0.0025 && Number(this.clientNotation.pd) <=  0.04){
-		  this.clientNotation.classe = Classe.B ;
+      this.clientNotation.classe = Classe.B ;
 		}else if (Number(this.clientNotation.pd)  >0.04 && Number(this.clientNotation.pd) <=  0.2){
-		  this.clientNotation.classe = Classe.C ;
+      this.clientNotation.classe = Classe.C ;
 		}else {
-		  this.clientNotation.classe = Classe.D ;
+      this.clientNotation.classe = Classe.D ;
 		}
-	  
+
 		this.clientNotation.notationDate = new Date();
-		//this.clientNotation.id = clientNotation.id || 0;
-		console.log("586 this.clientNotation.id = "+this.clientNotation.id);
-	  
-		this.clientSegmentConfigService.getClientSegmentConfigByCode("ENTREPRISE").subscribe(
-		  res=>{
-			this.clientSegmentConfig = res;
-			if (this.clientNotation && this.clientSegmentConfig) {
-			  this.clientNotation.clientSegmentConfig = this.clientSegmentConfig;
-			  console.log(this.clientNotation.clientSegmentConfig.segmentCode);
-			} else {
-			  console.log("clientNotation ou clientSegmentConfig est null");
-			}
-		  }, 
-		  err=>{
-			console.log(err);
-		  }
-		); 
-		if(this.clientNotation.clientSegmentConfig !=null)
-		  console.log(this.clientNotation.clientSegmentConfig.segmentCode);
-		/*
-		this.corporate.clientNotation = this.clientNotation;
-		*/
-		this.clientNotation.scoringContractData = this.corporate;
-	  
-		console.log("this.clientNotation.scoringContractData = "+this.clientNotation.scoringContractData);
-	  
-	  
-		this.clientNotationService.editClientNotation(this.clientNotation).subscribe(
-		  res=>{
-			console.log("edit ClientNOtation"+res);
-			this.corporate.clientNotation = this.clientNotation ;
-		  }, 
-		  err=>{
-			console.log(err);
-		  }
-		); 		  
+		
+
+    this.clientSegmentConfigService.getClientSegmentConfigByCode("ENTREPRISE").subscribe(
+      res=>{
+        this.clientSegmentConfig = res;
+        console.log("this.clientSegmentConfig" +this.clientSegmentConfig.segmentCode);
+          if (this.clientNotation && this.clientSegmentConfig) {
+            console.log("condition verifiee ");
+            console.log("this.clientNotation.clientSegmentConfig.id"+this.clientNotation.clientSegmentConfig?.id);
+          this.clientNotation.clientSegmentConfig = this.clientSegmentConfig;
+          console.log(this.clientNotation.clientSegmentConfig.id);
+        } else {
+          console.log("clientNotation ou clientSegmentConfig est null");
+        }
+        if(this.clientNotation.clientSegmentConfig !=null)
+          console.log(this.clientNotation.clientSegmentConfig.segmentCode);
+        /*
+        this.corporate.clientNotation = this.clientNotation;
+        */
+        this.clientNotation.scoringContractData = this.corporate;
+        console.log("this.clientNotation..id"+this.clientNotation?.id);
+
+        this.clientNotationService.editClientNotation(this.clientNotation).subscribe(
+          res=>{
+            console.log("edit ClientNOtation"+res);
+            this.corporate.clientNotation = this.clientNotation ; 
+          }, 
+          err=>{
+            console.log(err);
+          }
+        );	
+
+
+
+      }, err=>{
+        console.log(err);
+      }
+    ); 
 
       }, 
       err=>{

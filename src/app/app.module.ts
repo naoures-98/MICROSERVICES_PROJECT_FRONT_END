@@ -22,7 +22,7 @@ import { CorporateComponent } from './components/scoring/corporate/corporate.com
 import { RetailComponent } from './components/scoring/retail/retail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +48,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     NgToastModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    NgChartsModule,
 
   ],
   providers: [
