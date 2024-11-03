@@ -24,6 +24,9 @@ export class ClientNotationService {
   getAllClientNotation(): Observable<ClientNotation[]> {
     return this.http.get<ClientNotation[]>(this.urlClientNotation);
   }
+  findTop10ByOrderByNotationDateDesc(): Observable<ClientNotation[]> {
+    return this.http.get<ClientNotation[]>(this.urlClientNotation+"/findTop10Clients");
+  }
   getAllClientNotationByClient(idClient : Number ): Observable<ClientNotation> {
     return this.http.get<ClientNotation>(this.urlClientNotation+"/byClient/"+idClient);
   }

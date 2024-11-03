@@ -11,6 +11,7 @@ import { ClientSegmentComponent } from './components/scoring/client-segment/clie
 import { RetailComponent } from './components/scoring/retail/retail.component';
 import { CorporateComponent } from './components/scoring/corporate/corporate.component';
 import { ClientNotationComponent } from './components/scoring/client-notation/client-notation.component';
+import { ErrorHttpComponent } from './error-http/error-http.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,7 @@ const routes: Routes = [
   { path: 'personnesPhysiques', component: RetailComponent },
   { path: 'personnesMorales', component: CorporateComponent },
   { path: 'notesClients', component: ClientNotationComponent },
-  //{ path: '**', component: NotfoundComponent }
+  { path: '**', component: ErrorHttpComponent }
 ];
 
 @NgModule({

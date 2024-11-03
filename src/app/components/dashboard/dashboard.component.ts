@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit{
   chartBar : any =[];
   chartPolarArea : any =[];
 
+  clientsNotations : any =[];
   nbLine : any;
   result :any ; 
   segmentLine : any ;
@@ -49,6 +50,13 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
     this.bestPDSegmentEntreprise = 'PD Entreprise Exemple';
     this.bestPDSegmentParticuliers = 'PD Particuliers Exemple';
+    this.clientNotationService.findTop10ByOrderByNotationDateDesc().subscribe(
+      res=>{
+        this.clientsNotations=res;
+    },
+      err=>{console.log(err);
+      }
+    );
     this.clientNotationService.calculNbrPersonneScorParSegment().subscribe(
       res=>{
         this.clientsScore=res;

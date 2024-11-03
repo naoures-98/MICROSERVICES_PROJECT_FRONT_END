@@ -10,9 +10,9 @@
   </div>
 </div>
 
-<div class="container mt-5">
+<!--div-- class="container mt-5">
   <div class="row justify-content-center">
-    <!-- Bloc pour le meilleur PD pour segment entreprise -->
+   
     <div class="col-md-5 mb-4">
       <div class="p-3 border rounded">
         <h5 class="text-center">Meilleur PD pour Segment Entreprise</h5>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <!-- Bloc pour le meilleur PD pour segment particuliers -->
+   
     <div class="col-md-5 mb-4">
       <div class="p-3 border rounded">
         <h5 class="text-center">Meilleur PD pour Segment Particuliers</h5>
@@ -28,16 +28,36 @@
       </div>
     </div>
   </div>
-</div>
+</!--div-->
 
 <div class="container mt-5">
-  <h4 class="mb-4 text-center">Liste des Personnes Scorées</h4>
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let person of scoredPersons">
-      {{ person.name }} - {{ person.score }}
-    </li>
-  </ul>
+  <h4 class="mb-4 text-center">Liste des 10 Dernières Personnes Scorées</h4>
+  <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Référence Demande</th>
+          <th>Segment</th>
+          <th>Niveau</th>
+          <th>Classe</th>
+          <th>Date Notation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clientsNotations">
+          <td>{{ client.scoringContractData.clientRequest }}</td>
+          <td>{{ client.scoringContractData.contractReference }}</td>
+          <td>{{ client.clientSegmentConfig.description }}</td>
+          <td>{{ client.decisionOctroi }}</td>
+          <td>{{ client.classe }}</td>
+          <td>{{ client.notationDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
 
 <div class="container mt-5">
   <div class="row justify-content-center">

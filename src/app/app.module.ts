@@ -23,6 +23,7 @@ import { RetailComponent } from './components/scoring/retail/retail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NgChartsModule } from 'ng2-charts';
+import { ErrorHttpComponent } from './error-http/error-http.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,8 @@ import { NgChartsModule } from 'ng2-charts';
     ClientSegmentComponent,
     CorporateComponent,
     RetailComponent,
+    ErrorHttpComponent,
+    
   ],
   imports: [
     BrowserModule,
