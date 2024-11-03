@@ -1,10 +1,10 @@
 <div class="container mt-5">
     <h2>Gestion des Segments Client</h2>
     <div class="container mt-5">
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentModal">
             Ajouter un nouveau Segment Client
         </button>
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentImportExcelModal">
             Import EXCEL
         </button>
         <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
@@ -26,10 +26,10 @@
                 <td>{{ cliSegConf.description }}</td>
                 <td>{{ cliSegConf.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editClientSegmentConfig(cliSegConf)" data-bs-target="#segmentEditModal">
+                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editClientSegmentConfig(cliSegConf)" data-bs-target="#segmentEditModal">
                         Edit
                     </button>
-                    <button class="btn btn-danger" (click)="openDeleteModal(cliSegConf.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger" (click)="openDeleteModal(cliSegConf.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -43,7 +43,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="segmentModalLabel">Créer un nouveau Segment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="segmentForm" (ngSubmit)="onSubmit()" #segmentForm="ngForm">
@@ -58,7 +58,7 @@
                     </div>
                     <div *ngIf="segmentName.touched && segmentName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
 
-                    <button class="btn btn-success" [disabled]="!segmentForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success" [disabled]="!segmentForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -70,7 +70,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="segmentEditModalLabel">Modifier Segment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="segmentEditForm" (ngSubmit)="onEditSubmit()" #editSegmentForm="ngForm">
@@ -85,7 +85,7 @@
                         <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="cliSegConf.description" name="name" id="editSegmentName">
                     </div>
                     <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
-                    <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -97,14 +97,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 Êtes-vous sûr de vouloir supprimer ce Segment ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>

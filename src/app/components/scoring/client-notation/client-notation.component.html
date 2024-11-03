@@ -12,7 +12,7 @@
                 <th>REFERENCE DEMANDE</th>
                 <th>CATEGORIE CLEINT</th>
                 <th>NOM RAISON SOCIALE</th>
-                                
+                    
                 <th class="text-center">ACTIONS</th>
             </tr>
         </thead>
@@ -23,6 +23,7 @@
                 <td>{{ corporate.contractReference }}</td>
                 <td>{{ corporate.clientCategory }}</td>
                 <td>{{ corporate.raisonSocial }}</td>
+                
                 
                 <td class="text-center">
                     <button type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" 
@@ -48,7 +49,7 @@
 
 <!-- Modal pour detailler les données client   -->
 <div class="modal fade" id="corpoDetailsModal" tabindex="-1" aria-labelledby="corpoDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="corpoDetailsModalLabel">Détails client</h5>
@@ -409,8 +410,8 @@
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                 </form>
                 <div class="modal-footer">
-				    <button class="btn btn-success"  type="submit" (click)="calculerScoreCorporate(corporate)">Calcul note Client</button>
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+				    <button class="btn btn-custom-success"  type="submit" (click)="calculerScoreCorporate(corporate)">Calcul note Client</button>
+                    <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>
@@ -474,7 +475,7 @@
 
 <!-- Modal pour detailler les données client particulier   -->
 <div class="modal fade" id="retailDetailsModal" tabindex="-1" aria-labelledby="retailDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="retailDetailsModalLabel">Détails client</h5>
@@ -761,8 +762,8 @@
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                 </form>
                 <div class="modal-footer">
-				    <button class="btn btn-success"  type="submit" (click)="calculerScoreRetail(retail)">Calcul note Client</button>
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+				    <button class="btn btn-custom-success"  type="submit" (click)="calculerScoreRetail(retail)">Calcul note Client</button>
+                    <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>

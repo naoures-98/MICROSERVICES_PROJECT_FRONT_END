@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { ClientNotation } from '../classes/client-notation';
 import { Observable } from 'rxjs';
 import { ClientScore } from '../classes/ClientScore';
+import { NiveauParSegment } from '../classes/NiveauParSegment';
+import { ClientScoreParDate } from '../classes/ClientScoreParDate';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,12 @@ export class ClientNotationService {
   calculNbrPersonneScorParSegment(): Observable<ClientScore[]> {
     return this.http.get<ClientScore[]>(this.urlClientNotation+"/nbClientScore");
   }
-
+  calculNbrNiveauParSegment(segment : String): Observable<NiveauParSegment[]> {
+    return this.http.get<NiveauParSegment[]>(this.urlClientNotation+"/nbNiveauParSegment/"+segment);
+  }
+  calculNbClientScoreParDate(segment : String): Observable<ClientScoreParDate[]> {
+    return this.http.get<ClientScoreParDate[]>(this.urlClientNotation+"/nbClientScoreParDate/"+segment);
+  }
   deleteClientNotation( id : Number ) {
     return this.http.delete(this.urlClientNota+'/'+id);
   }

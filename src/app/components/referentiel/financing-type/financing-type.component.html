@@ -1,10 +1,10 @@
 <div class="container mt-5">
     <h2>Gestion des Types de financement</h2>
     <div class="container mt-5">
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeModal">
             Ajouter une nouvelle Type de Financement
         </button>
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finTypeImportExcelModal">
             Import EXCEL
         </button>
         <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
@@ -28,10 +28,10 @@
                 <td>{{ finType.financingNature?.projectNature }}</td>
                 <td>{{ finType.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editFinancingType(finType)" data-bs-target="#finTypeEditModal">
+                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editFinancingType(finType)" data-bs-target="#finTypeEditModal">
                         Edit
                     </button>
-                    <button class="btn btn-danger" (click)="openDeleteModal(finType.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger" (click)="openDeleteModal(finType.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -45,7 +45,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="finTypeModalLabel">Créer une nouvelle  Type de financement</h5>
+                <h5 class="modal-title" id="financingTypeModalLabel">Créer une nouvelle Type de financement</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -68,7 +68,7 @@
                     </div>
                     <div *ngIf="finNature.touched && finNature.invalid" class="alert alert-danger">Nom Nature de Financement  est obligatoire !</div>
 
-                    <button class="btn btn-success" [disabled]="!finTypeForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success" [disabled]="!finTypeForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="finTypeEditModalLabel">Modifier Type de Financement</h5>
+                <h5 class="modal-title" id="financingTypeModalLabel">Modifier Type de financement</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -107,7 +107,7 @@
                     <div *ngIf="finTypeName.touched && finTypeName.invalid" class="alert alert-danger">Nom Nature de Financement  est obligatoire !</div>
 
                     
-                    <button class="btn btn-success" [disabled]="!editFinTypeForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success" [disabled]="!editFinTypeForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -120,15 +120,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <h5 class="modal-title" id="financingTypeModalLabel">Confirmer la suppression</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 Êtes-vous sûr de vouloir supprimer cette Type de Financement
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>

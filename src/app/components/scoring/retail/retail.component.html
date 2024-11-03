@@ -1,10 +1,10 @@
 <div class="container mt-5">
     <h2>Gestion des  Clients Particuliers</h2>
     <div class="container mt-5">
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailModal">
             Ajouter un nouveau Client Particulier
         </button>
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailImportExcelModal">
             Import EXCEL
         </button>
         <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
@@ -36,10 +36,10 @@
                     <button type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" (click)="showDetails(retail)" data-bs-target="#retailDetailsModal">
                         Details
                     </button>
-                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editRetail(retail)" data-bs-target="#retailEditModal">
+                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editRetail(retail)" data-bs-target="#retailEditModal">
                         Edit
                     </button>
-                    <button class="btn btn-danger" (click)="openDeleteModal(retail.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger" (click)="openDeleteModal(retail.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -48,7 +48,7 @@
 </div>
 <!-- Modal pour detailler les données client   -->
 <div class="modal fade" id="retailDetailsModal" tabindex="-1" aria-labelledby="retailDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="retailDetailsModalLabel">Détails client</h5>
@@ -333,7 +333,7 @@
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>
@@ -343,7 +343,7 @@
 
 <!-- Modal pour editer client   -->
 <div class="modal fade" id="retailEditModal" tabindex="-1" aria-labelledby="retailEditModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="retailEditModalLabel">Modifier client</h5>
@@ -646,8 +646,8 @@
                     <!-- Uncomment to add a submit button -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                     <div class="modal-footer">
-                        <button class="btn btn-outline-success"  [disabled]="!retailEditForm.form.valid" type="submit">Submit</button>
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-custom-success"  [disabled]="!retailEditForm.form.valid" type="submit">Submit</button>
+                        <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 
                 </form>
@@ -660,7 +660,7 @@
 
 <!-- Modal pour creer un nouveau client   -->
 <div class="modal fade" id="retailModal" tabindex="-1" aria-labelledby="retailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="retailModalLabel">Créer un nouveau client</h5>
@@ -988,8 +988,8 @@
                     <!-- Uncomment to add a submit button -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                     <div class="modal-footer">
-                        <button class="btn btn-outline-success"  [disabled]="!retailForm.form.valid" type="submit">Submit</button>
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-custom-success"  [disabled]="!retailForm.form.valid" type="submit">Submit</button>
+                        <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 
                 </form>
@@ -1004,7 +1004,7 @@
 
 <!-- Modal de confirmation de suppression -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
@@ -1014,8 +1014,8 @@
                 Êtes-vous sûr de vouloir supprimer ce Client ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>

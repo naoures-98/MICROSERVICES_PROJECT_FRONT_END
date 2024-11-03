@@ -1,12 +1,13 @@
 <div class="container mt-5">
     <h2>Gestion des Secteurs d'activité</h2>
     <div class="container mt-5">
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityModal">
+        <button type="button" class="btn btn-custom-primary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityModal">
             Ajouter un nouveau secteur d'Activité
         </button>
-        <button type="button" class="btn btn-outline-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#activityImportExcelModal">
             Import EXCEL
         </button>
+
         <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
     </div>
     <table class="table table-bordered">
@@ -26,10 +27,11 @@
                 <td>{{ activity.description }}</td>
                 <td>{{ activity.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" (click)="editActivity(activity)" data-bs-target="#activityEditModal">
+                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editActivity(activity)" data-bs-target="#activityEditModal">
                         Edit
                     </button>
-                    <button class="btn btn-danger" (click)="openDeleteModal(activity.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger" (click)="openDeleteModal(activity.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    
                 </td>
             </tr>
         </tbody>
@@ -59,7 +61,7 @@
                     </div>
                     <div *ngIf="activityName.touched && activityName.invalid" class="alert alert-danger">Nom Secteur est obligatoire !</div>
 
-                    <button class="btn btn-success" [disabled]="!activityForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-primary me-2 mb-3" [disabled]="!activityForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -87,7 +89,7 @@
                         <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="activity.description" name="name" id="editActivityName">
                     </div>
                     <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom secteur est obligatoire !</div>
-                    <button class="btn btn-success" [disabled]="!editActivityForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-primary me-2 mb-3" [disabled]="!editActivityForm.form.valid" type="submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -106,8 +108,8 @@
                 Êtes-vous sûr de vouloir supprimer ce Secteur ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary me-2 mb-3"  data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-outline-secondary me-2 mb-3" (click)="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>

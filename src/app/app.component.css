@@ -8,3 +8,5 @@
     display: block !important; /* S'assurer qu'elle s'affiche */
     z-index: 5000; /* Assurez-vous que le toast soit au-dessus d'autres éléments */
 }
+
+
