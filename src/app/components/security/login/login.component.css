@@ -1,0 +1,103 @@
+/* Styles principaux pour la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container principal */
+.container {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px; /* Augmentation de la largeur */
+    text-align: center;
+}
+
+/* Titre */
+h1 {
+    color: #000000;
+    font-size: 28px; /* Augmentation de la taille */
+    margin-bottom: 30px;
+}
+
+/* Logo centré */
+.logo-container {
+    text-align: center;
+    margin-bottom: 30px; /* Plus d'espace autour du logo */
+}
+
+.logo {
+    width: 300px; /* Agrandissement du logo */
+    height: auto;
+}
+
+/* Formulaire */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    color: #444444; /* Texte plus visible */
+    margin-bottom: 8px; /* Plus d'espace sous le label */
+    font-size: 16px; /* Police agrandie */
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 15px; /* Champs plus grands */
+    border: 2px solid #c6892f;
+    border-radius: 8px; /* Coins légèrement arrondis */
+    font-size: 14px;
+    color: #333333; /* Texte plus contrasté */
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #f2c97d;
+    box-shadow: 0 0 8px rgba(242, 201, 125, 0.5);
+    outline: none;
+}
+
+/* Bouton personnalisé */
+.btn-custom-gradient {
+    width: 100%;
+    padding: 15px; /* Bouton plus grand */
+    background: linear-gradient(135deg, #b17b2a, #f2c97d);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px; /* Police agrandie */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-custom-gradient:hover {
+    background: linear-gradient(135deg, #a06c25, #e5ba70);
+    transform: scale(1.05); /* Animation hover plus marquée */
+}
+
+.btn-custom-gradient:active {
+    transform: scale(0.97); /* Effet clic réduit */
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 30px; /* Plus d'espace au-dessus */
+    font-size: 14px; /* Police agrandie */
+    color: #666666;
+}
+
+.footer a {
+    color: #b17b2a;
+    text-decoration: none;
+}

@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BranchComponent } from './components/referentiel/branch/branch.component';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ActivitySectorComponent } from './components/referentiel/activity-sector/activity-sector.component';
@@ -24,6 +24,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NgChartsModule } from 'ng2-charts';
 import { ErrorHttpComponent } from './error-http/error-http.component';
+import { LoginComponent } from './components/security/login/login.component';
+import { GroupComponent } from './components/security/group/group.component';
+import { OrganizationUnitComponent } from './components/security/organization-unit/organization-unit.component';
+import { UserComponent } from './components/security/user/user.component';
+import { AuthInterceptor } from './auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +45,10 @@ import { ErrorHttpComponent } from './error-http/error-http.component';
     CorporateComponent,
     RetailComponent,
     ErrorHttpComponent,
+    LoginComponent,
+    GroupComponent,
+    OrganizationUnitComponent,
+    UserComponent,
     
   ],
   imports: [
@@ -52,10 +61,17 @@ import { ErrorHttpComponent } from './error-http/error-http.component';
     BrowserAnimationsModule,
     FontAwesomeModule,
     NgChartsModule,
+    ReactiveFormsModule,
+    
 
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

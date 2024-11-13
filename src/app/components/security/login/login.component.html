@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Connexion</title>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="logo-societe.png" alt="Logo Société" class="logo">
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)=submitForm()>
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" placeholder="Saisissez votre nom d'utilisateur" formControlName ="userCode">
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" placeholder="Saisissez votre mot de passe" formControlName ="password">
+            </div>
+            <button type="submit" class="btn-custom-gradient" [disabled]="loginForm.invalid">Se connecter</button>
+        </form>
+        <!--div class="footer">
+            <p>Mot de passe oublié ? <a href="#">Cliquez ici</a></p>
+        </!--div-->
+    </div>
+</body>
+</html>

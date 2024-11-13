@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClientSegmentConfig } from '../classes/client-segment-config';
 import { Observable } from 'rxjs';
@@ -12,26 +12,52 @@ export class ClientSegmentConfigService {
   private urlClientSegmtConfig = 'http://localhost:8222/Scoring/CSC';
   private urlClientSeg = 'http://localhost:8091/Scoring/CSC';
 
-
+  private createAuthorizationHeader(){
+    const jwtToken = localStorage.getItem('jwt');
+    if(jwtToken){
+      return new HttpHeaders().set('Authorization', 'Bearer '+jwtToken);
+    }else {
+      console.log("JWT token not found in local storage");
+    }
+    return new HttpHeaders();
+  }
   
   createNewClientSegmentConfig(clientSegmentConfig : ClientSegmentConfig ){
     console.log(clientSegmentConfig.description);
-    return this.http.post(this.urlClientSeg,clientSegmentConfig);
+    return this.http.post(this.urlClientSegmtConfig,clientSegmentConfig, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
 
   getAllClientSegmentConfig(): Observable<ClientSegmentConfig[]> {
-    return this.http.get<ClientSegmentConfig[]>(this.urlClientSegmtConfig);
+    return this.http.get<ClientSegmentConfig[]>(this.urlClientSegmtConfig, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
   deleteClientSegmentConfig( id : Number ) {
-    return this.http.delete(this.urlClientSeg+'/'+id);
+    return this.http.delete(this.urlClientSegmtConfig+'/'+id, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
   getClientSegmentConfigById( id : Number){
-    return this.http.get(this.urlClientSegmtConfig+id);
+    return this.http.get(this.urlClientSegmtConfig+id, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
   getClientSegmentConfigByCode( code : String){
-    return this.http.get<ClientSegmentConfig>(this.urlClientSegmtConfig+"/code/"+code);
+    return this.http.get<ClientSegmentConfig>(this.urlClientSegmtConfig+"/code/"+code, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
   editClientSegmentConfig( clientSegmentConfig : ClientSegmentConfig){
-    return this.http.put(this.urlClientSeg, clientSegmentConfig);
+    return this.http.put(this.urlClientSegmtConfig, clientSegmentConfig, {
+      headers:this.createAuthorizationHeader()
+      
+    });
   }
 }

@@ -65,6 +65,14 @@ export class DashboardComponent implements OnInit{
       }
     );
 
+
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
+
     this.clientNotationService.calculNbrNiveauParSegment("PARTICULIERS").subscribe(res=>{
       this.result  =res;
       this.decisionOctroi = this.result.map((u : any )=> u.decisionOctroi)
@@ -79,11 +87,10 @@ export class DashboardComponent implements OnInit{
               data: this.nb,
               label: 'Decision',
               backgroundColor: [
-                '#d6a152',
-                '#806031',
-                '#403018',
-                '#e6c697',
-                '#df8e59',
+                '#e67e22',
+                '#bdc3c7',
+
+                '#9b59b6',
                 
               ],
               hoverBackgroundColor: ['#f2e2cb'],
@@ -111,6 +118,14 @@ export class DashboardComponent implements OnInit{
       })
     });
 
+
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
+
     this.clientNotationService.calculNbrNiveauParSegment("ENTREPRISE").subscribe(res=>{
       this.result  =res;
       this.decisionOctroi = this.result.map((u : any )=> u.decisionOctroi)
@@ -125,11 +140,10 @@ export class DashboardComponent implements OnInit{
               data: this.nb,
               label: 'Decision octroi',
               backgroundColor: [
-                '#d6a152',
-                '#806031',
-                '#403018',
-                '#e6c697',
-                '#df8e59',
+                '#e67e22',
+                '#bdc3c7',
+
+                '#9b59b6',
                 
               ],
               hoverBackgroundColor: ['#f2e2cb'],
@@ -156,13 +170,24 @@ export class DashboardComponent implements OnInit{
         }
       })
     });
+
+
+
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
     this.clientNotationService.calculNbClientScoreParDate("ENTREPRISE").subscribe(res=>{
       this.result  =res;
       this.nbLine = this.result.map((tttt : any )=> tttt.nb)
       this.notationDateLine= this.result.map((tttt : any )=> tttt.notationDate)
       //show line chart data
       this.chartEntreprise = new Chart('canvasEntreprise', {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: this.notationDateLine,
           datasets: [
@@ -181,12 +206,31 @@ export class DashboardComponent implements OnInit{
                 return colors[index % colors.length]; // Cycle à travers les couleurs
               },
               
-              fill: false,
+              
               label: 'Nombre de personne morales scorées',
-              backgroundColor: '#000000', // Couleur de fond si nécessaire
+              backgroundColor: [
+                '#34495e',
+                '#f39c12',
+                '#1abc9c',
+
+                '#3498db',
+                '#e74c3c',
+                '#2ecc71',
+                '#f1c40f',
+                '#e67e22',
+                '#bdc3c7',
+
+                '#9b59b6',
+
+
+                '#1abc9c',
+                '#f39c12',
+                '#34495e',
+                
+              ], // Couleur de fond si nécessaire
               borderWidth: 3,
-              hoverBorderColor: '#faf5ed',
-              hoverBackgroundColor: '#faf5ed',
+              hoverBackgroundColor: ['#f2e2cb'],
+              hoverBorderColor: ['#faf5ed'],
             },
           ],
           
@@ -209,13 +253,22 @@ export class DashboardComponent implements OnInit{
         }
       })
     });
+
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
     this.clientNotationService.calculNbClientScoreParDate("PARTICULIERS").subscribe(res=>{
       this.result  =res;
       this.nbLine = this.result.map((tttt : any )=> tttt.nb)
       this.notationDateLine= this.result.map((tttt : any )=> tttt.notationDate)
       //show line chart data
       this.chartParticuliers = new Chart('canvas', {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: this.notationDateLine,
           datasets: [
@@ -234,11 +287,17 @@ export class DashboardComponent implements OnInit{
                 return colors[index % colors.length]; // Cycle à travers les couleurs
               },
               
-              fill: false,
               label: 'Nombre de personnes physiques scorées',
-              backgroundColor: '#000000', // Couleur de fond si nécessaire
+              backgroundColor: [
+                
+                '#e74c3c',
+                '#2ecc71',
+                '#f1c40f',
+                '#e67e22',
+              ], // Couleur de fond si nécessaire
               borderWidth: 3,
-              
+              hoverBackgroundColor: ['#f2e2cb'],
+              hoverBorderColor: ['#faf5ed'],
             },
           ],
           
@@ -261,6 +320,13 @@ export class DashboardComponent implements OnInit{
         }
       })
     });
+
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
 
     this.clientNotationService.getAllClientNotation().subscribe(res=>{
       this.result  =res;
@@ -316,6 +382,13 @@ export class DashboardComponent implements OnInit{
       })
     });
 
+
+        //////////////////////////////////////////////////////////////////////
+
+
+
+
+
     this.clientNotationService.getAllClientNotation().subscribe(res=>{
       this.result  =res;
       this.segmentLine = this.result.map((tttt : any )=> tttt.notationDate)
@@ -370,6 +443,11 @@ export class DashboardComponent implements OnInit{
         }
       })
     });
+
+
+    //////////////////////////////////////////////////////////////////////
+
+
 
     this.clientNotationService.getAllClientNotation().subscribe(res=>{
       this.result  =res;

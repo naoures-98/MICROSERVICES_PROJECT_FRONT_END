@@ -1,0 +1,54 @@
+header {
+    background-color: #f8f9fa; /* Couleur de fond du header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour la profondeur */
+}
+
+.nav-link {
+    color: #343a40; /* Couleur des liens */
+    padding: 10px 15px; /* Espacement pour les liens */
+    transition: color 0.3s, background-color 0.3s; /* Transition douce */
+}
+
+.nav-link:hover {
+    color: #d1963d; /* Couleur au survol */
+    background-color: rgba(209, 150, 61, 0.1); /* Couleur de fond au survol */
+    border-radius: 5px; /* Arrondi pour un effet de survol */
+}
+
+.dropdown-menu {
+    background-color: #ffffff; /* Couleur de fond du dropdown */
+    border: none; /* Supprimer la bordure par défaut */
+    border-radius: 0.5rem; /* Arrondir les coins */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour le dropdown */
+}
+
+.dropdown-item {
+    color: #343a40; /* Couleur des éléments du dropdown */
+    padding: 10px 15px; /* Espacement pour les éléments */
+    transition: background-color 0.3s; /* Transition pour l'effet de survol */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(209, 150, 61, 0.1); /* Couleur de fond au survol des éléments du dropdown */
+    border-radius: 5px; /* Arrondi pour un effet de survol */
+}
+
+.dropdown-divider {
+    background-color: #e9ecef; /* Couleur de la ligne de séparation */
+}
+
+
+.breadcrumb {
+    background-color: #f8f9fa; /* Couleur de fond */
+    padding: 10px; /* Espacement */
+    border-radius: 0.5rem; /* Coins arrondis */
+    margin-bottom: 20px; /* Espacement en bas */
+}
+
+.breadcrumb-item a {
+    color: #343a40; /* Couleur des liens */
+}
+
+.breadcrumb-item.active {
+    color: #6c757d; /* Couleur de l'élément actif */
+}

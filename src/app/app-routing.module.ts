@@ -12,11 +12,16 @@ import { RetailComponent } from './components/scoring/retail/retail.component';
 import { CorporateComponent } from './components/scoring/corporate/corporate.component';
 import { ClientNotationComponent } from './components/scoring/client-notation/client-notation.component';
 import { ErrorHttpComponent } from './error-http/error-http.component';
+import { LoginComponent } from './components/security/login/login.component';
+import { GroupComponent } from './components/security/group/group.component';
+import { OrganizationUnitComponent } from './components/security/organization-unit/organization-unit.component';
+import { UserComponent } from './components/security/user/user.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo : '/dashboard', pathMatch : 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard]},
   { path: 'currency', component: CurrencyComponent },
   { path: 'branch', component: BranchComponent },
   //{ path: 'update/:id', component: EditComponent },
@@ -28,6 +33,10 @@ const routes: Routes = [
   { path: 'personnesPhysiques', component: RetailComponent },
   { path: 'personnesMorales', component: CorporateComponent },
   { path: 'notesClients', component: ClientNotationComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'groups', component: GroupComponent },
+  { path: 'organizationUnit', component: OrganizationUnitComponent },
+  { path: 'users', component: UserComponent },
   { path: '**', component: ErrorHttpComponent }
 ];
 
