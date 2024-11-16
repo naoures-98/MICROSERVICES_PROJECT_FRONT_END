@@ -10,28 +10,36 @@
   </div>
 </div>
 
-<!--div-- class="container mt-5">
-  <div class="row justify-content-center">
-   
-    <div class="col-md-5 mb-4">
-      <div class="p-3 border rounded">
-        <h5 class="text-center">Meilleur PD pour Segment Entreprise</h5>
-        <p class="text-center">{{ bestPDSegmentEntreprise }}</p>
-      </div>
-    </div>
 
-   
-    <div class="col-md-5 mb-4">
-      <div class="p-3 border rounded">
-        <h5 class="text-center">Meilleur PD pour Segment Particuliers</h5>
-        <p class="text-center">{{ bestPDSegmentParticuliers }}</p>
-      </div>
-    </div>
-  </div>
-</!--div-->
+
+
 
 <div class="container mt-5">
-  <h4 class="mb-4 text-center">Liste des 10 Dernières Personnes Notées</h4>
+  <h3 class="mb-4 text-center">Aperçu Général de la Répartition des Niveaux de Risque</h3>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-5 mb-4">
+      <canvas id="canvasEntreprise">{{ chartEntreprise }}</canvas>
+    </div>
+    <div class="col-md-5 mb-4">
+      <canvas id="canvas">{{ chartParticuliers }}</canvas>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 mb-4">
+      <canvas id="PieEntreprise">{{ chartPieEntreprise }}</canvas>
+    </div>
+    <div class="col-md-5 mb-4">
+      <canvas id="Pie">{{ chartPieParticuliers }}</canvas>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h4 class="mb-4 text-center">Les 10 Dernières Notation</h4>
   <div class="table-responsive custom-scroll" style="max-height: 200px; overflow-y: auto;">
       <table class="table table-bordered">
           <thead>
@@ -56,29 +64,8 @@
           </tbody>
       </table>
   </div>
+
 </div>
-
-
-
-
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5 mb-4">
-      <canvas id="canvasEntreprise">{{ chartEntreprise }}</canvas>
-    </div>
-    <div class="col-md-5 mb-4">
-      <canvas id="canvas">{{ chartParticuliers }}</canvas>
-    </div>
-  </div>
-</div>
-
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5 mb-4">
-      <canvas id="PieEntreprise">{{ chartPieEntreprise }}</canvas>
-    </div>
-    <div class="col-md-5 mb-4">
-      <canvas id="Pie">{{ chartPieParticuliers }}</canvas>
-    </div>
-  </div>
-</div>
+<br>
+<br><br><br>
+<hr>

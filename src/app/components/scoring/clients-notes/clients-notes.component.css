@@ -1,0 +1,48 @@
+.container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  h5 {
+    color: #b17b2a;
+  }
+  
+  p {
+    color: #000000;
+    font-size: 20px;
+  }
+  
+  canvas {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .chart-small {
+    width: 100%; /* Réduisez la taille à un pourcentage souhaité */
+    max-width: 400px; /* Limite maximale */
+    height: 300px; /* Hauteur fixe ou ajustable */
+  }
+  
+  
+  /* Styles pour la barre de défilement personnalisée */
+  .custom-scroll::-webkit-scrollbar {
+    width: 12px; /* Largeur de la barre de défilement */
+  }
+  
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Couleur de l'arrière-plan de la piste */
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #b17b2a; /* Couleur du pouce de la barre de défilement */
+    border-radius: 10px; /* Coins arrondis pour le pouce */
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #d1963d; /* Couleur du pouce au survol */
+  }
+  
+  .custom-scroll {
+    scrollbar-width: thin; /* Pour Firefox */
+    scrollbar-color: #b17b2a #f1f1f1; /* Couleurs pour Firefox */
+  }

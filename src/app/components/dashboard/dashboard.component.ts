@@ -87,10 +87,12 @@ export class DashboardComponent implements OnInit{
               data: this.nb,
               label: 'Decision',
               backgroundColor: [
-                '#e67e22',
+                '#d9c28f',
+                '#f7cec5',
+                '#c18b7f',
                 '#bdc3c7',
-
-                '#9b59b6',
+                '#f2ae9f',
+                '#c18b32',
                 
               ],
               hoverBackgroundColor: ['#f2e2cb'],
@@ -140,11 +142,12 @@ export class DashboardComponent implements OnInit{
               data: this.nb,
               label: 'Decision octroi',
               backgroundColor: [
-                '#e67e22',
+                '#d9c28f',
+                '#f7cec5',
+                '#c18b7f',
                 '#bdc3c7',
-
-                '#9b59b6',
-                
+                '#f2ae9f',
+                '#c18b32',
               ],
               hoverBackgroundColor: ['#f2e2cb'],
               hoverBorderColor: ['#faf5ed'],
@@ -197,35 +200,21 @@ export class DashboardComponent implements OnInit{
               borderColor: (ctx) => {
                 const index = ctx.dataIndex;
                 const colors = [
-                  '#d6a152',
-                  '#806031',
-                  '#403018',
-                  '#e6c697',
-                  '#df8e59',
+                  '#fdf6f5',
+
                 ];
                 return colors[index % colors.length]; // Cycle à travers les couleurs
               },
               
               
-              label: 'Nombre de personne morales scorées',
+              label: 'Nombre de personne morales notées',
               backgroundColor: [
-                '#34495e',
-                '#f39c12',
-                '#1abc9c',
-
-                '#3498db',
-                '#e74c3c',
-                '#2ecc71',
-                '#f1c40f',
-                '#e67e22',
+                '#f2d89f',
+                '#f7cec5',
+                '#c18b7f',
                 '#bdc3c7',
-
-                '#9b59b6',
-
-
-                '#1abc9c',
-                '#f39c12',
-                '#34495e',
+                '#f2ae9f',
+                '#c18b32',
                 
               ], // Couleur de fond si nécessaire
               borderWidth: 3,
@@ -243,7 +232,7 @@ export class DashboardComponent implements OnInit{
             },
             title: {
               display: true,
-              text: 'Nombre des personnes morales scorées par date',
+              text: 'NOMBRE DES PERSONNES MORALES NOTEES PAR DATE',
               color:'#000000',
               font: {
                 size: 20
@@ -278,22 +267,24 @@ export class DashboardComponent implements OnInit{
               borderColor: (ctx) => {
                 const index = ctx.dataIndex;
                 const colors = [
-                  '#d6a152',
-                  '#806031',
-                  '#403018',
-                  '#e6c697',
-                  '#df8e59',
+                  '#fdf6f5',
                 ];
                 return colors[index % colors.length]; // Cycle à travers les couleurs
               },
               
-              label: 'Nombre de personnes physiques scorées',
+              label: 'Nombre des personnes physiques scorées par date',
               backgroundColor: [
+                '#c18b32',
+                '#bdc3c7',
+                '#c18b7f',
+                '#edeca9',
+                '#f2d89f',
+                '#f2ae9f',
+                '#f7cec5',
                 
-                '#e74c3c',
-                '#2ecc71',
-                '#f1c40f',
-                '#e67e22',
+                
+                
+                
               ], // Couleur de fond si nécessaire
               borderWidth: 3,
               hoverBackgroundColor: ['#f2e2cb'],
@@ -310,7 +301,7 @@ export class DashboardComponent implements OnInit{
             },
             title: {
               display: true,
-              text: 'Nombre des personnes physiques scorées par date',
+              text: 'NOMBRE DES PERSONNES PHYSIQUES NOTEES PAR DATE',
               color:'#000000',
               font: {
                 size: 20

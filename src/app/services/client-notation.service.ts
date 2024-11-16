@@ -46,6 +46,11 @@ export class ClientNotationService {
       
     });
   }
+  findByNotationBySegmentCodeDateDesc(segment : String): Observable<ClientNotation[]> {
+    return this.http.get<ClientNotation[]>(this.urlClientNotation+"/findClients/"+segment, {
+      headers:this.createAuthorizationHeader()
+    });
+  }
   getAllClientNotationByClient(idClient : Number ): Observable<ClientNotation> {
     return this.http.get<ClientNotation>(this.urlClientNotation+"/byClient/"+idClient, {
       headers:this.createAuthorizationHeader()

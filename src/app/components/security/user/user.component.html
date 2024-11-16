@@ -13,18 +13,21 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>UserName</th>
+                <th>UserCode</th>
+                <th>Groupe</th>
                 <th>Password</th>
                 <th>DATE CREATION</th>
                 <th class="text-center">ACTIONS</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let jForm of filteredUsers | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
+            <tr *ngFor="let user of filteredUsers | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                
+                <td>{{user.id}}</td>
+                <td>{{user.userCode}}</td>
+                <td>{{user.group.groupName}}</td>
+                <td>****************</td>
+                <td>{{user.createAt}}</td>
                 <td class="text-center">
                     <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editUser(user)" data-bs-target="#userEditModal">
                         Edit
@@ -36,77 +39,90 @@
     </table>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
-<!-- Modal pour ajouter une nouvelle JfORM -->
+
+<!-- Modal pour ajouter une nouveau utilisateur -->
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">Créer un nouveau Utilisateur</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form  [formGroup]="registerForm" (ngSubmit)=submitForm() >
-                    <div class="form-group mb-3">
-                        <label for="userCode" class="form-label">UserName</label>
-                        <input type="text" class="form-control" required  name="userCode" id="userCode" formControlName="userCode">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="userPassword" class="form-label">Mot de Passe</label>
-                        <input type="password" class="form-control" required   name="userPassword" id="userPassword" formControlName="password">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="userPassword" class="form-label">Confirmer Mot de Passe</label>
-                        <input type="password" class="form-control" required   name="confirmPassword" id="confirmPassword" formControlName="confirmPassword">
-                    </div>
-
-                    <button class="btn btn-custom-success" [disabled]="registerForm.invalid"  type="submit">Submit</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">Créer un nouveau utilisateur</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <form id="userForm" (ngSubmit)="submitForm()" #userForm="ngForm">
+            <div class="form-group mb-3">
+              <label for="userCode" class="form-label">User Code</label>
+              <input type="text" class="form-control" #userCode="ngModel" [(ngModel)]="user.userCode" id="userCode" name = "userCode" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="role" class="form-label">Rôle</label>
+              <select id="roleSelect"   #role="ngModel" [(ngModel)]="selectedRoleId" name="role" class="form-select" required>
+                <option *ngFor="let role of groups" [value]="role.id">{{ role.groupName }}</option>
+              </select>            
+            </div>
+            <div class="form-group mb-3">
+              <label for="password" class="form-label">Mot de Passe</label>
+              <input type="password" class="form-control"  #password="ngModel" [(ngModel)]="user.password" id="password" name="password" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="confirmPassword" class="form-label">Confirmer Mot de Passe</label>
+              <input type="password" class="form-control" #confirmPassword="ngModel" [(ngModel)]="user.confirmPassword" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="matricule" class="form-label">Matricule</label>
+              <input type="text" class="form-control" #matricule="ngModel" [(ngModel)]="organizationUser.matricule" id="matricule" name="matricule" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="userName" class="form-label">Nom Utilisateur</label>
+              <input type="text" class="form-control" #userName="ngModel" [(ngModel)]="organizationUser.userName" id="userName" name="userName" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="userFunction" class="form-label">Fonction Personnel</label>
+              <input type="text" class="form-control"  #userFunction="ngModel" [(ngModel)]="organizationUser.userFunction" id="userFunction" name="userFunction" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" #email="ngModel" [(ngModel)]="organizationUser.email" id="email" name="email" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="telephone" class="form-label">Telephone</label>
+              <input type="text" class="form-control" #email="ngModel" [(ngModel)]="organizationUser.telephone" id="telephone" name="telephone" required>
+            </div>
+            <button type="submit" class="btn btn-custom-success" [disabled]="userForm.invalid">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  
 
-<!-- Modal pour modifier un utilisateur  -->
+ <!-- Modal pour modifier utilisateur -->
 <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userEditModalLabel">Modifier Utilisateur</h5>
+                <h5 class="modal-title" id="userEditModalLabel">Modifier un utilisateur</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="userEditForm" (ngSubmit)="onEditSubmit()" #editUserForm="ngForm">
+                <form id="userEditForm" (ngSubmit)="onEditSubmit()" #userEditForm="ngForm">
+                    <div class="form-group mb-3">
+                        <label for="userCodeEdit" class="form-label">User Code</label>
+                        <input type="text" class="form-control" [disabled]="true" #userCode="ngModel" [(ngModel)]="user.userCode" id="userCodeEdit" name="userCode" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="roleSelectEdit" class="form-label">Rôle</label>
+                        <select id="roleSelectEdit" #role="ngModel" [(ngModel)]="selectedRoleId" name="role" class="form-select" required>
+                            <option *ngFor="let role of groups" [value]="role.id">{{ role.groupName }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="passwordEdit" class="form-label">Mot de Passe</label>
+                        <input type="password" class="form-control"  disabled="true" #password="ngModel" [(ngModel)]="user.password" id="passwordEdit" name="password" required>
+                    </div>
 
-                    <div class="form-group mb-3">
-                        <label for="editCodeUser" class="form-label">UserName</label>
-                        <input type="text" class="form-control"   [disabled]="true" required #editCodeUser="ngModel" [(ngModel)]="user.userCode" name="editCodeUser" id="editCodeUser">
-                    </div>
-                    <div *ngIf="editCodeUser.touched && editCodeUser.invalid" class="alert alert-danger">UserName est obligatoire !</div>
-                    <div class="form-group mb-3">
-                        <label for="editPassword" class="form-label">Mot de Passe</label>
-                        <input type="text" class="form-control" required #editPassword="ngModel" [(ngModel)]="user.password" name="editPassword" id="editPassword">
-                    </div>
-                    <div *ngIf="editPassword.touched && editPassword.invalid" class="alert alert-danger">Mot de Passe est obligatoire !</div>
-                    <button class="btn btn-custom-success" [disabled]="!editUserForm.form.valid" type="submit">Submit</button>
+                    <button type="submit" class="btn btn-custom-success" [disabled]="userEditForm.invalid">Submit</button>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal de confirmation de suppression -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer cet Utilisateur ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-outline-danger" (click)="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>

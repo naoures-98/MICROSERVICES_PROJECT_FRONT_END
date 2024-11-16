@@ -29,6 +29,7 @@ import { GroupComponent } from './components/security/group/group.component';
 import { OrganizationUnitComponent } from './components/security/organization-unit/organization-unit.component';
 import { UserComponent } from './components/security/user/user.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { AuthInterceptor } from './auth.interceptor';
     GroupComponent,
     OrganizationUnitComponent,
     UserComponent,
+    ClientsNotesComponent,
     
   ],
   imports: [

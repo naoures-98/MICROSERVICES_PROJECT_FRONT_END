@@ -17,6 +17,7 @@ import { GroupComponent } from './components/security/group/group.component';
 import { OrganizationUnitComponent } from './components/security/organization-unit/organization-unit.component';
 import { UserComponent } from './components/security/user/user.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'groups', component: GroupComponent },
   { path: 'organizationUnit', component: OrganizationUnitComponent },
   { path: 'users', component: UserComponent },
+  { path: 'clientsNotes', component: ClientsNotesComponent },
   { path: '**', component: ErrorHttpComponent }
 ];
 

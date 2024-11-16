@@ -1,0 +1,56 @@
+<div class="container mt-5">
+    <h4 class="mb-4 text-center">Liste des Personnes Morales Notées</h4>
+    <div class="table-responsive custom-scroll" style="max-height: 700px; overflow-y: auto;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Référence Demande</th>
+                    <th>Segment</th>
+                    <th>Niveau</th>
+                    <th>Classe</th>
+                    <th>Date Notation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of clientsNotations">
+                    <td>{{ client.scoringContractData.clientRequest }}</td>
+                    <td>{{ client.scoringContractData.contractReference }}</td>
+                    <td>{{ client.clientSegmentConfig.description }}</td>
+                    <td>{{ client.decisionOctroi }}</td>
+                    <td>{{ client.classe }}</td>
+                    <td>{{ client.notationDate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  
+
+  <div class="container mt-5">
+    <h4 class="mb-4 text-center">Liste des Personnes Physiques Notées</h4>
+    <div class="table-responsive custom-scroll" style="max-height: 700px; overflow-y: auto;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Référence Demande</th>
+                    <th>Segment</th>
+                    <th>Niveau</th>
+                    <th>Classe</th>
+                    <th>Date Notation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let clientPP of clientsNotationsPP">
+                    <td>{{ clientPP.scoringContractData.clientRequest }}</td>
+                    <td>{{ clientPP.scoringContractData.contractReference }}</td>
+                    <td>{{ clientPP.clientSegmentConfig.description }}</td>
+                    <td>{{ clientPP.decisionOctroi }}</td>
+                    <td>{{ clientPP.classe }}</td>
+                    <td>{{ clientPP.notationDate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>

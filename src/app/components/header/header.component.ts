@@ -3,6 +3,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { filter } from 'rxjs/operators';
 import { JwtService } from '../../services/jwt.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,12 +11,14 @@ import { JwtService } from '../../services/jwt.service';
 })
 export class HeaderComponent implements OnInit {
   currentSection: string="";
-
+  userCode : string = "";
   constructor(private router: Router,private toast : NgToastService,
-    public jwtService : JwtService,private route: ActivatedRoute
+    public jwtService : JwtService,private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.getUserCode();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -23,13 +26,30 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
+  getUserCode(): void {
+    // Récupérer le jwtToken du localStorage
+    const userData = localStorage.getItem('jwt');
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      // Décoder le JWT en extrayant le payload (partie centrale du JWT)
+      this.userCode = parsedData.user.userCode; // Accéder à userCode dans le payload
+    }
+  }
   logout() {
     this.jwtService.logout();
   }
   
+  canSeeReferentiel(): boolean {
+    return this.authService.hasRole('ROLE_admin') || this.authService.hasRole('ROLE_Juridiction');
+  }
 
-  
+  canSeeSecurite(): boolean {
+    return this.authService.hasRole('ROLE_admin');////this.authService.hasRole('ROLE_Juridiction') || 
+  }
+  canSeeScoring(): boolean {
+    return this.authService.hasRole('ROLE_Charge Clientele') ||this.authService.hasRole('ROLE_ChargÃ© Clientele')
+    ||this.authService.hasRole('ROLE_admin');
+  }
 
   updateBreadcrumb(): void {
     const currentUrl = this.router.url;

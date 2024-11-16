@@ -6,9 +6,22 @@
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a routerLink="dashboard" class="nav-link px-2 link-secondary">Dashboard</a></li>
-                <li class="nav-item dropdown">
+                <li><a routerLink="clientsNotes" class="nav-link px-2 link-dark">Consultation notes client</a></li>
+                <li *ngIf="canSeeScoring()" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Paramétrage Référentiel
+                        Saisie / Génération note client
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Saisie Données Scoring Personnes Physiques </a></li>
+                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Génération note Client PP</a></li>
+                        <li><a class="dropdown-item" routerLink="personnesMorales">Saisie Données Scoring Personnes Morales </a></li>
+                        <li><a class="dropdown-item" routerLink="personnesMorales">Génération note Client PM</a></li>
+
+                    </ul>
+                </li>
+                <li *ngIf="canSeeReferentiel()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Référentiel
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="branch">Gestion Agences</a></li>
@@ -16,12 +29,13 @@
                         <li><a class="dropdown-item" routerLink="financingNature">Gestion Nature de financement</a></li>
                         <li><a class="dropdown-item" routerLink="financingType">Gestion type de financement</a></li>
                         <li><a class="dropdown-item" routerLink="juridicalForm">Gestion Forme Juridique</a></li>
+                        <li><a class="dropdown-item" routerLink="segmentsClients">Gestion Segments Clients</a></li>
                         <li><a class="dropdown-item" routerLink="currency">Gestion Devises</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
+                <li *ngIf="canSeeSecurite()" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Paramétrage Sécurité
+                        Sécurité
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="users">Gestion Utilisateurs</a></li>
@@ -31,10 +45,10 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Paramétrage Scoring
+                        Scoring
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="segmentsClients">Gestion Segments Clients</a></li>
+                        
                         <li><a class="dropdown-item" routerLink="personnesPhysiques">Gestion Personnes Physiques</a></li>
                         <li><a class="dropdown-item" routerLink="personnesMorales">Gestion Personnes Morales</a></li>
                         <li><a class="dropdown-item" routerLink="notesClients">Gestion Notes clients</a></li>
@@ -47,12 +61,12 @@
 
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img src="logoUser.svg" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" routerLink="#">Profil</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" (click)="logout()">Déconnexion</a></li>
+                    
+                    <!--li><hr class="dropdown-divider"></!--li-->
+                    <li><a class="dropdown-item" (click)="logout()">Déconnexion ({{ userCode }}) </a></li>
                 </ul>
             </div>
         </div>
