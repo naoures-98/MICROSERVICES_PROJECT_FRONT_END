@@ -12,6 +12,7 @@ import { JuridicalForm } from '../../../classes/juridical-form';
 import { JuridicalFormService } from '../../../services/juridical-form.service';
 import { ActivitySectorService } from '../../../services/activity-sector.service';
 import { ActivitySector } from '../../../classes/activity-sector';
+import { Section } from '../../../classes/donnees-financieres';
 
 @Component({
   selector: 'app-corporate',
@@ -266,4 +267,71 @@ export class CorporateComponent  implements OnInit{
       this.toast.danger("Problem de suppression",err);
       console.log(err);});
   }
+
+
+  /////////////////////////////////////////////////////
+  getGlobalScore(): number {
+    return this.sections.reduce((total, section) => total + section.totalScore, 0);
+  }
+  
+  sections: Section[] = [
+    {
+      name: 'Rentabilité',
+      rows: [
+        {
+          name: 'Rentabilité économique',
+          ponderation: 20,
+          borneInf: 0,
+          borneSup: 30,
+          norme: 15,
+          scoreMin: 0,
+          scoreMax: 20,
+          valeurClient: null,
+          score: 0,
+          scorePondere: 0,
+        },
+        // Ajoutez d'autres lignes ici
+      ],
+      totalScore: 0,
+    },
+    {
+      name: 'Rentabilité',
+      rows: [
+        {
+          name: 'Rentabilité économique',
+          ponderation: 20,
+          borneInf: 0,
+          borneSup: 30,
+          norme: 15,
+          scoreMin: 0,
+          scoreMax: 20,
+          valeurClient: null,
+          score: 0,
+          scorePondere: 0,
+        },
+        // Ajoutez d'autres lignes ici
+      ],
+      totalScore: 0,
+    },
+    // Ajoutez d'autres sections ici
+  ];
+    // Méthode pour calculer les scores (optionnelle)
+    calculateScores(): void {
+      this.sections.forEach((section) => {
+        section.rows.forEach((row) => {
+          // Logique de calcul basée sur "valeurClient", "borneInf", etc.
+          row.score = Math.min(
+            Math.max(row.valeurClient || 0, row.scoreMin),
+            row.scoreMax
+          );
+          row.scorePondere = (row.score * row.ponderation) / 100;
+        });
+        section.totalScore = section.rows.reduce(
+          (total, row) => total + row.scorePondere,
+          0
+        );
+      });
+    } 
+    
+
 }

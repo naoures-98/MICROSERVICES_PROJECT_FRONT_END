@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit{
             title: {
               display: true,
               text: 'Niveau Par segment Particuliers',
-              color:'#000000',
+              color:'#494b4d',
               font: {
                 size: 20
               }
@@ -164,7 +164,7 @@ export class DashboardComponent implements OnInit{
             title: {
               display: true,
               text: 'Niveau Par segment Entreprise',
-              color:'#000000',
+              color:'#494b4d',
               font: {
                 size: 20
               }
@@ -233,7 +233,7 @@ export class DashboardComponent implements OnInit{
             title: {
               display: true,
               text: 'NOMBRE DES PERSONNES MORALES NOTEES PAR DATE',
-              color:'#000000',
+              color:'#494b4d',
               font: {
                 size: 20
               }
@@ -302,7 +302,7 @@ export class DashboardComponent implements OnInit{
             title: {
               display: true,
               text: 'NOMBRE DES PERSONNES PHYSIQUES NOTEES PAR DATE',
-              color:'#000000',
+              color:'#494b4d',
               font: {
                 size: 20
               }

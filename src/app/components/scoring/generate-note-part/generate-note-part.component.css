@@ -1,6 +1,6 @@
-.btn-custom-primary { background-color: #ffffff; color: #797979; border-color: #b17b2a; }
-.btn-custom-secondary { background-color: #ffffff; color: #797979; border-color: #b17b2a; }
-.btn-custom-success { background-color: #ffffff; color: #797979; border-color: #b17b2a; }
+.btn-custom-primary { background-color: #ffffff; color: #797979; border-color: #dbac67; }
+.btn-custom-secondary { background-color: #ffffff; color: #797979; border-color: #dbac67; }
+.btn-custom-success { background-color: #ffffff; color: #797979; border-color: #dbac67; }
 
 .btn-custom-tertiary { background-color: #d1963d; color: #fff; border-color: #d1963d; }
 .btn-custom-warning { background-color: #ffffff; color: #969696; border-color: #969696; }
@@ -8,26 +8,6 @@
 .btn-custom-light { background-color: #e0b77b; color: #000; border-color: #e0b77b; }
 .btn-custom-muted { background-color: #e5c390; color: #000; border-color: #e5c390; }
 
-.btn-custom:hover {
-    opacity: 0.9;
-}
-
-.form-control-custom {
-    border: 2px solid #c6892f;
-}
-
-
-
-.btn-custom-gradient {
-  background: linear-gradient(135deg, #b17b2a, #f2c97d);
-  border: none;
-  color: white; /* Ajustez cette couleur selon le contraste souhaité */
-}
-
-
-.modal-dialog {
-    max-width: 1300px; /* Ajustez la largeur selon vos besoins */
-}
 /* Styles pour le conteneur général */
 .container {
     background-color: #FFFFFF; /* Couleur de fond blanche */
@@ -35,7 +15,7 @@
     
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px #E0E0E0; /* Ombre légère pour la profondeur */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère pour la profondeur */
   }
   /* Styles pour les titres */
   h1, h2 {
@@ -46,8 +26,8 @@
   }
   
   input[type="text"]:focus, select:focus {
-    border-color: #f2c97d; /* Bordure rouge en focus */
-    box-shadow: 0 0 8px #E0E0E0; /* Ombre rouge légère en focus */
+    border-color: #b17b2a; /* Bordure rouge en focus */
+    box-shadow: 0 0 8px #c49754; /* Ombre rouge légère en focus */
     outline: none; /* Supprimer le contour par défaut */
   }
   
@@ -58,16 +38,43 @@
   
   button:hover {
     background-color: #b17b2a; /* Rouge au survol */
-    color: #ffffff;
-    box-shadow: 0 4px 12px #E0E0E0; /* Ombre rouge plus prononcée au survol */
+    box-shadow: 0 4px 12px #c4b198; /* Ombre rouge plus prononcée au survol */
+    color: #ffffff; /* Couleur blanche */
+    outline: none; /* Supprimer le contour par défaut */
   }
+  
 
-  .table-small th, .table-small td {
+/* detail-button.component.css */
+.modal-dialog {
+    max-width: 1300px; /* Ajustez la largeur selon vos besoins */
+}
+
+/* styles.css ou le fichier CSS associé */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Ajustez l'espacement entre les champs */
+}
+
+.form-group {
+    flex: 1; /* Permet aux groupes de prendre une largeur égale */
+}
+/* styles.css ou le fichier CSS associé */
+.custom-container {
+    border: 1px solid #ccc; /* Bordure grise */
+    padding: 1rem; /* Espacement intérieur */
+    border-radius: 0.5rem; /* Coins arrondis */
+    margin-bottom: 1rem; /* Espacement en bas */
+}
+hr {
+    border: 1px solid #ccc; /* Couleur et épaisseur de la ligne */
+    margin: 1rem 0; /* Espacement vertical */
+}
+
+.table-small th, .table-small td {
     padding: 8px; /* Réduit l'espacement interne */
     font-size: 13px; /* Réduit la taille de la police */
     height: 20px !important;
   }
-  
   .container-small {
     padding: 10px; /* Réduit les marges internes */
     margin-bottom: 10px; /* Réduit les marges externes */
@@ -95,7 +102,6 @@
     height: 35px; /* Fixe une hauteur spécifique */
     width: 100%; /* Optionnel : ajuste à la largeur du conteneur */
   }
-  
   h4{
     color: #474b4d;
   }

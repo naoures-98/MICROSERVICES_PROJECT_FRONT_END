@@ -1,15 +1,15 @@
-<div class="container mt-5">
-    <h2>Gestion des Formes Juridiques</h2>
-    <div class="container mt-5">
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#jFormModal">
+<div class="container mt-2">
+    <h4>Gestion des Formes Juridiques</h4>
+    <div class="container mt-2">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#jFormModal">
             Ajouter une nouvelle Forme Juridique
         </button>
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#jFormImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#jFormImportExcelModal">
             Import EXCEL
         </button>
-        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3 small-input" placeholder="Rechercher...">
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-small">
         <thead>
             <tr>
                 <th>#</th>
@@ -26,10 +26,10 @@
                 <td>{{ jForm.description }}</td>
                 <td>{{ jForm.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editJForm(jForm)" data-bs-target="#jFormEditModal">
-                        Edit
+                    <button type="button" class="btn btn-custom-warning me-2 btn-small" data-bs-toggle="modal" (click)="editJForm(jForm)" data-bs-target="#jFormEditModal">
+                        Modifier
                     </button>
-                    <button class="btn btn-custom-danger" (click)="openDeleteModal(jForm.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger btn-small" (click)="openDeleteModal(jForm.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Supprimer</button>
                 </td>
             </tr>
         </tbody>
@@ -42,22 +42,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="jFormModalLabel">Créer une nouvelle  Forme Juridique</h5>
-                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="jFormForm" (ngSubmit)="onSubmit()" #jFormForm="ngForm">
                     <div class="form-group mb-3">
-                        <label for="codeJForm" class="form-label">Code Forme Juridique </label>
-                        <input type="text" class="form-control" required #codeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="codeJForm" id="codeJForm">
+                        <label for="codeJForm" class="form-label small-label">Code Forme Juridique </label>
+                        <input type="text" class="form-control small-input" required #codeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="codeJForm" id="codeJForm">
                     </div>
                     <div *ngIf="codeJForm.touched && codeJForm.invalid" class="alert alert-danger">Code Forme Juridique est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="jFormName" class="form-label">Nom Forme Juridique</label>
-                        <input type="text" class="form-control" required #jFormName="ngModel" [(ngModel)]="jForm.description" name="jFormName" id="jFormName">
+                        <label for="jFormName" class="form-label small-label">Nom Forme Juridique</label>
+                        <input type="text" class="form-control small-input" required #jFormName="ngModel" [(ngModel)]="jForm.description" name="jFormName" id="jFormName">
                     </div>
                     <div *ngIf="jFormName.touched && jFormName.invalid" class="alert alert-danger">Nom Forme Juridique est obligatoire !</div>
 
-                    <button class="btn btn-custom-success" [disabled]="!jFormForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!jFormForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -70,22 +70,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="jFormEditModalLabel">Modifier Forme Juridique</h5>
-                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="jFormEditForm" (ngSubmit)="onEditSubmit()" #editJFormForm="ngForm">
 
                     <div class="form-group mb-3">
-                        <label for="editCodeJForm" class="form-label">Code Forme Juridique</label>
-                        <input type="text" class="form-control"   [disabled]="true" required #editCodeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="jFormCode" id="jFormCode">
+                        <label for="editCodeJForm" class="form-label small-label">Code Forme Juridique</label>
+                        <input type="text" class="form-control small-input"   [disabled]="true" required #editCodeJForm="ngModel" [(ngModel)]="jForm.juridicalFormCode" name="jFormCode" id="jFormCode">
                     </div>
                     <div *ngIf="editCodeJForm.touched && editCodeJForm.invalid" class="alert alert-danger">Code Forme Juridique est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="editJFormName" class="form-label">Nom Forme Juridique</label>
-                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="jForm.description" name="name" id="editJFormName">
+                        <label for="editJFormName" class="form-label small-label">Nom Forme Juridique</label>
+                        <input type="text" class="form-control small-input" required #editName="ngModel" [(ngModel)]="jForm.description" name="name" id="editJFormName">
                     </div>
                     <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Forme Juridique est obligatoire !</div>
-                    <button class="btn btn-custom-success" [disabled]="!editJFormForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!editJFormForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -97,14 +97,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
-                <button type="button" class="btn-custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="font-size: 13px;">
                 Êtes-vous sûr de vouloir supprimer cette Forme Juridique ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-outline-danger" (click)="confirmDelete()">Supprimer</button>
+			    <button type="button" class="btn btn-outline-danger btn-small" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary btn-small" data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>

@@ -21,7 +21,7 @@ export class BranchService {
     }
     return new HttpHeaders();
   }*/
-    private createAuthorizationHeader() {
+    /*private createAuthorizationHeader() {
       const jwtToken = localStorage.getItem('jwt');
       let headers = new HttpHeaders();
     
@@ -35,8 +35,22 @@ export class BranchService {
       //headers = headers.set('Access-Control-Allow-Origin', '*');
     
       return headers;
-    }
+    }*/
+      private createAuthorizationHeader() {
+        const userData = localStorage.getItem('jwt');
+        if (!userData) return new HttpHeaders();
     
+        try {
+          const parsedData = JSON.parse(userData);
+          console.log("parsedData.jwtToken = "+parsedData.jwtToken);
+          const jwtToken = parsedData.jwtToken;
+          return new HttpHeaders().set('Authorization', 'Bearer '+jwtToken);
+        }     
+         catch (error) {
+          console.error('Error parsing JWT:', error);
+          return new HttpHeaders();
+        }
+      }
   createNewBranch(branch : Branch ){
     console.log(branch.name);
     return this.http.post(this.urlReferentiel,branch, {

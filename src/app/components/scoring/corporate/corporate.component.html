@@ -1,15 +1,15 @@
-<div class="container mt-5">
-    <h2>Gestion des  Clients Morales</h2>
-    <div class="container mt-5">
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#corpoModal">
+<div class="container  mt-3">
+    <h4>Gestion des  Clients Morales</h4>
+    <div class="container container-small mt-3">
+        <button type="button" class="btn btn-custom-secondary btn-small me-2 mb-3" data-bs-toggle="modal" data-bs-target="#corpoModal">
             Ajouter un nouveau Client Morale
         </button>
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#corpoImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary btn-small me-2 mb-3" data-bs-toggle="modal" data-bs-target="#corpoImportExcelModal">
             Import EXCEL
         </button>
-        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+        <input type="text" [(ngModel)]="searchText" class="form-control small-input mb-3" placeholder="Rechercher...">
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-small">
         <thead>
             <tr>
                 <th>#</th>
@@ -30,13 +30,14 @@
                 <td>{{ corporate.raisonSocial }}</td>
                 
                 <td class="text-center">
-                    <button type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" (click)="showDetails(corporate)" data-bs-target="#corpoDetailsModal">
+                    <button type="button" class="btn btn-outline-dark btn-small me-2" data-bs-toggle="modal" (click)="showDetails(corporate)" data-bs-target="#corpoDetailsModal">
                         Details
                     </button>
-                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editCorporate(corporate)" data-bs-target="#corpoEditModal">
-                        Edit
+                    <button type="button" class="btn btn-custom-warning btn-small me-2" data-bs-toggle="modal" (click)="editCorporate(corporate)" data-bs-target="#corpoEditModal">
+                        Modifier
                     </button>
-                    <button class="btn btn-custom-danger" (click)="openDeleteModal(corporate.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger btn-small " (click)="openDeleteModal(corporate.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                        Supprimer</button>
                 </td>
             </tr>
         </tbody>
@@ -50,48 +51,48 @@
     <div class="modal-dialog modal-dialog-scrollable custom-scroll" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="corpoDetailsModalLabel">Détails client</h5>
+                <h6 class="modal-title" id="corpoDetailsModalLabel">Détails client</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="corpoDetailsForm" #corpoDetailsForm="ngForm">
                     
-                    <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Agence</h5>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="corpoCodeAgence" class="form-label">Code Agence</label>
-                                <input type="text" class="form-control" [disabled]="true" required 
+                    <div class="border p-3 rounded mb-2"> 
+                        <h6 class="custom-label mb-2">Données Agence</h6>
+                        <hr class="mb-2">
+                        <div class="form-row mb-2 d-flex align-items-end">
+                            <div class="form-group me-2">
+                                <label for="corpoCodeAgence" class="form-label small-label">Code Agence</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
                                     [(ngModel)]="corporate.branch.branchCode" 
                                     [value]="corporate.branch.id"
                                     name="branchCode" id="corpoCodeAgence">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNomAgence" class="form-label">Nom Agence</label>
-                                <input type="text" class="form-control" [disabled]="true" required 
+                                <label for="corpoNomAgence" class="form-label small-label">Nom Agence</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
                                     [(ngModel)]="corporate.branch.description" 
                                     name="branchName" id="corpoNomAgence">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Demande</h5>
+                        <h6 class="custom-label mb-3">Données Demande</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoAnnee" class="form-label">Année</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
+                                <label for="corpoAnnee" class="form-label small-label">Année</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientIdentifier" class="form-label">Identifiant Client</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
+                                <label for="corpoClientIdentifier" class="form-label small-label">Identifiant Client</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoRequestRef" class="form-label">Référence demande</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
+                                <label for="corpoRequestRef" class="form-label small-label">Référence demande</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
                             </div>
                         </div>
                     </div>
@@ -100,75 +101,75 @@
                         <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientCategory" class="form-label">Catégorie client</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoClientCategory="ngModel" [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
+                                <label for="corpoClientCategory" class="form-label small-label">Catégorie client</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoClientCategory="ngModel" [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoRaisonSociale" class="form-label">Nom raison sociale</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
+                                <label for="corpoRaisonSociale" class="form-label small-label">Nom raison sociale</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoCreationDate" class="form-label">Date Création</label>
-                                <input type="date" class="form-control" [disabled]="true" required #corpoCreationDate="ngModel" [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate">
+                                <label for="corpoCreationDate" class="form-label small-label">Date Création</label>
+                                <input type="date" class="form-control small-input" [disabled]="true" required #corpoCreationDate="ngModel" [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNbYearExercice" class="form-label">Nombre d'années d'exercice</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoNbYearExercice="ngModel" 
+                                <label for="corpoNbYearExercice" class="form-label small-label">Nombre d'années d'exercice</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNbYearExercice="ngModel" 
                                 [(ngModel)]="corporate.nbYearExercice" name="nbYearExercice" id="nbYearExercice">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoCreationPlace" class="form-label">Lieu de création</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
+                                <label for="corpoCreationPlace" class="form-label small-label">Lieu de création</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoNis" class="form-label">Numero NIS</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
+                                <label for="corpoNis" class="form-label small-label">Numero NIS</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNumRegi" class="form-label">Numero Registre de commerce</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
-                            </div>
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="corpoActivitySector" class="form-label">Secteur d'activité</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoActivitySector="ngModel" [(ngModel)]="corporate.activitySector.description" name="activitySector" id="activitySector">
+                                <label for="corpoNumRegi" class="form-label small-label">Numero Registre de commerce</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoEmail" class="form-label">Email</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoEmail="ngModel" [(ngModel)]="corporate.email" name="email" id="email">
+                                <label for="corpoActivitySector" class="form-label small-label">Secteur d'activité</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoActivitySector="ngModel" [(ngModel)]="corporate.activitySector.description" name="activitySector" id="activitySector">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="corpoEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoEmail="ngModel" [(ngModel)]="corporate.email" name="email" id="email">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoTel" class="form-label">Téléphone</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoTel="ngModel" [(ngModel)]="corporate.telephone" name="telephone" id="telephone">
+                                <label for="corpoTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoTel="ngModel" [(ngModel)]="corporate.telephone" name="telephone" id="telephone">
                             </div>
                         </div>
                     </div>
 
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1 - Historique avec la banque</h5>
+                            <h6 class="custom-label p-3 mb-3">1 - Historique avec la banque</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoRelationEntryDate" class="form-label">Date d'entrée en relation avec la Banque </label>
-                                    <input type="date" class="form-control" [disabled]="true" required #corpoRelationEntryDate="ngModel" 
+                                    <label for="corpoRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+                                    <input type="date" class="form-control small-input" [disabled]="true" required #corpoRelationEntryDate="ngModel" 
                                     [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
                                     (ngModelChange)="onRelationEntryDateChange($event)">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoSeniorityRelation" class="form-label">Ancienneté relation avec la banque</label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                    <label for="corpoSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
                                 </div>
                             </div>
                             
@@ -176,23 +177,23 @@
                         </div>
                     
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h5>
+                            <h6 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoJuridicalForm" class="form-label">Forme Juridique</label>
+                                    <label for="corpoJuridicalForm" class="form-label small-label">Forme Juridique</label>
                                     <select id="formeJuridiqueSelect" [disabled]="true" #corpoFormeJuridique="ngModel"  
                                     [(ngModel)]="corporate.juridicalForm.juridicalFormCode" 
-                                    name="corpoJuridicalForm" class="form-select" required
+                                    name="corpoJuridicalForm" class="form-select small-select" required
                                     (ngModelChange)="onJuridicalFormChange($event)">
                                         <option *ngFor="let forme of juridicalForms" [value]="forme.juridicalFormCode">{{ forme.description}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoFiablityFinancialStatus" class="form-label">Fiabilité des états financiers</label>
+                                    <label for="corpoFiablityFinancialStatus" class="form-label small-label">Fiabilité des états financiers</label>
                                     <select id="corpoFiablityFinancialStatus" [disabled]="true" #corpoFiablityFinancialStatus="ngModel"  
                                     [(ngModel)]="corporate.fiablityFinancialStatus" name="corpoFiablityFinancialStatus" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'certifiés avec rapport CAC'">Etats financiers certifiés ou attestés avec rapport CAC</option>
                                         <option [value]="'certifiés sans rapport CAC'">Etats financiers certifiés ou attestés sans rapport CAC</option>
                                         <option [value]="'certifiés avec reserves'">Etats financiers certifiés avec réserves</option>
@@ -204,14 +205,14 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h5>
+                            <h6 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoEvolutionMarche" class="form-label">Evolution marché/ secteur d'activité</label>
+                                    <label for="corpoEvolutionMarche" class="form-label small-label">Evolution marché/ secteur d'activité</label>
                                     <select id="corpoEvolutionMarche" [disabled]="true" #corpoEvolutionMarche="ngModel"  
                                     [(ngModel)]="corporate.evolutionMarche" name="corpoEvolutionMarche" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'secteur en croissance avec debonnes perspectives'">Marché / secteur en croissance avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable avec debonnes perspectives'">Marché / secteur stable avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable'">Marché / secteur stable</option>
@@ -221,10 +222,10 @@
                                     </select>                            
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoPositionnementCommerce" class="form-label">Positionnement vis à vis de la concurrence</label>
+                                    <label for="corpoPositionnementCommerce" class="form-label small-label">Positionnement vis à vis de la concurrence</label>
                                     <select id="corpoPositionnementCommerce" [disabled]="true" #corpoPositionnementCommerce="ngModel"  
                                     [(ngModel)]="corporate.positionnementCommerce" name="corpoPositionnementCommerce" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Leader sur le marché'">Leader sur le marché</option>
                                         <option [value]="'Challenger / Spécialiste'">Challenger / Spécialiste</option>
                                         <option [value]="'Suiveur'">Suiveur</option>
@@ -240,18 +241,18 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h5>
+                            <h6 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoComportementClient" class="form-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
+                                    <label for="corpoComportementClient" class="form-label small-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
                                     <select id="corpoComportementClient" [disabled]="true" #corpoComportementClient="ngModel"  
                                     [(ngModel)]="corporate.comportementClient" name="corpoComportementClient" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'compte crediteur'">Le compte fonctionne structurellement créditeur ou dans ses limites </option>
                                         <option [value]="'compte debiteur avec depassement occasionnel'">Le compte est débiteur avec dépassement d'autorisation occasionnel</option>
                                         <option [value]="'compte debiteur avec depassement recurrent'">Le compte est débiteur avec dépassement récurrent d'autorisation</option>
@@ -262,10 +263,10 @@
                             </div>
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoPayementIncident" class="form-label">INCIDENTS DE PAIEMENT  </label>
+                                    <label for="corpoPayementIncident" class="form-label small-label">INCIDENTS DE PAIEMENT  </label>
                                     <select id="corpoPayementIncident" [disabled]="true"  #corpoPayementIncident="ngModel"  
                                     [(ngModel)]="corporate.payementIncident" name="corpoPayementIncident" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun incident'">Aucun incident  sur les 12 derniers mois </option>
                                         <option [value]="'1 Incident régularisé'">1 Incident régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Supérieur à 1 incident régularisé'">Supérieur à 1 incident régularisé sur les 12 derniers mois</option>
@@ -276,10 +277,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoUnpaidPresence" class="form-label">2-SITUATION DES ENGAGEMENTS  </label>
+                                    <label for="corpoUnpaidPresence" class="form-label small-label">2-SITUATION DES ENGAGEMENTS  </label>
                                     <select id="corpoUnpaidPresence" [disabled]="true" #corpoUnpaidPresence="ngModel"  
                                     [(ngModel)]="corporate.unpaidPresence" name="corpoUnpaidPresence" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun impayé'">Aucun impayé sur les 12 derniers mois </option>
                                         <option [value]="'Au plus 1 impayé régularisé'">Au plus 1 impayé régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Plus d un impayé régularisé'">Plus d'un impayé régularisé sur les 12 derniers mois</option>
@@ -299,35 +300,80 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">RENTABILITE</h5>
+                            <h6 class="custom-label p-3 mb-3">RENTABILITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFinancialRentability" class="form-label">Rentabilité Financiere  (en %)</label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoFinancialRentability="ngModel" 
+                                    <label for="corpoFinancialRentability" class="form-label small-label">Rentabilité Financiere  (en %)</label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoFinancialRentability="ngModel" 
                                     [(ngModel)]="corporate.financialRentability" name="financialRentability" id="financialRentability">
                                 </div>
                                 
                             </div>
-                            
+                            <div *ngFor="let section of sections">
+                                
+                                <table class="table table-bordered table-small">
+                                  <thead>
+                                    <tr>
+                                        
+                                      <th>Ponderation</th>
+                                      <th>Nom</th>
+                                      <th>Borne Inf</th>
+                                      <th>Borne Sup</th>
+                                      <th>Norme</th>
+                                      <th>Score Min</th>
+                                      <th>Score Max</th>
+                                      <th>Valeur Client</th>
+                                      <th>Score</th>
+                                      <th>Score Pondéré</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let row of section.rows">
+                                      <td>{{ row.ponderation }}%</td>
+                                      <td>{{ row.name }}</td>
+                                      <td>{{ row.borneInf }}</td>
+                                      <td>{{ row.borneSup }}</td>
+                                      <td>{{ row.norme }}</td>
+                                      <td>{{ row.scoreMin }}</td>
+                                      <td>{{ row.scoreMax }}</td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          [(ngModel)]="row.valeurClient"
+                                          (change)="calculateScores()"
+                                        />
+                                      </td>
+                                      <td>{{ row.score }}</td>
+                                      <td>{{ row.scorePondere }}</td>
+                                    </tr>
+                                  </tbody>
+                                  <tfoot>
+                                    <tr>
+                                      <td colspan="9">Score total : </td>
+                                      <td>{{ section.totalScore }}</td>
+                                    </tr>
+                                  </tfoot>
+                                </table>
+                              </div>
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h5>
+                            <h6 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFondRoulement" class="form-label">Fonds de roulement (FR) </label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoFondRoulement="ngModel" 
+                                    <label for="corpoFondRoulement" class="form-label small-label">Fonds de roulement (FR) </label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.fondRoulement" name="fondRoulement" id="fondRoulement">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoTauxFondRoulement" class="form-label">Taux de couverture du BFR (en %)  </label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoTauxFondRoulement="ngModel" 
+                                    <label for="corpoTauxFondRoulement" class="form-label small-label">Taux de couverture du BFR (en %)  </label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoTauxFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.tauxFondRoulement" name="tauxFondRoulement" id="tauxFondRoulement">
                                 </div>
                             </div>
@@ -335,17 +381,17 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h5>
+                            <h6 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoAutonomieFinanciere" class="form-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %) </label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoAutonomieFinanciere="ngModel" 
+                                    <label for="corpoAutonomieFinanciere" class="form-label small-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %) </label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoAutonomieFinanciere="ngModel" 
                                     [(ngModel)]="corporate.autonomieFinanciere" name="autonomieFinanciere" id="autonomieFinanciere">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoLiquiditeGenerale" class="form-label">Liquidité générale   </label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoLiquiditeGenerale="ngModel" 
+                                    <label for="corpoLiquiditeGenerale" class="form-label small-label">Liquidité générale   </label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoLiquiditeGenerale="ngModel" 
                                     [(ngModel)]="corporate.liquiditeGenerale" name="liquiditeGenerale" id="liquiditeGenerale">
                                 </div>
                             </div>
@@ -356,22 +402,22 @@
                     </div>
 
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Engagement</h5>
+                        <h6 class="custom-label mb-3">Données Engagement</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoFinancingType" class="form-label">Type de Financement</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoFinancingType="ngModel" [(ngModel)]="corporate.financingType.description" name="financingTypeId" id="financingTypeId">
+                                <label for="corpoFinancingType" class="form-label small-label">Type de Financement</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoFinancingType="ngModel" [(ngModel)]="corporate.financingType.description" name="financingTypeId" id="financingTypeId">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoStartDate" class="form-label">Date début</label>
-                                <input type="date" class="form-control" [disabled]="true" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
+                                <label for="corpoStartDate" class="form-label small-label">Date début</label>
+                                <input type="date" class="form-control small-input" [disabled]="true" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoEndDate" class="form-label">Date Fin</label>
-                                <input type="date" class="form-control" [disabled]="true" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
+                                <label for="corpoEndDate" class="form-label small-label">Date Fin</label>
+                                <input type="date" class="form-control small-input" [disabled]="true" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
                             </div>
                         </div>
                         
@@ -379,26 +425,26 @@
                     </div>
                     
                     <div class="border p-3 rounded mb-4" *ngIf="corporate.clientNotation!=null"> 
-                        <h5 class="custom-label mb-3">Score Client</h5>
+                        <h6 class="custom-label mb-3">Score Client</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="adjustedScore" class="form-label">Score Ajusté</label>
-                                <input type="text" class="form-control" [disabled]="true" required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
+                                <label for="adjustedScore" class="form-label small-label">Score Ajusté</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
                             </div>
                             <div class="form-group me-3">
-                                <label for="finalScore" class="form-label">Score Final</label>
-                                <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
+                                <label for="finalScore" class="form-label small-label">Score Final</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="retailNote" class="form-label">Decision Octroi</label>
-                                <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                                <label for="retailNote" class="form-label small-label">Decision Octroi</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
                             </div>
                             <div class="form-group me-3">
-                                <label for="classe" class="form-label">Classe</label>
-                                <input type="text" class="form-control" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
+                                <label for="classe" class="form-label small-label">Classe</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
@@ -409,7 +455,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-custom-danger btn-small " data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>
@@ -424,25 +470,25 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="corpoEditModalLabel">Modifier client</h5>
+                <h6 class="modal-title" id="corpoEditModalLabel">Modifier client</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="corpoEditForm" (ngSubmit)="onEditSubmit()" #corpoEditForm="ngForm">
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Agence</h5>
+                        <h6 class="custom-label mb-3">Données Agence</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             
                             <div class="form-group me-3">
-                                <label for="corpoCodeAgence" class="form-label">Code Agence</label>
-                                <input type="text" class="form-control" [disabled]="true" required 
+                                <label for="corpoCodeAgence" class="form-label small-label">Code Agence</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
                                     [(ngModel)]="corporate.branch.branchCode" 
                                     name="branchCode" id="corpoCodeAgence">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNomAgence" class="form-label">Nom Agence</label>
-                                <input type="text" class="form-control" [disabled]="true" required 
+                                <label for="corpoNomAgence" class="form-label small-label">Nom Agence</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
                                     [(ngModel)]="corporate.branch.description" 
                                     name="branchName" id="corpoNomAgence">
                             </div>
@@ -450,22 +496,22 @@
                     </div>
                     
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Demande</h5>
+                        <h6 class="custom-label mb-3">Données Demande</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoAnnee" class="form-label">Année</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
+                                <label for="corpoAnnee" class="form-label small-label">Année</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientIdentifier" class="form-label">Identifiant Client</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
+                                <label for="corpoClientIdentifier" class="form-label small-label">Identifiant Client</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoRequestRef" class="form-label">Référence demande</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
+                                <label for="corpoRequestRef" class="form-label small-label">Référence demande</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
                             </div>
                         </div>
 
@@ -476,49 +522,49 @@
 
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientCategory" class="form-label">Catégorie client</label>
-                                <select class="form-control" required [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
+                                <label for="corpoClientCategory" class="form-label small-label">Catégorie client</label>
+                                <select class="form-control small-input" required [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
                                     <option *ngFor="let option of clientCategoryOptions" [value]="option">{{ option }}</option>
                                 </select>
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoRaisonSociale" class="form-label">Nom raison sociale</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
+                                <label for="corpoRaisonSociale" class="form-label small-label">Nom raison sociale</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoCreationDate" class="form-label">Date Création</label>
-                                <input type="date" class="form-control" [disabled]="false" required #corpoCreationDate="ngModel" 
+                                <label for="corpoCreationDate" class="form-label small-label">Date Création</label>
+                                <input type="date" class="form-control small-input" [disabled]="false" required #corpoCreationDate="ngModel" 
                                 [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate"
                                 (ngModelChange)="onCreationDateChange($event)">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNbYearExercice" class="form-label">Nombre d'années d'exercice</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoNbYearExercice="ngModel" 
+                                <label for="corpoNbYearExercice" class="form-label small-label">Nombre d'années d'exercice</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNbYearExercice="ngModel" 
                                 [(ngModel)]="corporate.nbYearExercice" name="nbYearExercice" id="nbYearExercice">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoCreationPlace" class="form-label">Lieu de création</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
+                                <label for="corpoCreationPlace" class="form-label small-label">Lieu de création</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoNis" class="form-label">Numero NIS</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
+                                <label for="corpoNis" class="form-label small-label">Numero NIS</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNumRegi" class="form-label">Numero Registre de commerce</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
+                                <label for="corpoNumRegi" class="form-label small-label">Numero Registre de commerce</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoActivitySector" class="form-label">Secteur d'activité</label>
+                                <label for="corpoActivitySector" class="form-label small-label">Secteur d'activité</label>
                                 <select id="activitySectorSelect" #corpoActivitySector="ngModel"  
                                 [(ngModel)]="corporate.activitySector.code" name="corpoActivitySector" 
-                                class="form-select" required
+                                class="form-select small-select" required
                                 (ngModelChange)="onActivitySectorChange($event)">
                                     <option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
                                 </select>
@@ -527,8 +573,8 @@
                         
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoEmail" class="form-label">Email</label>
-                                <input type="text" class="form-control"  required #corpoEmail="ngModel" 
+                                <label for="corpoEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input"  required #corpoEmail="ngModel" 
                                 [(ngModel)]="corporate.email" name="email" id="email"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
                                 [ngClass]="{'is-invalid': corpoEmail.invalid && (corpoEmail.touched || corpoEmail.dirty)}" 
@@ -538,8 +584,8 @@
                                 </div>
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoTel" class="form-label">Téléphone</label>
-                                <input type="text" class="form-control" required #corpoTel="ngModel" 
+                                <label for="corpoTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" required #corpoTel="ngModel" 
                                 [(ngModel)]="corporate.telephone" name="telephone" id="telephone"
                                 maxlength="8" 
                                 pattern="^[0-9]{8}$"
@@ -553,22 +599,22 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1 - Historique avec la banque</h5>
+                            <h6 class="custom-label p-3 mb-3">1 - Historique avec la banque</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoRelationEntryDate" class="form-label">Date d'entrée en relation avec la Banque </label>
-                                    <input type="date" class="form-control" required #corpoRelationEntryDate="ngModel" 
+                                    <label for="corpoRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+                                    <input type="date" class="form-control small-input" required #corpoRelationEntryDate="ngModel" 
                                     [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
                                     (ngModelChange)="onRelationEntryDateChange($event)">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoSeniorityRelation" class="form-label">Ancienneté relation avec la banque</label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                    <label for="corpoSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
                                 </div>
                             </div>
                             
@@ -576,23 +622,23 @@
                         </div>
                     
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h5>
+                            <h6 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoJuridicalForm" class="form-label">Forme Juridique</label>
+                                    <label for="corpoJuridicalForm" class="form-label small-label">Forme Juridique</label>
                                     <select id="formeJuridiqueSelect" #corpoFormeJuridique="ngModel"  
                                     [(ngModel)]="corporate.juridicalForm.juridicalFormCode" 
-                                    name="corpoJuridicalForm" class="form-select" required
+                                    name="corpoJuridicalForm" class="form-select small-select" required
                                     (ngModelChange)="onJuridicalFormChange($event)">
                                         <option *ngFor="let forme of juridicalForms" [value]="forme.juridicalFormCode">{{ forme.description}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoFiablityFinancialStatus" class="form-label">Fiabilité des états financiers</label>
+                                    <label for="corpoFiablityFinancialStatus" class="form-label small-label">Fiabilité des états financiers</label>
                                     <select id="corpoFiablityFinancialStatus" #corpoFiablityFinancialStatus="ngModel"  
                                     [(ngModel)]="corporate.fiablityFinancialStatus" name="corpoFiablityFinancialStatus" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'certifiés avec rapport CAC'">Etats financiers certifiés ou attestés avec rapport CAC</option>
                                         <option [value]="'certifiés sans rapport CAC'">Etats financiers certifiés ou attestés sans rapport CAC</option>
                                         <option [value]="'certifiés avec reserves'">Etats financiers certifiés avec réserves</option>
@@ -604,14 +650,14 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h5>
+                            <h6 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoEvolutionMarche" class="form-label">Evolution marché/ secteur d'activité</label>
+                                    <label for="corpoEvolutionMarche" class="form-label small-label">Evolution marché/ secteur d'activité</label>
                                     <select id="corpoEvolutionMarche" #corpoEvolutionMarche="ngModel"  
                                     [(ngModel)]="corporate.evolutionMarche" name="corpoEvolutionMarche" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'secteur en croissance avec debonnes perspectives'">Marché / secteur en croissance avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable avec debonnes perspectives'">Marché / secteur stable avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable'">Marché / secteur stable</option>
@@ -621,10 +667,10 @@
                                     </select>                            
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoPositionnementCommerce" class="form-label">Positionnement vis à vis de la concurrence</label>
+                                    <label for="corpoPositionnementCommerce" class="form-label small-label">Positionnement vis à vis de la concurrence</label>
                                     <select id="corpoPositionnementCommerce" #corpoPositionnementCommerce="ngModel"  
                                     [(ngModel)]="corporate.positionnementCommerce" name="corpoPositionnementCommerce" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Leader sur le marché'">Leader sur le marché</option>
                                         <option [value]="'Challenger / Spécialiste'">Challenger / Spécialiste</option>
                                         <option [value]="'Suiveur'">Suiveur</option>
@@ -640,18 +686,18 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h5>
+                            <h6 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoComportementClient" class="form-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
+                                    <label for="corpoComportementClient" class="form-label small-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
                                     <select id="corpoComportementClient" #corpoComportementClient="ngModel"  
                                     [(ngModel)]="corporate.comportementClient" name="corpoComportementClient" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'compte crediteur'">Le compte fonctionne structurellement créditeur ou dans ses limites </option>
                                         <option [value]="'compte debiteur avec depassement occasionnel'">Le compte est débiteur avec dépassement d'autorisation occasionnel</option>
                                         <option [value]="'compte debiteur avec depassement recurrent'">Le compte est débiteur avec dépassement récurrent d'autorisation</option>
@@ -662,10 +708,10 @@
                             </div>
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoPayementIncident" class="form-label">INCIDENTS DE PAIEMENT  </label>
+                                    <label for="corpoPayementIncident" class="form-label small-label">INCIDENTS DE PAIEMENT  </label>
                                     <select id="corpoPayementIncident" #corpoPayementIncident="ngModel"  
                                     [(ngModel)]="corporate.payementIncident" name="corpoPayementIncident" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun incident'">Aucun incident  sur les 12 derniers mois </option>
                                         <option [value]="'1 Incident régularisé'">1 Incident régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Supérieur à 1 incident régularisé'">Supérieur à 1 incident régularisé sur les 12 derniers mois</option>
@@ -676,10 +722,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoUnpaidPresence" class="form-label">2-SITUATION DES ENGAGEMENTS  </label>
+                                    <label for="corpoUnpaidPresence" class="form-label small-label">2-SITUATION DES ENGAGEMENTS  </label>
                                     <select id="corpoUnpaidPresence" #corpoUnpaidPresence="ngModel"  
                                     [(ngModel)]="corporate.unpaidPresence" name="corpoUnpaidPresence" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun impayé'">Aucun impayé sur les 12 derniers mois </option>
                                         <option [value]="'Au plus 1 impayé régularisé'">Au plus 1 impayé régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Plus d un impayé régularisé'">Plus d'un impayé régularisé sur les 12 derniers mois</option>
@@ -699,16 +745,16 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">RENTABILITE</h5>
+                            <h6 class="custom-label p-3 mb-3">RENTABILITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFinancialRentability" class="form-label">Rentabilité Financiere  (en %)</label>
-                                    <input type="text" class="form-control" required #corpoFinancialRentability="ngModel" 
+                                    <label for="corpoFinancialRentability" class="form-label small-label">Rentabilité Financiere  (en %)</label>
+                                    <input type="text" class="form-control small-input" required #corpoFinancialRentability="ngModel" 
                                     [(ngModel)]="corporate.financialRentability" name="financialRentability" id="financialRentability">
                                 </div>
                                 
@@ -717,17 +763,17 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h5>
+                            <h6 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFondRoulement" class="form-label">Fonds de roulement (FR) </label>
-                                    <input type="text" class="form-control" required #corpoFondRoulement="ngModel" 
+                                    <label for="corpoFondRoulement" class="form-label small-label">Fonds de roulement (FR) </label>
+                                    <input type="text" class="form-control small-input" required #corpoFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.fondRoulement" name="fondRoulement" id="fondRoulement">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoTauxFondRoulement" class="form-label">Taux de couverture du BFR (en %)  </label>
-                                    <input type="text" class="form-control" required #corpoTauxFondRoulement="ngModel" 
+                                    <label for="corpoTauxFondRoulement" class="form-label small-label">Taux de couverture du BFR (en %)  </label>
+                                    <input type="text" class="form-control small-input" required #corpoTauxFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.tauxFondRoulement" name="tauxFondRoulement" id="tauxFondRoulement">
                                 </div>
                             </div>
@@ -735,17 +781,17 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h5>
+                            <h6 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoAutonomieFinanciere" class="form-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %)  </label>
-                                    <input type="text" class="form-control" required #corpoAutonomieFinanciere="ngModel" 
+                                    <label for="corpoAutonomieFinanciere" class="form-label small-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %)  </label>
+                                    <input type="text" class="form-control small-input" required #corpoAutonomieFinanciere="ngModel" 
                                     [(ngModel)]="corporate.autonomieFinanciere" name="autonomieFinanciere" id="autonomieFinanciere">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoLiquiditeGenerale" class="form-label">Liquidité générale   </label>
-                                    <input type="text" class="form-control" required #corpoLiquiditeGenerale="ngModel" 
+                                    <label for="corpoLiquiditeGenerale" class="form-label small-label">Liquidité générale   </label>
+                                    <input type="text" class="form-control small-input" required #corpoLiquiditeGenerale="ngModel" 
                                     [(ngModel)]="corporate.liquiditeGenerale" name="liquiditeGenerale" id="liquiditeGenerale">
                                 </div>
                             </div>
@@ -755,62 +801,62 @@
                         
                     </div>
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Engagement</h5>
+                        <h6 class="custom-label mb-3">Données Engagement</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoFinancingType" class="form-label">Type de Financement</label>
+                                <label for="corpoFinancingType" class="form-label small-label">Type de Financement</label>
                                 <select id="financingTypeSelect" #corpoFinancingType="ngModel"  
                                 [(ngModel)]="corporate.financingType.financingTypeCode" 
-                                name="corpoFinancingType" class="form-select" required
+                                name="corpoFinancingType" class="form-select small-select" required
                                 (ngModelChange)="onFinancingTypeChange($event)">
                                     <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
                                 </select>
-                                <!--input type="text" class="form-control"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoStartDate" class="form-label">Date début</label>
-                                <input type="date" class="form-control" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
+                                <label for="corpoStartDate" class="form-label small-label">Date début</label>
+                                <input type="date" class="form-control small-input" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoEndDate" class="form-label">Date Fin</label>
-                                <input type="date" class="form-control" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
+                                <label for="corpoEndDate" class="form-label small-label">Date Fin</label>
+                                <input type="date" class="form-control small-input" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
                             </div>
                         </div>
                         
                         <!-- Ligne séparatrice avec marge en bas -->
                     </div>
                     <div class="border p-3 rounded mb-4" *ngIf="corporate.clientNotation !=null"> 
-                        <h5 class="custom-label mb-3">Score Client</h5>
+                        <h6 class="custom-label mb-3">Score Client</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="adjustedScore" class="form-label">Score Ajusté</label>
-                                <input type="text" class="form-control" [disabled]="true"  required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
+                                <label for="adjustedScore" class="form-label small-label">Score Ajusté</label>
+                                <input type="text" class="form-control small-input" [disabled]="true"  required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
                             </div>
                             <div class="form-group me-3">
-                                <label for="finalScore" class="form-label">Score Final</label>
-                                <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
+                                <label for="finalScore" class="form-label small-label">Score Final</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="retailNote" class="form-label">Decision Octroi</label>
-                                <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                                <label for="retailNote" class="form-label small-label">Decision Octroi</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
                             </div>
                             <div class="form-group me-3">
-                                <label for="classe" class="form-label">Classe</label>
-                                <input type="text" class="form-control" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
+                                <label for="classe" class="form-label small-label">Classe</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
-                    <!-- Uncomment to add a submit button -->
+                    <!-- Uncomment to add a submit button    [disabled]="!corpoEditForm.form.valid"  -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                     <div class="modal-footer">
-                        <button class="btn btn-custom-success"  [disabled]="!corpoEditForm.form.valid" type="submit">Submit</button>
-                        <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-custom-success btn-small "  type="submit">Submit</button>
+                        <button type="button" class="btn btn-custom-danger btn-small " data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>
@@ -826,27 +872,27 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="corpoModalLabel">Créer un nouveau client</h5>
+                <h6 class="modal-title" id="corpoModalLabel">Créer un nouveau client</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="corpoForm" (ngSubmit)="onSubmit()" #corpoForm="ngForm">
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Agence</h5>
+                        <h6 class="custom-label mb-3">Données Agence</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoCodeAgence" class="form-label">Code Agence</label>
+                                <label for="corpoCodeAgence" class="form-label small-label">Code Agence</label>
                                 <select id="corpoBranchCode" #corpoBranchCode="ngModel" [(ngModel)]="corporate.branch.id" 
-                                        name="corpoBranchCode" class="form-select" required
+                                        name="corpoBranchCode" class="form-select small-select" required
                                         (ngModelChange)="onBranchCodeChange($event)">
                                 <option *ngFor="let option of branchs" [value]="option.id">{{ option.branchCode }}</option>
                                 </select>
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNomAgence" class="form-label">Nom Agence</label>
+                                <label for="corpoNomAgence" class="form-label small-label">Nom Agence</label>
                                 <input 
-                                type="text" class="form-control" [disabled]="true" required 
+                                type="text" class="form-control small-input" [disabled]="true" required 
                                 [(ngModel)]="corporate.branch.description"
                                 name="branchName" id="corpoNomAgence">
                             </div>
@@ -854,76 +900,76 @@
                     </div>
                     
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label mb-3">Données Demande</h5>
+                        <h6 class="custom-label mb-3">Données Demande</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoAnnee" class="form-label">Année</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
+                                <label for="corpoAnnee" class="form-label small-label">Année</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoAnnee="ngModel" [(ngModel)]="corporate.year" name="year" id="year">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientIdentifier" class="form-label">Identifiant Client</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
+                                <label for="corpoClientIdentifier" class="form-label small-label">Identifiant Client</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
                             </div>
                             <div class="form-group me-3" *ngIf = "corporate.contractReference.length>0 ">
-                                <label for="corpoRequestRef" class="form-label">Référence demande</label>
-                                <input type="text" class="form-control" [disabled]="true"  #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
+                                <label for="corpoRequestRef" class="form-label small-label">Référence demande</label>
+                                <input type="text" class="form-control small-input" [disabled]="true"  #corpoRequestRef="ngModel" [(ngModel)]="corporate.contractReference" name="contractReference" id="contractReference">
                             </div>
                         </div>
 
                     </div>
                     <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données client</h4>
+                        <h6 class="custom-label mb-3">Données client</h6>
                         <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
 
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoClientCategory" class="form-label">Catégorie client</label>
-                                <select class="form-control" required [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
+                                <label for="corpoClientCategory" class="form-label small-label">Catégorie client</label>
+                                <select class="form-control small-input" required [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
                                     <option *ngFor="let option of clientCategoryOptions" [value]="option">{{ option }}</option>
                                 </select>
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoRaisonSociale" class="form-label">Nom raison sociale</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
+                                <label for="corpoRaisonSociale" class="form-label small-label">Nom raison sociale</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoCreationDate" class="form-label">Date Création</label>
-                                <input type="date" class="form-control" [disabled]="false" required #corpoCreationDate="ngModel" 
+                                <label for="corpoCreationDate" class="form-label small-label">Date Création</label>
+                                <input type="date" class="form-control small-input" [disabled]="false" required #corpoCreationDate="ngModel" 
                                 [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate"
                                 (ngModelChange)="onCreationDateChange($event)">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNbYearExercice" class="form-label">Nombre d'années d'exercice</label>
-                                <input type="text" class="form-control" [disabled]="true" required #corpoNbYearExercice="ngModel" 
+                                <label for="corpoNbYearExercice" class="form-label small-label">Nombre d'années d'exercice</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNbYearExercice="ngModel" 
                                 [(ngModel)]="corporate.nbYearExercice" name="nbYearExercice" id="nbYearExercice">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoCreationPlace" class="form-label">Lieu de création</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
+                                <label for="corpoCreationPlace" class="form-label small-label">Lieu de création</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoNis" class="form-label">Numero NIS</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
+                                <label for="corpoNis" class="form-label small-label">Numero NIS</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoNumRegi" class="form-label">Numero Registre de commerce</label>
-                                <input type="text" class="form-control" [disabled]="false" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
+                                <label for="corpoNumRegi" class="form-label small-label">Numero Registre de commerce</label>
+                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             
                             <div class="form-group me-3">
-                                <label for="corpoActivitySector" class="form-label">Secteur d'activité</label>
+                                <label for="corpoActivitySector" class="form-label small-label">Secteur d'activité</label>
                                 <select id="activitySectorSelect" #corpoActivitySector="ngModel"  
                                 [(ngModel)]="corporate.activitySector.code" name="corpoActivitySector" 
-                                class="form-select" required
+                                class="form-select small-select" required
                                 (ngModelChange)="onActivitySectorChange($event)">
                                     <option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
                                 </select>
@@ -932,8 +978,8 @@
                         
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoEmail" class="form-label">Email</label>
-                                <input type="text" class="form-control"  required #corpoEmail="ngModel" 
+                                <label for="corpoEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input"  required #corpoEmail="ngModel" 
                                 [(ngModel)]="corporate.email" name="email" id="email"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
                                 [ngClass]="{'is-invalid': corpoEmail.invalid && (corpoEmail.touched || corpoEmail.dirty)}" 
@@ -943,8 +989,8 @@
                                 </div>
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoTel" class="form-label">Téléphone</label>
-                                <input type="text" class="form-control" required #corpoTel="ngModel" 
+                                <label for="corpoTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" required #corpoTel="ngModel" 
                                 [(ngModel)]="corporate.telephone" name="telephone" id="telephone"
                                 maxlength="8" 
                                 pattern="^[0-9]{8}$"
@@ -958,22 +1004,22 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES QUALITATIVES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1 - Historique avec la banque</h5>
+                            <h6 class="custom-label p-3 mb-3">1 - Historique avec la banque</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoRelationEntryDate" class="form-label">Date d'entrée en relation avec la Banque </label>
-                                    <input type="date" class="form-control" required #corpoRelationEntryDate="ngModel" 
+                                    <label for="corpoRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+                                    <input type="date" class="form-control small-input" required #corpoRelationEntryDate="ngModel" 
                                     [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
                                     (ngModelChange)="onRelationEntryDateChange($event)">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoSeniorityRelation" class="form-label">Ancienneté relation avec la banque</label>
-                                    <input type="text" class="form-control" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                    <label for="corpoSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
                                 </div>
                             </div>
                             
@@ -981,23 +1027,23 @@
                         </div>
                     
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h5>
+                            <h6 class="custom-label p-3 mb-3">2 - Actionnariat Et Management </h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoJuridicalForm" class="form-label">Forme Juridique</label>
+                                    <label for="corpoJuridicalForm" class="form-label small-label">Forme Juridique</label>
                                     <select id="formeJuridiqueSelect" #corpoFormeJuridique="ngModel"  
                                     [(ngModel)]="corporate.juridicalForm.juridicalFormCode" 
-                                    name="corpoJuridicalForm" class="form-select" required
+                                    name="corpoJuridicalForm" class="form-select small-select" required
                                     (ngModelChange)="onJuridicalFormChange($event)">
                                         <option *ngFor="let forme of juridicalForms" [value]="forme.juridicalFormCode">{{ forme.description}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoFiablityFinancialStatus" class="form-label">Fiabilité des états financiers</label>
+                                    <label for="corpoFiablityFinancialStatus" class="form-label small-label">Fiabilité des états financiers</label>
                                     <select id="corpoFiablityFinancialStatus" #corpoFiablityFinancialStatus="ngModel"  
                                     [(ngModel)]="corporate.fiablityFinancialStatus" name="corpoFiablityFinancialStatus" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'certifiés avec rapport CAC'">Etats financiers certifiés ou attestés avec rapport CAC</option>
                                         <option [value]="'certifiés sans rapport CAC'">Etats financiers certifiés ou attestés sans rapport CAC</option>
                                         <option [value]="'certifiés avec reserves'">Etats financiers certifiés avec réserves</option>
@@ -1009,14 +1055,14 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h5>
+                            <h6 class="custom-label p-3 mb-3">3 - Marche / Secteur D'activité</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoEvolutionMarche" class="form-label">Evolution marché/ secteur d'activité</label>
+                                    <label for="corpoEvolutionMarche" class="form-label small-label">Evolution marché/ secteur d'activité</label>
                                     <select id="corpoEvolutionMarche" #corpoEvolutionMarche="ngModel"  
                                     [(ngModel)]="corporate.evolutionMarche" name="corpoEvolutionMarche" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'secteur en croissance avec debonnes perspectives'">Marché / secteur en croissance avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable avec debonnes perspectives'">Marché / secteur stable avec de bonnes perspectives</option>
                                         <option [value]="'secteur stable'">Marché / secteur stable</option>
@@ -1026,10 +1072,10 @@
                                     </select>                            
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoPositionnementCommerce" class="form-label">Positionnement vis à vis de la concurrence</label>
+                                    <label for="corpoPositionnementCommerce" class="form-label small-label">Positionnement vis à vis de la concurrence</label>
                                     <select id="corpoPositionnementCommerce" #corpoPositionnementCommerce="ngModel"  
                                     [(ngModel)]="corporate.positionnementCommerce" name="corpoPositionnementCommerce" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Leader sur le marché'">Leader sur le marché</option>
                                         <option [value]="'Challenger / Spécialiste'">Challenger / Spécialiste</option>
                                         <option [value]="'Suiveur'">Suiveur</option>
@@ -1045,18 +1091,18 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES COMPORTEMENTALES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h5>
+                            <h6 class="custom-label p-3 mb-3">1-COMPORTEMENT DU COMPTE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoComportementClient" class="form-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
+                                    <label for="corpoComportementClient" class="form-label small-label">LE COMPTE FONCTIONNE - T-IL DANS LES LIMITES AUTORISEES  </label>
                                     <select id="corpoComportementClient" #corpoComportementClient="ngModel"  
                                     [(ngModel)]="corporate.comportementClient" name="corpoComportementClient" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'compte crediteur'">Le compte fonctionne structurellement créditeur ou dans ses limites </option>
                                         <option [value]="'compte debiteur avec depassement occasionnel'">Le compte est débiteur avec dépassement d'autorisation occasionnel</option>
                                         <option [value]="'compte debiteur avec depassement recurrent'">Le compte est débiteur avec dépassement récurrent d'autorisation</option>
@@ -1067,10 +1113,10 @@
                             </div>
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoPayementIncident" class="form-label">INCIDENTS DE PAIEMENT  </label>
+                                    <label for="corpoPayementIncident" class="form-label small-label">INCIDENTS DE PAIEMENT  </label>
                                     <select id="corpoPayementIncident" #corpoPayementIncident="ngModel"  
                                     [(ngModel)]="corporate.payementIncident" name="corpoPayementIncident" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun incident'">Aucun incident  sur les 12 derniers mois </option>
                                         <option [value]="'1 Incident régularisé'">1 Incident régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Supérieur à 1 incident régularisé'">Supérieur à 1 incident régularisé sur les 12 derniers mois</option>
@@ -1081,10 +1127,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoUnpaidPresence" class="form-label">2-SITUATION DES ENGAGEMENTS  </label>
+                                    <label for="corpoUnpaidPresence" class="form-label small-label">2-SITUATION DES ENGAGEMENTS  </label>
                                     <select id="corpoUnpaidPresence" #corpoUnpaidPresence="ngModel"  
                                     [(ngModel)]="corporate.unpaidPresence" name="corpoUnpaidPresence" 
-                                    class="form-select" required>
+                                    class="form-select small-select" required>
                                         <option [value]="'Aucun impayé'">Aucun impayé sur les 12 derniers mois </option>
                                         <option [value]="'Au plus 1 impayé régularisé'">Au plus 1 impayé régularisé sur les 12 derniers mois</option>
                                         <option [value]="'Plus d un impayé régularisé'">Plus d'un impayé régularisé sur les 12 derniers mois</option>
@@ -1104,16 +1150,16 @@
                     </div>
                     <div class="border p-3 rounded mb-4">
                         <br>
-                        <h5 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h5>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCIERES</h6>
                         <hr class="mb-3">
                         <br>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">RENTABILITE</h5>
+                            <h6 class="custom-label p-3 mb-3">RENTABILITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFinancialRentability" class="form-label">Rentabilité Financiere (en %)</label>
-                                    <input type="text" class="form-control" required #corpoFinancialRentability="ngModel" 
+                                    <label for="corpoFinancialRentability" class="form-label small-label">Rentabilité Financiere (en %)</label>
+                                    <input type="text" class="form-control small-input" required #corpoFinancialRentability="ngModel" 
                                     [(ngModel)]="corporate.financialRentability" name="financialRentability" id="financialRentability">
                                 </div>
                                 
@@ -1122,17 +1168,17 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h5>
+                            <h6 class="custom-label p-3 mb-3">STRUCTURE FINANCIERE/TRESORERIE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoFondRoulement" class="form-label">Fonds de roulement (FR) </label>
-                                    <input type="text" class="form-control" required #corpoFondRoulement="ngModel" 
+                                    <label for="corpoFondRoulement" class="form-label small-label">Fonds de roulement (FR) </label>
+                                    <input type="text" class="form-control small-input" required #corpoFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.fondRoulement" name="fondRoulement" id="fondRoulement">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoTauxFondRoulement" class="form-label">Taux de couverture du BFR (en %)  </label>
-                                    <input type="text" class="form-control" required #corpoTauxFondRoulement="ngModel" 
+                                    <label for="corpoTauxFondRoulement" class="form-label small-label">Taux de couverture du BFR (en %)  </label>
+                                    <input type="text" class="form-control small-input" required #corpoTauxFondRoulement="ngModel" 
                                     [(ngModel)]="corporate.tauxFondRoulement" name="tauxFondRoulement" id="tauxFondRoulement">
                                 </div>
                             </div>
@@ -1140,17 +1186,17 @@
                             <!-- Ligne séparatrice avec marge en bas -->
                         </div>
                         <div class="border p-3 rounded mb-4"> 
-                            <h5 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h5>
+                            <h6 class="custom-label p-3 mb-3">SOLVABILITE/ LIQUIDITE</h6>
                             <hr class="mb-3">
                             <div class="form-row mb-3 d-flex align-items-end">
                                 <div class="form-group me-3">
-                                    <label for="corpoAutonomieFinanciere" class="form-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %) </label>
-                                    <input type="text" class="form-control" required #corpoAutonomieFinanciere="ngModel" 
+                                    <label for="corpoAutonomieFinanciere" class="form-label small-label">Autonomie financière (Capitaux propres/Total du bilan)  (en %) </label>
+                                    <input type="text" class="form-control small-input" required #corpoAutonomieFinanciere="ngModel" 
                                     [(ngModel)]="corporate.autonomieFinanciere" name="autonomieFinanciere" id="autonomieFinanciere">
                                 </div>
                                 <div class="form-group me-3">
-                                    <label for="corpoLiquiditeGenerale" class="form-label">Liquidité générale   </label>
-                                    <input type="text" class="form-control" required #corpoLiquiditeGenerale="ngModel" 
+                                    <label for="corpoLiquiditeGenerale" class="form-label small-label">Liquidité générale   </label>
+                                    <input type="text" class="form-control small-input" required #corpoLiquiditeGenerale="ngModel" 
                                     [(ngModel)]="corporate.liquiditeGenerale" name="liquiditeGenerale" id="liquiditeGenerale">
                                 </div>
                             </div>
@@ -1160,53 +1206,53 @@
                         
                     </div>
                     <div class="border p-3 rounded mb-4"> 
-                        <h5 class="custom-label  mb-3">Données Engagement</h5>
+                        <h6 class="custom-label  mb-3">Données Engagement</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoFinancingType" class="form-label">Type de Financement</label>
+                                <label for="corpoFinancingType" class="form-label small-label">Type de Financement</label>
                                 <select id="financingTypeSelect" #corpoFinancingType="ngModel"  
                                 [(ngModel)]="corporate.financingType.financingTypeCode" 
-                                name="corpoFinancingType" class="form-select" required
+                                name="corpoFinancingType" class="form-select small-select" required
                                 (ngModelChange)="onFinancingTypeChange($event)">
                                     <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
                                 </select>
-                                <!--input type="text" class="form-control"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="corpoStartDate" class="form-label">Date début</label>
-                                <input type="date" class="form-control" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
+                                <label for="corpoStartDate" class="form-label small-label">Date début</label>
+                                <input type="date" class="form-control small-input" required #corpoStartDate="ngModel" [(ngModel)]="corporate.startDate" name="startDate" id="startDate">
                             </div>
                             <div class="form-group me-3">
-                                <label for="corpoEndDate" class="form-label">Date Fin</label>
-                                <input type="date" class="form-control" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
+                                <label for="corpoEndDate" class="form-label small-label">Date Fin</label>
+                                <input type="date" class="form-control small-input" required #corpoEndDate="ngModel" [(ngModel)]="corporate.endDate" name="endDate" id="endDate">
                             </div>
                         </div>
                         <!-- Ligne séparatrice avec marge en bas -->
                     </div>
                     <div class="border p-3 rounded mb-4" *ngIf="corporate.clientNotation !=null"> 
-                        <h5 class="custom-label mb-3">Score Client</h5>
+                        <h6 class="custom-label mb-3">Score Client</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="adjustedScore" class="form-label">Score Ajusté</label>
-                                <input type="text" class="form-control" [disabled]="true"  required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
+                                <label for="adjustedScore" class="form-label small-label">Score Ajusté</label>
+                                <input type="text" class="form-control small-input" [disabled]="true"  required #adjustedScore="ngModel" [(ngModel)]="corporate.clientNotation.adjustedScore" name="adjustedScore" id="adjustedScore">
                             </div>
                             <div class="form-group me-3">
-                                <label for="finalScore" class="form-label">Score Final</label>
-                                <input type="text" class="form-control" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
+                                <label for="finalScore" class="form-label small-label">Score Final</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="corporate.clientNotation.finalScore" name="finalScore" id="finalScore">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="retailNote" class="form-label">Decision Octroi</label>
-                                <input type="text" class="form-control" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                                <label for="retailNote" class="form-label small-label">Decision Octroi</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="corporate.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
                             </div>
                             <div class="form-group me-3">
-                                <label for="classe" class="form-label">Classe</label>
-                                <input type="text" class="form-control" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
+                                <label for="classe" class="form-label small-label">Classe</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" [(ngModel)]="corporate.clientNotation.classe" name="classe" id="classe">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
@@ -1214,8 +1260,8 @@
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> 
                      [disabled]="!corpoForm.form.valid"-->
                     <div class="modal-footer">
-                        <button class="btn btn-custom-success"   type="submit">Submit</button> 
-                        <button type="button" class="btn btn-custom-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-custom-success btn-small "   type="submit">Submit</button> 
+                        <button type="button" class="btn btn-custom-danger btn-small " data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>
@@ -1230,16 +1276,76 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <h6 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="font-size: 13px;">
                 Êtes-vous sûr de vouloir supprimer ce Client ?
             </div>
+            
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary btn-small " (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary btn-small " data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<table>
+    <thead>
+      <tr>
+        <th>Ponderation</th>
+        <th>Nom</th>
+        <th>Borne Inf</th>
+        <th>Borne Sup</th>
+        <th>Norme</th>
+        <th>Score Min</th>
+        <th>Score Max</th>
+        <th>Valeur Client</th>
+        <th>Score</th>
+        <th>Score Pondéré</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Boucle pour chaque section -->
+      <ng-container *ngFor="let section of sections">
+        <!-- Ligne pour le titre de la section -->
+        <tr>
+          <td colspan="10" class="section-title">{{ section.name }}</td>
+        </tr>
+        <!-- Boucle pour les lignes de la section -->
+        <tr *ngFor="let row of section.rows">
+          <td>{{ row.ponderation }}%</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.borneInf }}</td>
+          <td>{{ row.borneSup }}</td>
+          <td>{{ row.norme }}</td>
+          <td>{{ row.scoreMin }}</td>
+          <td>{{ row.scoreMax }}</td>
+          <td>
+            <input 
+              type="text" class="form-control small-input"
+              [(ngModel)]="row.valeurClient"
+              (change)="calculateScores()"
+            />
+          </td>
+          <td>{{ row.score }}</td>
+          <td>{{ row.scorePondere }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="9">Score total : </td>
+        <td>
+          <!-- Affiche le score global si nécessaire -->
+          {{ getGlobalScore() }}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+
+  
+  

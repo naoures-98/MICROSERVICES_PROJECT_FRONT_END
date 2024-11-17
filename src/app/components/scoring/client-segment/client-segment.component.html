@@ -1,15 +1,15 @@
-<div class="container mt-5">
-    <h2>Gestion des Segments Client</h2>
-    <div class="container mt-5">
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentModal">
+<div class="container mt-2">
+    <h4>Gestion des Segments Client</h4>
+    <div class="container mt-2">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#segmentModal">
             Ajouter un nouveau Segment Client
         </button>
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#segmentImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#segmentImportExcelModal">
             Import EXCEL
         </button>
-        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3 small-input" placeholder="Rechercher...">
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-small">
         <thead>
             <tr>
                 <th>#</th>
@@ -26,10 +26,10 @@
                 <td>{{ cliSegConf.description }}</td>
                 <td>{{ cliSegConf.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editClientSegmentConfig(cliSegConf)" data-bs-target="#segmentEditModal">
-                        Edit
+                    <button type="button" class="btn btn-custom-warning me-2 btn-small" data-bs-toggle="modal" (click)="editClientSegmentConfig(cliSegConf)" data-bs-target="#segmentEditModal">
+                        Modifier
                     </button>
-                    <button class="btn btn-custom-danger" (click)="openDeleteModal(cliSegConf.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger btn-small" (click)="openDeleteModal(cliSegConf.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Supprimer</button>
                 </td>
             </tr>
         </tbody>
@@ -48,17 +48,17 @@
             <div class="modal-body">
                 <form id="segmentForm" (ngSubmit)="onSubmit()" #segmentForm="ngForm">
                     <div class="form-group mb-3">
-                        <label for="codeSegment" class="form-label">Code Segment</label>
-                        <input type="text" class="form-control" required #codeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="codeSegment" id="codeSegment">
+                        <label for="codeSegment" class="form-label small-label">Code Segment</label>
+                        <input type="text" class="form-control small-input" required #codeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="codeSegment" id="codeSegment">
                     </div>
                     <div *ngIf="codeSegment.touched && codeSegment.invalid" class="alert alert-danger">Code Segment est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="segmentName" class="form-label">Nom Segment</label>
-                        <input type="text" class="form-control" required #segmentName="ngModel" [(ngModel)]="cliSegConf.description" name="segmentName" id="segmentName">
+                        <label for="segmentName" class="form-label small-label">Nom Segment</label>
+                        <input type="text" class="form-control small-input" required #segmentName="ngModel" [(ngModel)]="cliSegConf.description" name="segmentName" id="segmentName">
                     </div>
                     <div *ngIf="segmentName.touched && segmentName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
 
-                    <button class="btn btn-custom-success" [disabled]="!segmentForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!segmentForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -76,16 +76,16 @@
                 <form id="segmentEditForm" (ngSubmit)="onEditSubmit()" #editSegmentForm="ngForm">
 
                     <div class="form-group mb-3">
-                        <label for="editCodeSegment" class="form-label">Code Segment</label>
-                        <input type="text" class="form-control"   [disabled]="true" required #editCodeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="segmentCode" id="segmentCode">
+                        <label for="editCodeSegment" class="form-label small-label">Code Segment</label>
+                        <input type="text" class="form-control small-input"   [disabled]="true" required #editCodeSegment="ngModel" [(ngModel)]="cliSegConf.segmentCode" name="segmentCode" id="segmentCode">
                     </div>
                     <div *ngIf="editCodeSegment.touched && editCodeSegment.invalid" class="alert alert-danger">Code Segment est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="editSegmentName" class="form-label">Nom Segment</label>
-                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="cliSegConf.description" name="name" id="editSegmentName">
+                        <label for="editSegmentName" class="form-label small-label">Nom Segment</label>
+                        <input type="text" class="form-control small-input" required #editName="ngModel" [(ngModel)]="cliSegConf.description" name="name" id="editSegmentName">
                     </div>
                     <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Segment est obligatoire !</div>
-                    <button class="btn btn-custom-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!editSegmentForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -99,12 +99,12 @@
                 <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="font-size: 13px;">
                 Êtes-vous sûr de vouloir supprimer ce Segment ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
+			    <button type="button" class="btn btn-outline-secondary btn-small" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary btn-small" data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>

@@ -30,6 +30,8 @@ import { OrganizationUnitComponent } from './components/security/organization-un
 import { UserComponent } from './components/security/user/user.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
+import { GenerateNotePartComponent } from './components/scoring/generate-note-part/generate-note-part.component';
+import { GenerateNoteCorpComponent } from './components/scoring/generate-note-corp/generate-note-corp.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,8 @@ import { ClientsNotesComponent } from './components/scoring/clients-notes/client
     OrganizationUnitComponent,
     UserComponent,
     ClientsNotesComponent,
+    GenerateNotePartComponent,
+    GenerateNoteCorpComponent,
     
   ],
   imports: [

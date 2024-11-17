@@ -13,7 +13,7 @@ export class GroupService {
   private urlGroup = 'http://localhost:8222/Security/groups';
 
 
-  private createAuthorizationHeader(){
+  /*private createAuthorizationHeader(){
     const jwtToken = localStorage.getItem('jwt');
     console.log("jwt = "+jwtToken);
     if(jwtToken){
@@ -23,7 +23,22 @@ export class GroupService {
     }
     return new HttpHeaders();
   }
+*/
+private createAuthorizationHeader() {
+  const userData = localStorage.getItem('jwt');
+  if (!userData) return new HttpHeaders();
 
+  try {
+    const parsedData = JSON.parse(userData);
+    console.log("parsedData.jwtToken = "+parsedData.jwtToken);
+    const jwtToken = parsedData.jwtToken;
+    return new HttpHeaders().set('Authorization', 'Bearer '+jwtToken);
+  }     
+   catch (error) {
+    console.error('Error parsing JWT:', error);
+    return new HttpHeaders();
+  }
+}
   createNewGroup(group : Group ){
     console.log(group.groupName);
     return this.http.post(this.urlGroup,group, {

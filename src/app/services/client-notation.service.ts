@@ -16,7 +16,7 @@ export class ClientNotationService {
   private urlClientNota = 'http://localhost:8091/Scoring/ClientNotation';
 
 
-  private createAuthorizationHeader(){
+  /*private createAuthorizationHeader(){
     const jwtToken = localStorage.getItem('jwt');
     if(jwtToken){
       return new HttpHeaders().set('Authorization', 'Bearer '+jwtToken);
@@ -24,8 +24,22 @@ export class ClientNotationService {
       console.log("JWT token not found in local storage");
     }
     return new HttpHeaders();
-  }
-
+  }*/
+    private createAuthorizationHeader() {
+      const userData = localStorage.getItem('jwt');
+      if (!userData) return new HttpHeaders();
+  
+      try {
+        const parsedData = JSON.parse(userData);
+        console.log("parsedData.jwtToken = "+parsedData.jwtToken);
+        const jwtToken = parsedData.jwtToken;
+        return new HttpHeaders().set('Authorization', 'Bearer '+jwtToken);
+      }     
+       catch (error) {
+        console.error('Error parsing JWT:', error);
+        return new HttpHeaders();
+      }
+    }
   createNewClientNotation(clientNotation : ClientNotation ){
     console.log(clientNotation.adjustedScore);
     return this.http.post(this.urlClientNotation,clientNotation, {

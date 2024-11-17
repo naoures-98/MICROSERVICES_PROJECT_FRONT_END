@@ -7,8 +7,11 @@ header {
     color: #343a40; /* Couleur des liens */
     padding: 10px 15px; /* Espacement pour les liens */
     transition: color 0.3s, background-color 0.3s; /* Transition douce */
+    font-size: 13px;  /* Taille de police plus petite pour les liens de navigation */
 }
-
+.dropdown-item {
+    font-size: 13px;  /* Taille de police plus petite pour les éléments du menu déroulant */
+}
 .nav-link:hover {
     color: #d1963d; /* Couleur au survol */
     background-color: rgba(209, 150, 61, 0.1); /* Couleur de fond au survol */

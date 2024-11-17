@@ -2,11 +2,21 @@
     padding: 20px;
     background-color: #f8f9fa;
   }
-  
+.table-small th, .table-small td {
+  padding: 8px; /* Réduit l'espacement interne */
+  font-size: 13px; /* Réduit la taille de la police */
+  height: 20px !important;
+}
+.container-small {
+  padding: 10px; /* Réduit les marges internes */
+  margin-bottom: 10px; /* Réduit les marges externes */
+}
   h5 {
     color: #b17b2a;
   }
-  
+  h4 {
+    color: #b17b2a;
+  }
   p {
     color: #000000;
     font-size: 20px;

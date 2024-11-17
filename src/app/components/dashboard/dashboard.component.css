@@ -3,10 +3,12 @@
   background-color: #f8f9fa;
 }
 
-h5 {
+h4 {
   color: #b17b2a;
 }
-
+h5{
+  color: #5b5f61;
+}
 p {
   color: #000000;
   font-size: 20px;
@@ -45,4 +47,9 @@ canvas {
 .custom-scroll {
   scrollbar-width: thin; /* Pour Firefox */
   scrollbar-color: #b17b2a #f1f1f1; /* Couleurs pour Firefox */
+}
+.table-small th, .table-small td {
+  padding: 8px; /* Réduit l'espacement interne */
+  font-size: 13px; /* Réduit la taille de la police */
+  height: 20px !important;
 }

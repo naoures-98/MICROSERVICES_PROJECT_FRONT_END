@@ -1,15 +1,15 @@
-<div class="container mt-5">
-    <h2>Gestion des Natures de financement</h2>
-    <div class="container mt-5">
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finNatureModal">
+<div class="container mt-2">
+    <h4>Gestion des Natures de financement</h4>
+    <div class="container mt-2">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#finNatureModal">
             Ajouter une nouvelle Nature de Financement
         </button>
-        <button type="button" class="btn btn-custom-secondary me-2 mb-3" data-bs-toggle="modal" data-bs-target="#finNatureImportExcelModal">
+        <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#finNatureImportExcelModal">
             Import EXCEL
         </button>
-        <input type="text" [(ngModel)]="searchText" class="form-control mb-3" placeholder="Rechercher...">
+        <input type="text" [(ngModel)]="searchText" class="form-control mb-3 small-input" placeholder="Rechercher...">
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-small">
         <thead>
             <tr>
                 <th>#</th>
@@ -26,10 +26,10 @@
                 <td>{{ finNature.description }}</td>
                 <td>{{ finNature.createAt }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-custom-warning me-2" data-bs-toggle="modal" (click)="editFinancingNature(finNature)" data-bs-target="#finNatureEditModal">
-                        Edit
+                    <button type="button" class="btn btn-custom-warning me-2 btn-small" data-bs-toggle="modal" (click)="editFinancingNature(finNature)" data-bs-target="#finNatureEditModal">
+                        Modifier
                     </button>
-                    <button class="btn btn-custom-danger" (click)="openDeleteModal(finNature.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</button>
+                    <button class="btn btn-custom-danger btn-small" (click)="openDeleteModal(finNature.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Supprimer</button>
                 </td>
             </tr>
         </tbody>
@@ -48,17 +48,17 @@
             <div class="modal-body">
                 <form id="finNatureForm" (ngSubmit)="onSubmit()" #finNatureForm="ngForm">
                     <div class="form-group mb-3">
-                        <label for="codeFinNature" class="form-label">Code Nature de Financement</label>
-                        <input type="text" class="form-control" required #codeFinNature="ngModel" [(ngModel)]="finNature.projectNature" name="codeFinNature" id="codeFinNature">
+                        <label for="codeFinNature" class="form-label small-label">Code Nature de Financement</label>
+                        <input type="text" class="form-control small-input" required #codeFinNature="ngModel" [(ngModel)]="finNature.projectNature" name="codeFinNature" id="codeFinNature">
                     </div>
                     <div *ngIf="codeFinNature.touched && codeFinNature.invalid" class="alert alert-danger">Code Nature de Financement est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="finNatureName" class="form-label">Nom Nature de Financement</label>
-                        <input type="text" class="form-control" required #finNatureyName="ngModel" [(ngModel)]="finNature.description" name="finNatureyName" id="finNatureyName">
+                        <label for="finNatureName" class="form-label small-label">Nom Nature de Financement</label>
+                        <input type="text" class="form-control small-input" required #finNatureyName="ngModel" [(ngModel)]="finNature.description" name="finNatureyName" id="finNatureyName">
                     </div>
                     <div *ngIf="finNatureyName.touched && finNatureyName.invalid" class="alert alert-danger">Nom Nature de Financement  est obligatoire !</div>
 
-                    <button class="btn btn-custom-success" [disabled]="!finNatureForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!finNatureForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -78,16 +78,16 @@
                 <form id="finNatureEditForm" (ngSubmit)="onEditSubmit()" #editFinNatureForm="ngForm">
 
                     <div class="form-group mb-3">
-                        <label for="editCodeFinNature" class="form-label">Code Nature de Financement</label>
-                        <input type="text" class="form-control"   [disabled]="true" required #editCodeFinNature="ngModel" [(ngModel)]="finNature.projectNature" name="finNatureCode" id="finNatureCode">
+                        <label for="editCodeFinNature" class="form-label small-label">Code Nature de Financement</label>
+                        <input type="text" class="form-control small-input"   [disabled]="true" required #editCodeFinNature="ngModel" [(ngModel)]="finNature.projectNature" name="finNatureCode" id="finNatureCode">
                     </div>
                     <div *ngIf="editCodeFinNature.touched && editCodeFinNature.invalid" class="alert alert-danger">Code Nature de Financement est obligatoire !</div>
                     <div class="form-group mb-3">
-                        <label for="editFinNatureName" class="form-label">Nom Nature de Financement</label>
-                        <input type="text" class="form-control" required #editName="ngModel" [(ngModel)]="finNature.description" name="name" id="editFinNatureName">
+                        <label for="editFinNatureName" class="form-label small-label">Nom Nature de Financement</label>
+                        <input type="text" class="form-control small-input" required #editName="ngModel" [(ngModel)]="finNature.description" name="name" id="editFinNatureName">
                     </div>
                     <div *ngIf="editName.touched && editName.invalid" class="alert alert-danger">Nom Nature de Financement est obligatoire !</div>
-                    <button class="btn btn-custom-success" [disabled]="!editFinNatureForm.form.valid" type="submit">Submit</button>
+                    <button class="btn btn-custom-success btn-small" [disabled]="!editFinNatureForm.form.valid" type="submit">Enregistrer</button>
                 </form>
             </div>
         </div>
@@ -103,12 +103,12 @@
                 <h5 class="modal-title" id="financingNatureModalLabel">Confirmer la Suppression</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body " style="font-size: 13px;">
                 Êtes-vous sûr de vouloir supprimer cette Nature de Financement
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-outline-secondary" (click)="confirmDelete()">Supprimer</button>
+			    <button type="button" class="btn btn-outline-secondary btn-small" (click)="confirmDelete()">Supprimer</button>
+                <button type="button" class="btn btn-outline-secondary btn-small" data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>

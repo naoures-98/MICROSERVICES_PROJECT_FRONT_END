@@ -18,6 +18,8 @@ import { OrganizationUnitComponent } from './components/security/organization-un
 import { UserComponent } from './components/security/user/user.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
+import { GenerateNotePartComponent } from './components/scoring/generate-note-part/generate-note-part.component';
+import { GenerateNoteCorpComponent } from './components/scoring/generate-note-corp/generate-note-corp.component';
 
 
 const routes: Routes = [
@@ -39,6 +41,8 @@ const routes: Routes = [
   { path: 'organizationUnit', component: OrganizationUnitComponent },
   { path: 'users', component: UserComponent },
   { path: 'clientsNotes', component: ClientsNotesComponent },
+  { path: 'generateNotePart', component: GenerateNotePartComponent },
+  { path: 'generateNoteCorpo', component: GenerateNoteCorpComponent },
   { path: '**', component: ErrorHttpComponent }
 ];
 

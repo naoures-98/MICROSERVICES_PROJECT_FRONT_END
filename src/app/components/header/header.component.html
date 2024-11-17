@@ -9,13 +9,20 @@
                 <li><a routerLink="clientsNotes" class="nav-link px-2 link-dark">Consultation notes client</a></li>
                 <li *ngIf="canSeeScoring()" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Saisie / Génération note client
+                        Saisie / Génération note client PP
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Saisie Données Scoring Personnes Physiques </a></li>
-                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Génération note Client PP</a></li>
+                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Saisie Données Scoring Personnes Physiques</a></li>
+                        <li><a class="dropdown-item" routerLink="generateNotePart">Génération note Client PP</a></li>
+                    </ul>
+                </li>
+                <li *ngIf="canSeeScoring()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Saisie / Génération note client PM
+                    </a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="personnesMorales">Saisie Données Scoring Personnes Morales </a></li>
-                        <li><a class="dropdown-item" routerLink="personnesMorales">Génération note Client PM</a></li>
+                        <li><a class="dropdown-item" routerLink="generateNoteCorpo">Génération note Client PM</a></li>
 
                     </ul>
                 </li>
@@ -45,7 +52,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Scoring
+                        Validation données
                     </a>
                     <ul class="dropdown-menu">
                         
@@ -54,6 +61,17 @@
                         <li><a class="dropdown-item" routerLink="notesClients">Gestion Notes clients</a></li>
                     </ul>
                 </li>
+                <!--li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Scoring
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Gestion Personnes Physiques</a></li>
+                        <li><a class="dropdown-item" routerLink="personnesMorales">Gestion Personnes Morales</a></li>
+                        <li><a class="dropdown-item" routerLink="notesClients">Gestion Notes clients</a></li>
+                    </ul>
+                </!--li-->
                 
             </ul>
 

@@ -14,7 +14,7 @@ export class AuthService {
       const parsedData = JSON.parse(userData);
       const jwtToken = parsedData.jwtToken;
       const payload = JSON.parse(atob(jwtToken.split('.')[1])); // Décoder le JWT
-      console.log(payload);
+      //console.log(payload);
       return payload.roles || [];
       
     } catch (error) {

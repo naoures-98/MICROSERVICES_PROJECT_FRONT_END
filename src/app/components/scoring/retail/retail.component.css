@@ -87,8 +87,44 @@ hr {
 .custom-scroll::-webkit-scrollbar-thumb:hover {
   background: #d1963d; /* Couleur du pouce au survol */
 }
-
+h4{
+  color: #474b4d;
+}
 .custom-scroll {
   scrollbar-width: thin; /* Pour Firefox */
   scrollbar-color: #b17b2a #f1f1f1; /* Couleurs pour Firefox */
 }
+.table-small th, .table-small td {
+  padding: 8px; /* Réduit l'espacement interne */
+  font-size: 13px; /* Réduit la taille de la police */
+  height: 20px !important;
+}
+
+.container-small {
+  padding: 10px; /* Réduit les marges internes */
+  margin-bottom: 10px; /* Réduit les marges externes */
+}
+.btn-small {
+  padding: 4px 8px !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  height: 35px !important;
+}
+.small-input {
+  font-size: 13px; /* Taille de la police */
+  height: 35px; /* Ajustez la hauteur */
+  padding: 4px; /* Ajustez les marges internes */
+}
+
+.small-label {
+  font-size: 13px; /* Taille de la police */
+  font-weight: normal; /* Optionnel : ajuster l'épaisseur */
+  margin-bottom: 4px; /* Optionnel : réduire l'espace sous le label */
+}
+.small-select {
+  font-size: 13px;
+  padding: 2px 6px;
+  height: 35px; /* Fixe une hauteur spécifique */
+  width: 100%; /* Optionnel : ajuste à la largeur du conteneur */
+}
+
