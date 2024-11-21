@@ -39,6 +39,12 @@ export class AuthInterceptor implements HttpInterceptor {
           this.toast.danger('Votre session a expiré, veuillez vous reconnecter.');
           // Redirigez vers la page de connexion
           this.router.navigateByUrl('/login');
+        }else if (error.status === 500 ) {
+          // Si le serveur retourne 500 Internal Server Error
+          console.error('Erreur interne du serveur');
+          this.toast.danger('Session expirée');
+          // Redirigez vers la page d'erreur
+          this.router.navigateByUrl('/login');
         }
         return throwError(() => error); // Relance l'erreur pour un traitement global
       })

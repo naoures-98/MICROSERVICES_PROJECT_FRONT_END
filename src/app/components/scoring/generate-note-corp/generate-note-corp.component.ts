@@ -9,7 +9,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { Retail } from '../../../classes/retail';
 import { RetailService } from '../../../services/retail.service';
 import { Corporate } from '../../../classes/corporate';
-import { Classe, ClientCategory, Decision, EmployementStatus, FamilySituation } from '../../../classes/enum';
+import { Classe, ClientCategory, Decision, EmployementStatus, FamilySituation, Statut, StatutDisplay } from '../../../classes/enum';
 import { ClientNotation } from '../../../classes/client-notation';
 import { ClientNotationService } from '../../../services/client-notation.service';
 import { ClientSegmentConfigService } from '../../../services/client-segment-config.service';
@@ -29,23 +29,24 @@ export class GenerateNoteCorpComponent   implements OnInit{
   
 searchTextCorpo: string = '';
 pCorpo: number = 1; // Page courante
-itemsPerPageCorpo: number = 10; // Nombre d'éléments par page
+itemsPerPageCorpo: number = 50; // Nombre d'éléments par page
 juridicalForms : JuridicalForm[]=[];
 activities : ActivitySector[]=[];
 
 
 searchTextRetail: string = '';
 pRetail: number = 1; // Page courante
-itemsPerPageRetail: number = 10; // Nombre d'éléments par page
+itemsPerPageRetail: number = 50; // Nombre d'éléments par page
 clientScore : number =0;
 corporates : Corporate[]=[];
+
+statutDisplay : any = StatutDisplay;
 
 
 
 corporate: Corporate = new Corporate();
 clientSegmentConfig: ClientSegmentConfig = new ClientSegmentConfig();
-retails : Retail[]=[];
-retail: Retail = new Retail();
+
 
 isScored : Boolean = false;
 clientNotation: ClientNotation = new ClientNotation();
@@ -148,6 +149,33 @@ get filteredCorporates() {
   );
 }
 
+get statutOptions() {
+  return Object.values(Statut);
+}
+getStatusClass(statut: string | null): string { // couleur affichage
+  switch (statut) {
+    case 'Accorde':
+      return 'status-accorde';
+    case 'AVerifier':
+      return 'status-a-verifier';
+    case 'En_cours':
+      return 'status-encours';
+    case 'AttenteValidation':
+      return 'status-attente-validation';
+    default:
+      return ''; // Classe par défaut si le statut est inconnu
+  }
+}
+getStatusLabel(statut: string | null): string {
+  // Retourne le libellé personnalisé ou le statut brut s'il n'est pas trouvé
+  
+  if(statut==null)
+    return  "";
+  
+  return this.statutDisplay[statut] || statut;
+}  
+
+
 loadJuridicalForms(): void {
   this.juridicalFormService.getAllJuridicalForm().subscribe(forms => {
     this.juridicalForms = forms;
@@ -170,7 +198,29 @@ showDetailsCorporate(selectedCorporate : any){
     }
   );
 }
+validerDossier(){
+  const branch   = this.corporate.branch ; 
+  console.log('Statut avant PUT:', this.corporate.statutDossier);
+  const statut =  this.corporate.statutDossier ; 
+  console.log("branch "+ this.corporate.branch.id);
 
+  this.corporate.branchId = this.corporate.branch.id ;
+  this.corporate.financingTypeId = this.corporate.financingType.id;
+  this.corporate.juridicalFormId = this.corporate.juridicalForm.id;
+  this.corporate.activitySectorId = this.corporate.activitySector.id;
+  this.corpoService.editClientCorporate(this.corporate).subscribe( 
+    res=>{
+      this.toast.success( "Client  ["+this.corporate.clientRequest +"] modifiée avec succès", "success " );
+      this.ngOnInit();
+      console.log(res);
+    }, 
+  err=>{
+    this.toast.danger("Problem de modification",err);
+    console.log(err);}); 
+  this.router.navigate(['/generateNoteCorpo']);
+  this.ngOnInit();
+
+}
 
 calculerScoreCorporate(selectedCorporate : any ){
   
@@ -373,7 +423,7 @@ calculerScoreCorporate(selectedCorporate : any ){
   }
   
   //score avec ponderation
-  this.scoreRentabiliteFinancieres = this.scoreRentabiliteFinancieres * 0.20 ; 
+  this.scoreRentabiliteFinancieres = this.scoreRentabiliteFinancieres * 0.30 ; 
   
   //calcul score structure financiere / tresorerie 
   //fr
@@ -398,6 +448,9 @@ calculerScoreCorporate(selectedCorporate : any ){
   //score avec ponderation
   this.scoreTauxBFR = this.scoreTauxBFR * 0.50 ; 
   
+
+
+
   //autonomie financiere
   if(this.corporate.autonomieFinanciere!==null){
     if (Number (this.corporate.autonomieFinanciere) < 0 )
@@ -419,10 +472,12 @@ calculerScoreCorporate(selectedCorporate : any ){
   
   //score avec ponderation
   this.scoreLiquiditeGenerale = this.scoreLiquiditeGenerale * 0.50 ;
+
+
   
-  this.scoreSolvabilite = (this.scoreLiquiditeGenerale  + this.scoreAutonomieFinancieres) * 0.30;
+  this.scoreSolvabilite = (this.scoreLiquiditeGenerale  + this.scoreAutonomieFinancieres) * 0.35;
   
-  this.scoreStructureFinanciere = (this.scoreTauxBFR  + this.scoreFondRoulements) * 0.20;
+  this.scoreStructureFinanciere = (this.scoreTauxBFR  + this.scoreFondRoulements) * 0.35;
   
     
   this.scoreQualitatif = this.scoreHistoriqueEntreprise + this.scoreActionnariat +this.scoreMarcheSecteurActivite
@@ -506,7 +561,23 @@ calculerScoreCorporate(selectedCorporate : any ){
 
 }
 
-
+getClassByLevel(level: string| null): string {
+  if (!level) {
+    return 'bg-default'; // Classe par défaut si null ou indéfini
+  }
+  switch (level.toLowerCase()) {
+    case 'mauvaise':
+      return 'bg-red';
+    case 'excellente':
+      return 'bg-green';
+    case 'bonne':
+      return 'bg-green';        
+    case 'moyenne':
+      return 'bg-orange';
+    default:
+      return 'bg-default';
+  }
+}
 
 
 }

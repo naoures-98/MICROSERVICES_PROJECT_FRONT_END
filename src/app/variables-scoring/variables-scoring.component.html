@@ -1,0 +1,64 @@
+<div class="container">
+    <!-- Titre principal de la page -->
+    <h2>Paramètres de Scoring</h2>
+  
+    <!-- Début du formulaire -->
+    <form (ngSubmit)="saveScoringConfig()">
+      <!-- Section Taille d'Employeur -->
+      <div class="form-group custom-container">
+        <label for="employerSize">Taille d'Employeur</label>
+        <div class="form-row">
+          <!-- Itération sur les tailles d'employeurs avec ngFor -->
+          <div *ngFor="let size of ['TPE', 'PME', 'GrandeEntreprise']" class="form-group">
+            <label class="small-label">{{ size }} :</label>
+            <input 
+              type="number" 
+              [(ngModel)]="scoringConfig.employerSize[size]" 
+              name="employerSize{{size}}" 
+              class="small-input form-control" 
+              placeholder="Score" />
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group custom-container">
+        <label for="nbYearExperience">Années d'expérience</label>
+        <div class="form-row">
+          <!-- Itération sur les clés de scoringConfig.nbYearExperience -->
+          <div *ngFor="let experience of experienceKeys()" class="form-group">
+            <label class="small-label">{{ experience }} ans :</label>
+            <input 
+              type="number" 
+              [(ngModel)]="scoringConfig.nbYearExperience[experience]" 
+              name="nbYearExperience{{experience}}" 
+              class="small-input form-control" 
+              placeholder="Score" />
+          </div>
+        </div>
+      </div>
+      
+  
+      <!-- Section Revenu -->
+      <!--div class="form-group custom-container">
+        <label for="revenu">Revenu</label>
+        <div class="form-row">
+         
+          <div *ngFor="let amount of Object.keys(scoringConfig.revenu)" class="form-group">
+            <label class="small-label">{{ amount }} € :</label>
+            <input 
+              type="number" 
+              [(ngModel)]="scoringConfig.revenu[amount]" 
+              name="revenu{{amount}}" 
+              class="small-input form-control" 
+              placeholder="Score" />
+          </div>
+        </div>
+      </!--div-->
+  
+      <!-- Bouton de soumission -->
+      <div class="form-group">
+        <button type="submit" class="btn btn-custom-primary btn-small">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+  

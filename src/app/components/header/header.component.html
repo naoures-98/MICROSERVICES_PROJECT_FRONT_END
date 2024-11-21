@@ -7,7 +7,16 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a routerLink="dashboard" class="nav-link px-2 link-secondary">Dashboard</a></li>
                 <li><a routerLink="clientsNotes" class="nav-link px-2 link-dark">Consultation notes client</a></li>
-                <li *ngIf="canSeeScoring()" class="nav-item dropdown">
+                <li *ngIf="canSeeScoring()">
+                    <a routerLink="personnesPhysiques" class="nav-link px-2 link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Saisie note client PP
+                </a></li>
+                <li *ngIf="canSeeScoring()">
+                    <a routerLink="personnesMorales" class="nav-link px-2 link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Saisie note client PM
+                    </a>
+                </li>
+                <li *ngIf="false" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Saisie / Génération note client PP
                     </a>
@@ -16,7 +25,7 @@
                         <li><a class="dropdown-item" routerLink="generateNotePart">Génération note Client PP</a></li>
                     </ul>
                 </li>
-                <li *ngIf="canSeeScoring()" class="nav-item dropdown">
+                <li *ngIf="false" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Saisie / Génération note client PM
                     </a>
@@ -50,17 +59,19 @@
                         <li><a class="dropdown-item" routerLink="organizationUnit">Gestion Personnels de la banque</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
+                <li *ngIf="canSeeValidation()" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Validation données
+                        Génération & Validation
                     </a>
                     <ul class="dropdown-menu">
-                        
-                        <li><a class="dropdown-item" routerLink="personnesPhysiques">Gestion Personnes Physiques</a></li>
-                        <li><a class="dropdown-item" routerLink="personnesMorales">Gestion Personnes Morales</a></li>
-                        <li><a class="dropdown-item" routerLink="notesClients">Gestion Notes clients</a></li>
+                        <li><a class="dropdown-item" routerLink="generateNotePart">Personnes Physiques</a></li>
+                        <li><a class="dropdown-item" routerLink="generateNoteCorpo"> Personnes Morales</a></li>
                     </ul>
                 </li>
+                <li *ngIf="canSeeScoring()">
+                    <a routerLink="variablesScoring" class="nav-link px-2 link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Variables Scoring
+                </a></li>
                 <!--li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Scoring

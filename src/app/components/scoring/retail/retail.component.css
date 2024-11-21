@@ -39,13 +39,13 @@ button:hover {
 
 /* Styles pour les groupes de formulaire */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 }
 
 
 /* detail-button.component.css */
 .modal-dialog {
-  max-width: 1300px; /* Ajustez la largeur selon vos besoins */
+  max-width: 1500px; /* Ajustez la largeur selon vos besoins */
 }
 
 /* styles.css ou le fichier CSS associé */
@@ -127,4 +127,62 @@ h4{
   height: 35px; /* Fixe une hauteur spécifique */
   width: 100%; /* Optionnel : ajuste à la largeur du conteneur */
 }
+#retourAnalyste {
+  min-height: 10em; /* Force le champ à avoir une hauteur de 5 lignes */
+}
 
+h4{
+  color: #474b4d;
+}
+h5{
+  color: #474b4d;
+}
+h6{
+  color: #a0513f;
+}
+
+.bg-red {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #842029; /* Rouge foncé */
+}
+
+.bg-green {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724; /* Vert foncé */
+}
+
+.bg-orange {
+  background-color: #fff3cd; /* Orange clair */
+  color: #856404; /* Orange foncé */
+}
+
+.bg-default {
+  background-color: #e2e3e5; /* Gris clair */
+  color: #41464b; /* Gris foncé */
+}
+
+
+
+.status-accorde {
+  /*background-color: #e8ffee; /* Vert clair */
+  color: #155724;          /* Vert foncé */
+ /* font-weight: bold;*/
+}
+
+.status-a-verifier {
+  /*background-color: #ffe8ea; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+  /*font-weight: bold;*/
+}
+
+.status-encours {
+  /*background-color: #e4fbff; /* Bleu clair */
+  color: #0c5460;           /* Bleu foncé */
+  /*font-weight: bold;*/
+}
+
+.status-attente-validation {
+  /*background-color: #fff9e7; /* Orange clair */
+  color: #856404;           /* Orange foncé */
+  /*font-weight: bold;*/
+}

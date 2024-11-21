@@ -3,7 +3,7 @@ import { Retail } from '../../../classes/retail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RetailService } from '../../../services/retail.service';
 import { NgToastService } from 'ng-angular-popup';
-import { Civility, EmployementStatus, FamilySituation, FamilySituationDisplay, Gender } from '../../../classes/enum';
+import { Civility, EmployementStatus, FamilySituation, FamilySituationDisplay, Gender, Statut, StatutDisplay } from '../../../classes/enum';
 import { FinancingType } from '../../../classes/financing-type';
 import { FinancingTypeService } from '../../../services/financing-type.service';
 import { BranchService } from '../../../services/branch.service';
@@ -21,11 +21,15 @@ export class RetailComponent implements OnInit {
   retail: Retail = new Retail();
   selectedRetailId!: Number;
   //branchDescription : String = "";
+  financingType = new FinancingType();
   financingTypes : FinancingType[]=[];
   activities : ActivitySector[]=[];
   branchs : Branch[]=[];
   branch: Branch = new Branch();
-  financingType = new FinancingType();
+
+
+  statutDisplay : any = StatutDisplay;
+
 
   lastSequentialNumber = 0; // Variable pour garder la trace du dernier nombre séquentiel
 
@@ -34,7 +38,7 @@ export class RetailComponent implements OnInit {
   
   searchText: string = '';
   p: number = 1; // Page courante
-  itemsPerPage: number = 10; // Nombre d'éléments par page
+  itemsPerPage: number = 20; // Nombre d'éléments par page
 
   constructor(private route: ActivatedRoute, 
     private router: Router, public retailService : RetailService,
@@ -150,6 +154,8 @@ onActivitySectorChange(selectedActivitySectorCode: string) {
     this.retail.activitySectorId = selectedActivitySector.id;
   }
 }
+
+
   loadFinancingTypes(): void {
     this.financingTypeService.getFinancingTypeByFinancingNature("FINANCEMENT PARTICULIERS").subscribe(natures => {
       this.financingTypes = natures;
@@ -212,7 +218,7 @@ generateContractReference(lastSequentialNumber : String): void {
     // Générer le nombre séquentiel
     this.lastSequentialNumber = this.lastSequentialNumber+1; // Incrémentez le nombre séquentiel
     const sequentialNumber = this.lastSequentialNumber.toString(); // Convertir en chaîne de caractères si nécessaire
-
+    this.retail.statutDossier =Statut.En_cours ; 
     this.generateContractReference(sequentialNumber);
     console.log(this.retail);
     this.onAjoutRetail();
@@ -254,6 +260,34 @@ generateContractReference(lastSequentialNumber : String): void {
   get familySituationDisplay() {
     return FamilySituationDisplay;
   }
+  get statutOptions() {
+    return Object.values(Statut);
+  }
+  /*get statutDisplay() {
+    return StatutDisplay;
+  }*/
+  getStatusLabel(statut: string | null): string {
+    // Retourne le libellé personnalisé ou le statut brut s'il n'est pas trouvé
+    //console.log(statut);
+    if(statut==null)
+      return  "N/A";
+    
+    return this.statutDisplay[statut] || statut;
+  }
+  getStatusClass(statut: string | null): string {
+    switch (statut) {
+      case 'Accorde':
+        return 'status-accorde';
+      case 'AVerifier':
+        return 'status-a-verifier';
+      case 'En_cours':
+        return 'status-encours';
+      case 'AttenteValidation':
+        return 'status-attente-validation';
+      default:
+        return ''; // Classe par défaut si le statut est inconnu
+    }
+  }
   get emploiStatusOptions() {
     return Object.values(EmployementStatus);
   }
@@ -275,6 +309,40 @@ generateContractReference(lastSequentialNumber : String): void {
       err=>{console.log(err);
       }
     );   
+  }
+  envoiDossierValidation(){
+    const branch   = this.retail.branch ; 
+    console.log('Statut avant PUT:', this.retail.statutDossier);
+    const statut =  this.retail.statutDossier ; 
+    console.log("branch "+ this.retail.branch.id);
+    if(this.retail.financingType!=null){
+      this.financingTypeService.getFinancingTypeByCode(this.retail.financingType.financingTypeCode).subscribe( 
+        res=>{
+          this.financingType = res;
+          this.retail.financingType=this.financingType;
+          this.retail.financingTypeId=this.financingType.id;
+          this.retail.branch = branch 
+          this.retail.branchId  = branch.id 
+          this.retail.statutDossier = Statut.AttenteValidation;
+          console.log(' ------ Statut apres  PUT:', this.retail.statutDossier);
+          console.log("branch 2 "+ this.retail.branch.id);
+          this.retailService.editClientRetail(this.retail).subscribe( 
+            res=>{
+              console.log(res);
+              this.ngOnInit();
+            }, 
+          err=>{
+            this.toast.danger("Problem de modification",err);
+            console.log(err);}); 
+        }, 
+      err=>{
+        console.log("error = "+err);});
+    }
+    //this.router.navigate(['/generateNotePart']);
+    this.toast.success( "Dossier  ["+this.retail.contractReference +"] Envoyée pour Validation", "success " );
+
+    this.ngOnInit();
+
   }
   onEditSubmit(){
     if(this.retail.financingType!=null){
@@ -317,4 +385,23 @@ generateContractReference(lastSequentialNumber : String): void {
       this.toast.danger("Problem de suppression",err);
       console.log(err);});
   }
+
+  getClassByLevel(level: string| null): string {
+    if (!level) {
+      return 'bg-default'; // Classe par défaut si null ou indéfini
+    }
+    switch (level.toLowerCase()) {
+      case 'mauvaise':
+        return 'bg-red';
+      case 'excellente':
+        return 'bg-green';
+      case 'bonne':
+        return 'bg-green';        
+      case 'moyenne':
+        return 'bg-orange';
+      default:
+        return 'bg-default';
+    }
+  }
+  
 } 

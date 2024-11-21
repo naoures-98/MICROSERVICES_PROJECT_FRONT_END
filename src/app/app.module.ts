@@ -32,6 +32,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
 import { GenerateNotePartComponent } from './components/scoring/generate-note-part/generate-note-part.component';
 import { GenerateNoteCorpComponent } from './components/scoring/generate-note-corp/generate-note-corp.component';
+import { VariablesScoringComponent } from './variables-scoring/variables-scoring.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { GenerateNoteCorpComponent } from './components/scoring/generate-note-co
     ClientsNotesComponent,
     GenerateNotePartComponent,
     GenerateNoteCorpComponent,
+    VariablesScoringComponent,
     
   ],
   imports: [

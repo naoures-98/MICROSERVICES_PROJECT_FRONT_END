@@ -35,18 +35,22 @@
   .form-group {
     margin-bottom: 20px;
   }
-  
+  #retourAnalyste {
+    min-height: 10em; /* Force le champ à avoir une hauteur de 5 lignes */
+  }
   button:hover {
     background-color: #b17b2a; /* Rouge au survol */
     box-shadow: 0 4px 12px #c4b198; /* Ombre rouge plus prononcée au survol */
     color: #ffffff;
     outline: none; /* Supprimer le contour par défaut */
   }
-  
+  #retourAnalyste {
+    min-height: 10em; /* Force le champ à avoir une hauteur de 5 lignes */
+  }  
 
 /* detail-button.component.css */
 .modal-dialog {
-    max-width: 1300px; /* Ajustez la largeur selon vos besoins */
+    max-width: 1500px; /* Ajustez la largeur selon vos besoins */
 }
 
 /* styles.css ou le fichier CSS associé */
@@ -104,3 +108,57 @@ hr {
   h4{
     color: #474b4d;
   }
+  h4{
+    color: #474b4d;
+  }
+  h5{
+    color: #474b4d;
+  }
+  h6{
+    color: #a0513f;
+  }
+  .bg-red {
+    background-color: #f8d7da; /* Rouge clair */
+    color: #842029; /* Rouge foncé */
+  }
+  
+  .bg-green {
+    background-color: #d4edda; /* Vert clair */
+    color: #155724; /* Vert foncé */
+  }
+  
+  .bg-orange {
+    background-color: #fff3cd; /* Orange clair */
+    color: #856404; /* Orange foncé */
+  }
+  
+  .bg-default {
+    background-color: #e2e3e5; /* Gris clair */
+    color: #41464b; /* Gris foncé */
+  }
+  
+
+  
+
+  .status-accorde {
+    /*background-color: #e8ffee; /* Vert clair */
+    color: #155724;          /* Vert foncé */
+  }
+  
+  .status-a-verifier {
+    /*background-color: #ffe8ea; /* Rouge clair */
+    color: #721c24;           /* Rouge foncé */
+  }
+  
+  .status-encours {
+    /*background-color: #e4fbff; /* Bleu clair */
+    color: #0c5460;           /* Bleu foncé */
+    
+  }
+  
+  .status-attente-validation {
+    /*background-color: #fff9e7; /* Orange clair */
+    color: #856404;           /* Orange foncé */
+    
+  }
+  

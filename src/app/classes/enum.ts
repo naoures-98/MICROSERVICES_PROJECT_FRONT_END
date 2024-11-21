@@ -3,6 +3,18 @@ export enum Civility {
     MADEMOISELLE = 'MADEMOISELLE',
     MONSIEUR = 'MONSIEUR',
 }
+export enum Statut {
+    En_cours = 'En_cours',
+    AttenteValidation = 'AttenteValidation',
+    Accorde = 'Accorde',
+    AVerifier = 'AVerifier',
+}
+export const StatutDisplay = {
+    [Statut.En_cours]: 'En cours',
+    [Statut.AttenteValidation]: 'Attente Validation',
+    [Statut.Accorde]: 'Accordé',
+    [Statut.AVerifier]: 'À vérifier',
+};
 export enum Classe {
     A = 'A',
     B = 'B',

@@ -50,7 +50,9 @@ export class HeaderComponent implements OnInit {
     return this.authService.hasRole('ROLE_Charge Clientele') ||this.authService.hasRole('ROLE_ChargÃ© Clientele')
     ||this.authService.hasRole('ROLE_admin');
   }
-
+  canSeeValidation(): boolean {
+    return this.authService.hasRole('ROLE_Analyste Risque') || this.authService.hasRole('ROLE_admin');
+  }
   updateBreadcrumb(): void {
     const currentUrl = this.router.url;
     if (currentUrl.includes('branch')) {

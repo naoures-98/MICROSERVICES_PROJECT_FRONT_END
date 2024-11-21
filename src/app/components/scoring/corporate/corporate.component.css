@@ -45,7 +45,7 @@ button:hover {
 
 /* detail-button.component.css */
 .modal-dialog {
-  max-width: 1300px; /* Ajustez la largeur selon vos besoins */
+  max-width: 1500px; /* Ajustez la largeur selon vos besoins */
 }
 
 /* styles.css ou le fichier CSS associé */
@@ -107,14 +107,17 @@ tfoot {
   padding: 4px 8px !important;
   font-size: 13px !important;
   line-height: 1.2 !important;
-  height: 35px !important;
+  height: 28px !important;
+  border-radius: 10px;
 }
 .small-input {
   font-size: 13px; /* Taille de la police */
   height: 35px; /* Ajustez la hauteur */
   padding: 4px; /* Ajustez les marges internes */
 }
-
+#retourAnalyste {
+  min-height: 10em; /* Force le champ à avoir une hauteur de 5 lignes */
+}
 .small-label {
   font-size: 13px; /* Taille de la police */
   font-weight: normal; /* Optionnel : ajuster l'épaisseur */
@@ -129,3 +132,56 @@ tfoot {
 h4{
   color: #474b4d;
 }
+h6{
+  color: #a0513f;
+}
+
+.bg-red {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #842029; /* Rouge foncé */
+}
+
+.bg-green {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724; /* Vert foncé */
+}
+
+.bg-orange {
+  background-color: #fff3cd; /* Orange clair */
+  color: #856404; /* Orange foncé */
+}
+
+.bg-default {
+  background-color: #e2e3e5; /* Gris clair */
+  color: #41464b; /* Gris foncé */
+}
+
+
+
+.status-accorde {
+  /*background-color: #e8ffee; /* Vert clair */
+  color: #155724;          /* Vert foncé */
+ /* font-weight: bold;*/
+}
+
+.status-a-verifier {
+  /*background-color: #ffe8ea; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+  /*font-weight: bold;*/
+}
+
+.status-encours {
+  /*background-color: #e4fbff; /* Bleu clair */
+  color: #0c5460;           /* Bleu foncé */
+  /*font-weight: bold;*/
+}
+
+.status-attente-validation {
+  /*background-color: #fff9e7; /* Orange clair */
+  color: #856404;           /* Orange foncé */
+  /*font-weight: bold;*/
+}
+
+
+
+/***********************************************************************************/

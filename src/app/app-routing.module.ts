@@ -20,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
 import { GenerateNotePartComponent } from './components/scoring/generate-note-part/generate-note-part.component';
 import { GenerateNoteCorpComponent } from './components/scoring/generate-note-corp/generate-note-corp.component';
+import { VariablesScoringComponent } from './variables-scoring/variables-scoring.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'clientsNotes', component: ClientsNotesComponent },
   { path: 'generateNotePart', component: GenerateNotePartComponent },
   { path: 'generateNoteCorpo', component: GenerateNoteCorpComponent },
+  { path: 'variablesScoring', component: VariablesScoringComponent },
   { path: '**', component: ErrorHttpComponent }
 ];
 

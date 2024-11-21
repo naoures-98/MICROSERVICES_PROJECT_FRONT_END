@@ -7,12 +7,12 @@ import { Corporate } from '../../../classes/corporate';
 import { FinancingType } from '../../../classes/financing-type';
 import { FinancingTypeService } from '../../../services/financing-type.service';
 import { Branch } from '../../../classes/branch';
-import { ClientCategory } from '../../../classes/enum';
+import { ClientCategory, Statut, StatutDisplay } from '../../../classes/enum';
 import { JuridicalForm } from '../../../classes/juridical-form';
 import { JuridicalFormService } from '../../../services/juridical-form.service';
 import { ActivitySectorService } from '../../../services/activity-sector.service';
 import { ActivitySector } from '../../../classes/activity-sector';
-import { Section } from '../../../classes/donnees-financieres';
+//import { Section } from '../../../classes/donnees-financieres';
 
 @Component({
   selector: 'app-corporate',
@@ -31,9 +31,83 @@ export class CorporateComponent  implements OnInit{
   selectedCorporateId!: Number;
   searchText: string = '';
   p: number = 1; // Page courante
-  itemsPerPage: number = 10; // Nombre d'éléments par page
+  itemsPerPage: number = 30; // Nombre d'éléments par page
 
   lastSequentialNumber = 0; // Variable pour garder la trace du dernier nombre séquentiel
+
+  statutDisplay : any = StatutDisplay;
+  dateError = false; // Indicateur d'erreur
+  dateErrorMessage = ''; // Message d'erreur
+
+
+
+//commun
+scoreCapitalImpaye = 0;
+scoreCapitalNominal=0;
+//corpo
+scoreClientCategory =0;
+scoreAgeSociety =0;
+scoreJuridicalForm=0;
+scoreActivitySector =0;
+
+scoreNbYearExercice =0;
+scoreNbYearRelationBanque =0;
+scoreQualiteActionnariat =0;
+scoreFiabiliteEtatsFinanciers =0;
+scoreEvolutionMarche =0;
+scoreVisVisConcurrence =0;
+scoreLimiteAutorises =0;
+scoreIncidentsPaiement =0;
+scoreSituationEngagement =0;
+scoreRentabiliteFinancieres =0;
+scoreFondRoulements =0;
+scoreTauxBFR =0;
+scoreAutonomieFinancieres =0;
+scoreLiquiditeGenerale =0;
+
+
+//
+scoreHistoriqueEntreprise = 0;
+scoreActionnariat = 0;
+scoreMarcheSecteurActivite = 0;
+scoreQualitatif = 0;
+scoreComportementale = 0;
+
+scoreStructureFinanciere = 0;
+scoreSolvabilite = 0;
+scoreFinancierTotal = 0;
+//
+pilierFinancier = 0.35;
+pilierQualitatif = 0.25;
+pilierComportemental = 0.40;
+//
+scoreFinal = 0; 
+
+
+
+scoreProbabiliste = 0 ;
+
+
+//Retail
+scoreAgeRetail =0;
+scoreRevenu =0
+scoreNbrDependents =0 
+scoreSituationFamille =0;
+scoreEmploymentstatus=0;
+scoreEmployerSize=0;
+scoreAncienneteEmployeur=0;
+scoreTauxEndettement = 0;
+scoreAncienneteRelationBanque =0;
+scorePresenceImpaye = 0;
+scoreIncidentPayement = 0;
+
+
+scoreEmployeur  = 0; 
+scoreClient = 0;
+scoreComportement = 0;
+
+
+
 
   constructor(private route: ActivatedRoute, 
     private router: Router, public corpoService : CorporateService,
@@ -57,8 +131,28 @@ export class CorporateComponent  implements OnInit{
       }
     );
   }
-
-
+  getStatusLabel(statut: string | null): string {
+    // Retourne le libellé personnalisé ou le statut brut s'il n'est pas trouvé
+    //console.log(statut);
+    if(statut==null)
+      return  "";
+    
+    return this.statutDisplay[statut] || statut;
+  }
+  getStatusClass(statut: string | null): string {
+    switch (statut) {
+      case 'Accorde':
+        return 'status-accorde';
+      case 'AVerifier':
+        return 'status-a-verifier';
+      case 'En_cours':
+        return 'status-encours';
+      case 'AttenteValidation':
+        return 'status-attente-validation';
+      default:
+        return ''; // Classe par défaut si le statut est inconnu
+    }
+  }
 
   get filteredCorporates() {
     return this.corporates.filter(corporate => 
@@ -71,7 +165,9 @@ export class CorporateComponent  implements OnInit{
   get clientCategoryOptions() {
     return Object.values(ClientCategory);
   }
-
+  get statutOptions() {
+    return Object.values(Statut);
+  }
   onJuridicalFormChange(selectedJuridicalFormCode: string) {
     console.log("selectedJuridicalFormCode = "+ selectedJuridicalFormCode);
     // Recherche de l'agence correspondant au code sélectionné
@@ -107,6 +203,36 @@ export class CorporateComponent  implements OnInit{
     if (selectedFinancingType) {
       this.corporate.financingType =selectedFinancingType;
       this.corporate.financingTypeId = selectedFinancingType.id;
+    }
+  }
+  calculateDuration(): void {
+    if (this.corporate.startDate && this.corporate.endDate) {
+      const start = new Date(this.corporate.startDate);
+      const end = new Date(this.corporate.endDate);
+
+      // Validation : La date de fin doit être après la date de début
+      if (end < start) {
+        this.dateError = true;
+        this.dateErrorMessage = 'La date de fin ne peut pas être antérieure à la date de début.';
+        this.corporate.duree = 0; // Réinitialiser la durée
+        return;
+      } else {
+        this.dateError = false; // Réinitialiser l'erreur
+        this.dateErrorMessage = '';
+      }
+
+      // Calcul de la différence en mois
+      const yearsDiff = end.getFullYear() - start.getFullYear();
+      const monthsDiff = end.getMonth() - start.getMonth();
+
+      // Total mois
+      const totalMonths = yearsDiff * 12 + monthsDiff;
+
+      this.corporate.duree = totalMonths >= 0 ? totalMonths : 0;
+    } else {
+      this.corporate.duree = 0; // Réinitialiser si une des deux dates est manquante
+      this.dateError = false; // Réinitialiser l'erreur
+      this.dateErrorMessage = '';
     }
   }
   onBranchCodeChange(selectedBranchId: any) {
@@ -152,6 +278,29 @@ export class CorporateComponent  implements OnInit{
       }
     );
   }
+
+  envoiDossierValidation(){
+    //const branch   = this.retail.branch ; 
+    console.log('Statut avant PUT:', this.corporate.statutDossier);
+    const statut =  this.corporate.statutDossier ; 
+    
+    this.corporate.statutDossier = Statut.AttenteValidation;
+    console.log(' ------ Statut apres  PUT:', this.corporate.statutDossier);
+    console.log("branch 2 "+ this.corporate.branch.id);
+    this.corpoService.editClientCorporate(this.corporate).subscribe( 
+      res=>{
+        this.ngOnInit();
+        console.log(res);
+      }, 
+    err=>{
+      this.toast.danger("Problem de modification",err);
+      console.log(err);}); 
+    //this.router.navigate(['/generateNotePart']);
+    this.toast.success( "Dossier  ["+this.corporate.contractReference +"] Envoyée pour Validation", "success " );
+
+    this.ngOnInit();
+
+  }
   editCorporate(selectedCorporate : any){
     
     this.corpoService.getDetailsCorporate(selectedCorporate.id).subscribe(
@@ -175,6 +324,11 @@ export class CorporateComponent  implements OnInit{
   }
 
   onEditSubmit(){
+    console.log('Statut avant PUT:', this.corporate.statutDossier);
+    const statut =  this.corporate.statutDossier ; 
+    
+    this.corporate.statutDossier = Statut.En_cours;
+    console.log(' ------ Statut apres  PUT:', this.corporate.statutDossier);
     this.corpoService.editClientCorporate(this.corporate).subscribe( 
       res=>{
         this.toast.success( "Client  ["+this.corporate.clientRequest +"] modifiée avec succès", "success " );
@@ -198,7 +352,7 @@ export class CorporateComponent  implements OnInit{
     // Générer le nombre séquentiel
     this.lastSequentialNumber = this.lastSequentialNumber+1; // Incrémentez le nombre séquentiel
     const sequentialNumber = this.lastSequentialNumber.toString(); // Convertir en chaîne de caractères si nécessaire
-
+    this.corporate.statutDossier =Statut.En_cours ; 
     this.generateContractReference(sequentialNumber);
     console.log(this.corporate);
     this.onAjoutCorporate();
@@ -269,69 +423,113 @@ export class CorporateComponent  implements OnInit{
   }
 
 
+
+  
+
   /////////////////////////////////////////////////////
-  getGlobalScore(): number {
-    return this.sections.reduce((total, section) => total + section.totalScore, 0);
+  getClassByLevel(level: string| null): string {
+    if (!level) {
+      return 'bg-default'; // Classe par défaut si null ou indéfini
+    }
+    switch (level.toLowerCase()) {
+      case 'mauvaise':
+        return 'bg-red';
+      case 'excellente':
+        return 'bg-green';
+      case 'bonne':
+        return 'bg-green';        
+      case 'moyenne':
+        return 'bg-orange';
+      default:
+        return 'bg-default';
+    }
   }
   
-  sections: Section[] = [
+
+  
+  /*sections: Section[] = [
     {
-      name: 'Rentabilité',
+      name: 'RENTABILITE',
       rows: [
         {
-          name: 'Rentabilité économique',
-          ponderation: 20,
+          name: 'Rentabilité financière',
+          ponderation: 30,
           borneInf: 0,
-          borneSup: 30,
-          norme: 15,
+          borneSup: 20,
+          norme: 10,
           scoreMin: 0,
           scoreMax: 20,
           valeurClient: null,
           score: 0,
           scorePondere: 0,
         },
-        // Ajoutez d'autres lignes ici
       ],
       totalScore: 0,
     },
     {
-      name: 'Rentabilité',
+      name: 'STRUCTURE FINANCIERE/TRESORERIE',
       rows: [
         {
-          name: 'Rentabilité économique',
-          ponderation: 20,
+          name: 'Fonds de roulement (FR)',
+          ponderation: 50,
           borneInf: 0,
-          borneSup: 30,
-          norme: 15,
+          borneSup: 0.01,
+          norme: 0,
           scoreMin: 0,
           scoreMax: 20,
           valeurClient: null,
           score: 0,
           scorePondere: 0,
         },
-        // Ajoutez d'autres lignes ici
+        {
+          name: 'Taux de couverture du BFR',
+          ponderation: 50,
+          borneInf: 40,
+          borneSup: 100,
+          norme: 70,
+          scoreMin: 0,
+          scoreMax: 20,
+          valeurClient: null,
+          score: 0,
+          scorePondere: 0,
+        },
       ],
       totalScore: 0,
     },
-    // Ajoutez d'autres sections ici
-  ];
+  ];*/
+  
     // Méthode pour calculer les scores (optionnelle)
-    calculateScores(): void {
-      this.sections.forEach((section) => {
-        section.rows.forEach((row) => {
-          // Logique de calcul basée sur "valeurClient", "borneInf", etc.
-          row.score = Math.min(
-            Math.max(row.valeurClient || 0, row.scoreMin),
-            row.scoreMax
-          );
-          row.scorePondere = (row.score * row.ponderation) / 100;
+  /*  calculateScores(): void {
+      this.sections.forEach((section: Section) => {
+        section.totalScore = 0;
+        section.rows.forEach((row: Row) => { // Ajout du type explicite
+          if (row.valeurClient !== null) {
+            // Calcul du score
+            if (row.valeurClient < row.borneInf) {
+              row.score = row.scoreMin;
+            } else if (row.valeurClient > row.borneSup) {
+              row.score = row.scoreMax;
+            } else {
+              row.score =
+                ((row.valeurClient - row.borneInf) /
+                  (row.borneSup - row.borneInf)) *
+                (row.scoreMax - row.scoreMin) +
+                row.scoreMin;
+            }
+            // Calcul du score pondéré
+            row.scorePondere = (row.score * row.ponderation) / 100;
+            section.totalScore += row.scorePondere;
+          } else {
+            row.score = 0;
+            row.scorePondere = 0;
+          }
         });
-        section.totalScore = section.rows.reduce(
-          (total, row) => total + row.scorePondere,
-          0
-        );
       });
-    } 
+    }*/
     
+  /*  getGlobalScore(): number {
+      return this.sections.reduce((total, section) => total + section.totalScore, 0);
+    }
+  */    
 
 }

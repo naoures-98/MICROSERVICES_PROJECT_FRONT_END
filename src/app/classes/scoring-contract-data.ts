@@ -1,6 +1,7 @@
 import { Branch } from "./branch";
 import { ClientNotation } from "./client-notation";
 import { Currency } from "./currency";
+import { Statut } from "./enum";
 import { FinancingType } from "./financing-type";
 
 export class ScoringContractData {
@@ -14,6 +15,17 @@ export class ScoringContractData {
     telephone : string;
     startDate : Date;
     endDate : Date;
+
+    mntSollicite : Number | null =null;
+    duree : Number | null = null;
+    mntSolliEcheance : Number | null =null;
+    mntInitial: Number | null =null;
+    capitalRestantDu: Number | null =null;
+    mntEncEcheance: Number | null =null;
+    endDateEncours: Date | null = null;
+    statutDossier : Statut | null = null;
+
+    retourAnalyste : String | null = null;
     clientNotation : ClientNotation| null = null;
     //currencyId : number | null = null;
     //branchId : number | null = null;

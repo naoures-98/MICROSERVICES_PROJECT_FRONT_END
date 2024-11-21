@@ -9,7 +9,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { Retail } from '../../../classes/retail';
 import { RetailService } from '../../../services/retail.service';
 import { Corporate } from '../../../classes/corporate';
-import { Classe, ClientCategory, Decision, EmployementStatus, FamilySituation } from '../../../classes/enum';
+import { Classe, ClientCategory, Decision, EmployementStatus, FamilySituation, Statut, StatutDisplay } from '../../../classes/enum';
 import { ClientNotation } from '../../../classes/client-notation';
 import { ClientNotationService } from '../../../services/client-notation.service';
 import { ClientSegmentConfigService } from '../../../services/client-segment-config.service';
@@ -17,6 +17,8 @@ import { ClientSegmentConfig } from '../../../classes/client-segment-config';
 import { JuridicalForm } from '../../../classes/juridical-form';
 import { ActivitySector } from '../../../classes/activity-sector';
 import { ClientScore } from '../../../classes/ClientScore';
+import { FinancingType } from '../../../classes/financing-type';
+import { Branch } from '../../../classes/branch';
 
 @Component({
   selector: 'app-generate-note-part',
@@ -26,28 +28,29 @@ import { ClientScore } from '../../../classes/ClientScore';
 export class GenerateNotePartComponent   implements OnInit{
   //FILTRER LA LISTE DES ACTIVITES :
   
-  searchTextCorpo: string = '';
-  pCorpo: number = 1; // Page courante
-  itemsPerPageCorpo: number = 10; // Nombre d'éléments par page
-  juridicalForms : JuridicalForm[]=[];
   activities : ActivitySector[]=[];
 
 
   searchTextRetail: string = '';
   pRetail: number = 1; // Page courante
-  itemsPerPageRetail: number = 10; // Nombre d'éléments par page
+  itemsPerPageRetail: number = 20; // Nombre d'éléments par page
   clientScore : number =0;
-  corporates : Corporate[]=[];
+  
 
+  financingType = new FinancingType();
+  financingTypes : FinancingType[]=[];
 
-
-  corporate: Corporate = new Corporate();
+  
   clientSegmentConfig: ClientSegmentConfig = new ClientSegmentConfig();
   retails : Retail[]=[];
   retail: Retail = new Retail();
-
+  branchs : Branch[]=[];
   isScored : Boolean = false;
   clientNotation: ClientNotation = new ClientNotation();
+
+
+  statutDisplay : any = StatutDisplay;
+
 
   //commun
   scoreCapitalImpaye = 0;
@@ -119,10 +122,15 @@ export class GenerateNotePartComponent   implements OnInit{
     public retailService : RetailService  ,
     private clientNotationService : ClientNotationService ,
     private clientSegmentConfigService : ClientSegmentConfigService,
+    public financingTypeService : FinancingTypeService,
+    public branchService: BranchService,
+    private activitySectorService : ActivitySectorService,
     private cdr: ChangeDetectorRef,
     private toast : NgToastService) { }
   ngOnInit(): void {
-
+    this.loadFinancingTypes();
+    this.loadBranchs();
+    this.loadActivitiesSector();
 
     this.retailService.getAllClientsRetail().subscribe(
       res=>{
@@ -131,6 +139,21 @@ export class GenerateNotePartComponent   implements OnInit{
       err=>{console.log(err);
       }
     );
+  }
+  loadFinancingTypes(): void {
+    this.financingTypeService.getFinancingTypeByFinancingNature("FINANCEMENT PARTICULIERS").subscribe(natures => {
+      this.financingTypes = natures;
+    });
+  }
+  loadBranchs(): void {
+    this.branchService.getAllBranchs().subscribe(branchs => {
+      this.branchs = branchs;
+    });
+  }
+  loadActivitiesSector(): void {
+    this.activitySectorService.getAllActivities().subscribe(activities => {
+      this.activities = activities;
+    });
   }
   //filter par la barre de recherche
   get filteredRetails() {
@@ -141,11 +164,18 @@ export class GenerateNotePartComponent   implements OnInit{
     );
   }
 
-
+  get statutOptions() {
+    return Object.values(Statut);
+  }
   get emploiStatusOptions() {
     return Object.values(EmployementStatus);
   }
-
+  isStatutDisabled(): boolean {
+    return this.retail.statutDossier === 'Accorde' || 
+           this.retail.statutDossier === 'AVerifier' || 
+           this.retail.statutDossier === 'En_cours';
+  }
+  
   showDetails(selectedRetail : any){
     this.retailService.getDetailsRetail(selectedRetail.id).subscribe(
       res=>{
@@ -158,6 +188,68 @@ export class GenerateNotePartComponent   implements OnInit{
     );
   }
 
+  getStatusClass(statut: string | null): string { // couleur affichage
+    switch (statut) {
+      case 'Accorde':
+        return 'status-accorde';
+      case 'AVerifier':
+        return 'status-a-verifier';
+      case 'En_cours':
+        return 'status-encours';
+      case 'AttenteValidation':
+        return 'status-attente-validation';
+      default:
+        return ''; // Classe par défaut si le statut est inconnu
+    }
+  }
+  getStatusLabel(statut: string | null): string {
+    // Retourne le libellé personnalisé ou le statut brut s'il n'est pas trouvé
+    
+    if(statut==null)
+      return  "";
+    
+    return this.statutDisplay[statut] || statut;
+  }  
+
+  validerDossierRetail(){
+    const branch   = this.retail.branch ; 
+    console.log('Statut avant PUT:', this.retail.statutDossier);
+    const statut =  this.retail.statutDossier ; 
+    console.log("branch "+ this.retail.branch.id);
+    //if(this.retail.activitySector !=null)
+    //  this.retail.activitySectorId =this.retail.activitySector.id ;
+    //console.log("activitySectorId = "+ this.retail.activitySector.id)
+    if(this.retail.activitySector )
+      this.retail.activitySectorId = this.retail.activitySector.id;
+    if(this.retail.financingType!=null){
+      this.financingTypeService.getFinancingTypeByCode(this.retail.financingType.financingTypeCode).subscribe( 
+        res=>{
+          this.financingType = res;
+          this.retail.financingType=this.financingType;
+          this.retail.financingTypeId=this.financingType.id;
+          this.retail.branch = branch 
+          this.retail.branchId  = branch.id 
+          this.retail.statutDossier = statut;
+          console.log(' ------ Statut apres  PUT:', this.retail.statutDossier);
+          console.log("branch 2 "+ this.retail.branch.id);
+          this.retailService.editClientRetail(this.retail).subscribe( 
+            res=>{
+              this.toast.success( "Client  ["+this.retail.clientRequest +"] modifiée avec succès", "success " );
+              console.log(res);
+              this.ngOnInit();
+
+            }, 
+          err=>{
+            this.toast.danger("Problem de modification",err);
+            console.log(err);}); 
+        }, 
+      err=>{
+        console.log("error = "+err);});
+    }
+    this.router.navigate(['/generateNotePart']);
+    this.ngOnInit();
+
+  }
   calculerScoreRetail(selectedRetail : any){
     this.toast.info('Calcul du score en cours...');
     console.log("selectedRetail = "+selectedRetail.id);
@@ -208,14 +300,14 @@ export class GenerateNotePartComponent   implements OnInit{
         this.scoreAncienneteEmployeur = this.scoreAncienneteEmployeur * 0.20;
   
         // Calcul du score Secteur d'Activité
-        if(this.corporate.activitySector!==null){
-          if(this.corporate.activitySector.code == "AGRICULTURE" || this.corporate.activitySector.code == "INDUSTRIE" ||
-          this.corporate.activitySector.code == "CONSTRUCTION" ||	this.corporate.activitySector.code == "SERVICES"){
+        if(this.retail.activitySector!==null){
+          if(this.retail.activitySector.code == "AGRICULTURE" || this.retail.activitySector.code == "INDUSTRIE" ||
+          this.retail.activitySector.code == "CONSTRUCTION" ||	this.retail.activitySector.code == "SERVICES"){
             this.scoreActivitySector = 5 ;
-          }else if (this.corporate.activitySector.code == "BANQUE" ||	this.corporate.activitySector.code == "ASSURANCE" ||
-            this.corporate.activitySector.code == "IMMOBILIER") {
+          }else if (this.retail.activitySector.code == "BANQUE" ||	this.retail.activitySector.code == "ASSURANCE" ||
+            this.retail.activitySector.code == "IMMOBILIER") {
               this.scoreActivitySector = 10 ;
-          } else if (this.corporate.activitySector.code == "ENTREPRENEURSHIP" || this.corporate.activitySector.code == "PUBLIC SERVICES"){
+          } else if (this.retail.activitySector.code == "ENTREPRENEURSHIP" || this.retail.activitySector.code == "PUBLIC SERVICES"){
             this.scoreActivitySector = 15;
           }	
         }else{
@@ -450,6 +542,22 @@ export class GenerateNotePartComponent   implements OnInit{
   
     //this.retail.clientNotation = this.clientNotation;
   }
-
+  getClassByLevel(level: string| null): string {
+    if (!level) {
+      return 'bg-default'; // Classe par défaut si null ou indéfini
+    }
+    switch (level.toLowerCase()) {
+      case 'mauvaise':
+        return 'bg-red';
+      case 'excellente':
+        return 'bg-green';
+      case 'bonne':
+        return 'bg-green';        
+      case 'moyenne':
+        return 'bg-orange';
+      default:
+        return 'bg-default';
+    }
+  }
   
 }

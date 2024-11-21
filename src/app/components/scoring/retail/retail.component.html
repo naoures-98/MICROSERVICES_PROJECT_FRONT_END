@@ -4,9 +4,7 @@
         <button type="button" class="btn btn-custom-secondary btn-small  me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailModal">
             Ajouter un nouveau Client Particulier
         </button>
-        <button type="button" class="btn btn-custom-secondary btn-small me-2 mb-3" data-bs-toggle="modal" data-bs-target="#retailImportExcelModal">
-            Import EXCEL
-        </button>
+
         <input type="text" [(ngModel)]="searchText" class="form-control small-input mb-3" placeholder="Rechercher...">
     </div>
     <table class="table table-bordered table-small">
@@ -18,7 +16,7 @@
                 <th>CIVILITE</th>
                 <th>NOM</th>
                 <th>PRENOM</th>
-                
+                <th>STATUT</th>
                 
                 <th class="text-center">ACTIONS</th>
             </tr>
@@ -31,17 +29,31 @@
                 <td>{{ retail.civility }}</td>
                 <td>{{ retail.lastName }}</td>
                 <td>{{ retail.firstName }}</td>
-                
+                <td [ngClass]="getStatusClass(retail.statutDossier)">{{ getStatusLabel(retail.statutDossier) }} </td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-outline-dark btn-small me-2" data-bs-toggle="modal" (click)="showDetails(retail)" data-bs-target="#retailDetailsModal">
+                    <button type="button" class="btn btn-outline-dark btn-small me-2" 
+                            data-bs-toggle="modal" 
+                            (click)="showDetails(retail)" 
+                            data-bs-target="#retailDetailsModal">
                         Details
                     </button>
-                    <button type="button" class="btn btn-custom-warning btn-small me-2" data-bs-toggle="modal" (click)="editRetail(retail)" data-bs-target="#retailEditModal">
+                    <button [disabled]="retail.statutDossier === 'AttenteValidation' || retail.statutDossier === 'Accorde'" 
+                            type="button" 
+                            class="btn btn-outline-dark btn-small me-2" 
+                            data-bs-toggle="modal" 
+                            (click)="editRetail(retail)" 
+                            data-bs-target="#retailEditModal">
                         Modifier
                     </button>
-                    <button class="btn btn-custom-danger btn-small" (click)="openDeleteModal(retail.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                        Supprimer</button>
+                    <button [disabled]="retail.statutDossier === 'AttenteValidation' || retail.statutDossier === 'Accorde'"
+                    class="btn btn-outline-dark btn-small me-2"  
+                            (click)="openDeleteModal(retail.id)" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#confirmDeleteModal">
+                        Supprimer
+                    </button>
                 </td>
+                
             </tr>
         </tbody>
     </table>
@@ -52,13 +64,13 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="retailDetailsModalLabel">Détails client</h6>
+                <h5 class="modal-title" id="retailDetailsModalLabel">Détails client</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="retailDetailsForm" #retailDetailsForm="ngForm">
                     <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Agence</h6>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES AGENCE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -76,17 +88,14 @@
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
-                    
                     <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Demande</h6>
-                        <hr class="mb-3">
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES DEMANDE</h6>
+                        <hr class="mb-3"><!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
+						    <div class="form-group me-3">
                                 <label for="retailAnnee" class="form-label small-label">Année</label>
                                 <input type="text" class="form-control small-input" [disabled]="true" required #retailAnnee="ngModel" [(ngModel)]="retail.year" name="year" id="year">
                             </div>
-                        </div> <!-- Ligne séparatrice avec marge en bas -->
-                        <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailClientIdentifier" class="form-label small-label">Identifiant Client</label>
                                 <input type="text" class="form-control small-input" [disabled]="true" required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" name="clientRequest" id="clientRequest">
@@ -97,10 +106,329 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div>					
                     <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données client</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                        <h6 class="custom-label mb-3" style="color: navy;">INFORMATIONS CLIENT</h6>
+                        <hr class="mb-3">
+						<div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailCivilite" class="form-label small-label">Civilité</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailCivilite="ngModel" [(ngModel)]="retail.civility" name="civility" id="civility">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSexe" class="form-label small-label">Sexe</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailSexe="ngModel" [(ngModel)]="retail.gender" name="gender" id="gender">
+                            </div>
+                            <div class="form-group me-3">
+                            </div>						
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailLastName" class="form-label small-label">Nom</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
+                            </div>	
+							<div class="form-group me-3">							
+                                <label for="retailFirstName" class="form-label small-label">Prenom</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailFirstName="ngModel" [(ngModel)]="retail.firstName" name="firstName" id="firstName">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailBirthDate" class="form-label small-label">Date Naissance</label>
+                                <input type="date" class="form-control small-input" [disabled]="true" required #retailBirthDate="ngModel" [(ngModel)]="retail.birthDate" name="birthDate" id="birthDate">
+                            </div>							
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailEmail="ngModel" [(ngModel)]="retail.email" name="email" id="email">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailTel="ngModel" [(ngModel)]="retail.telephone" name="telephone" id="telephone">
+                            </div>
+                            <div class="form-group me-3">
+                            </div>
+                        </div>					
+                    </div>                    
+                    <div class="border p-3 rounded mb-4">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES ENGAGEMENT</h6>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Sollicité</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
+									<input type="text" class="form-control small-input" [disabled]="true" required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailStartDate" class="form-label small-label">Date début</label>
+									<input type="date" class="form-control small-input" [disabled]="true" required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEndDate" class="form-label small-label">Date Fin</label>
+									<input type="date" class="form-control small-input" [disabled]="true" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+								</div>
+							</div> 
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntSollicite" class="form-label small-label">Montant crédit Sollicité</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailMntSollicite="ngModel" [(ngModel)]="retail.mntSollicite" name="retailMntSollicite" id="retailMntSollicite">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntSollEcheance" class="form-label small-label">Montant de l'échéance</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailMntEcheance="ngModel" [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDuree" class="form-label small-label">Durée (en mois)</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
+								</div>
+							</div>     							
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+						<div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Encours</h6>
+                            <hr class="mb-3"> 
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntInitial" class="form-label small-label">Montant Initial</label>
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailMntInitial="ngModel" [(ngModel)]="retail.mntInitial" name="retailMntInitial" id="retailMntInitial">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntCapitalRestant" class="form-label small-label">Capital Restant Dû</label>
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailMntCapitalRestant="ngModel" [(ngModel)]="retail.capitalRestantDu" name="retailMntCapitalRestant" id="retailMntCapitalRestant">
+								</div>
+
+							</div>  
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
+								<input type="date" class="form-control small-input" [disabled]="true"  #retailDateFinEnc="ngModel" [(ngModel)]="retail.endDateEncours" name="retailDateFinEnc" id="retailDateFinEnc">
+								</div>								
+							</div>  							
+                        </div>						
+                    </div> 
+					<div class="border p-3 rounded mb-4">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES SCORING</h6>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Données Client</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailAge" class="form-label small-label">Age</label>
+									<input type="text" class="form-control small-input" [disabled]="true" required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
+								</div>					
+								<div class="form-group me-3">
+									<label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
+									<input type="text" class="form-control small-input" [disabled]="true" required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbrDependents" class="form-label small-label">Nombre des personnes a charge</label>
+									<input type="text" class="form-control small-input"  [disabled]="true" required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
+								</div>
+							</div> 
+							
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailProfession" class="form-label small-label">Profession</label>
+									<input type="text" class="form-control small-input" [disabled]="true"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEmploiStatus" class="form-label small-label">Statut Emploi</label>
+									<select class="form-control small-input" required [disabled]="true"  [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
+										<option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailRevenu" class="form-label small-label">Revenus Client</label>
+									<input type="text" class="form-control small-input"  [disabled]="true" required #retailRevenu="ngModel" 
+									[(ngModel)]="retail.revenu" name="revenu" id="revenu"
+									(ngModelChange)="onRevenueChange($event)">
+								</div>								
+							</div>   							
+                            
+ 
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+									<input type="date" class="form-control small-input" [disabled]="true" required #retailRelationEntryDate="ngModel" 
+									[(ngModel)]="retail.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+									(ngModelChange)="onRelationEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+
+								</div>
+							</div>							
+                            <!-- Ligne séparatrice avec marge en bas -->							
+                        </div>
+						<div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+                            <h6 class="custom-label p-3 mb-3">Données Employeur</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEmployerSize" class="form-label small-label">Taille de l'employeur</label>
+									<select id="employerSizeSelect" #retailEmployerSize="ngModel"  [disabled]="true"
+									[(ngModel)]="retail.employerSize" name="retailEmployerSize" 
+									class="form-select small-select" required>
+										<option [value]="'Grande Entreprise'">GE</option>
+										<option [value]="'PME'">PME</option>
+										<option [value]="'PME'">TPE</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
+									<select id="activitySectorSelect" #retailActivitySector="ngModel"  [disabled]="true"
+									[(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
+									class="form-select small-select" required
+									(ngModelChange)="onActivitySectorChange($event)">
+										<option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
+									</select>                            
+								</div>
+							</div>
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
+									<input type="date" class="form-control small-input"  [disabled]="true" required #retailEmployementEntryDate="ngModel" 
+									[(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
+									(ngModelChange)="onEmployementEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								
+							</div>		
+                            <!-- Ligne séparatrice avec marge en bas -->							
+                        </div>						
+                    </div>			
+					<div class="border p-3 rounded mb-4"> 
+                        <h6 class="custom-label mb-3" style="color: navy;">COMPORTEMENT CLIENT</h6>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEcheance" class="form-label small-label">Echeance</label>
+                                <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
+                                [(ngModel)]="retail.echeance" [disabled]="true" name="echeance" id="echeance"
+                                (ngModelChange)="onEcheanceChange($event)">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTauxEndettement" class="form-label small-label">Taux d'endettement</label>
+                                <input type="text" class="form-control small-input"  required #retailTauxEndettement="ngModel" 
+                                [(ngModel)]="retail.deptRatio" [disabled]="true" name="deptRatio" id="deptRatio"
+                                [disabled]="true">
+                            </div>
+                            
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailUnpaiedPresence" class="form-label small-label">Comportement client (Banque & Secteur) Presence d'impayé </label>
+                                <select id="retailUnpaiedPresence" #retailImpaye="ngModel"  
+                                [(ngModel)]="retail.unpaidPresence" [disabled]="true" name="retailUnpaiedPresence" 
+                                class="form-select small-select" required>
+                                <option [value]="'Aucun impayé'">Aucun impayé et IMP Secteur (Non)</option>
+                                <option [value]="'impayé inf 2 mois'">Impayés Inf à deux mois (< 2 Mois)</option>
+                                <option [value]="'impayé sup 2 mois'">2 Mois < Impayés <= 3 Mois</option>
+                                <option [value]="'impayé sup 3 mois'">Impayés Sup à 3 Mois et IMP Secteur (oui)</option>
+                            </select>
+                                
+                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailPayementIncident" class="form-label small-label">Incidents de paiement </label>
+                                <select id="retailPayementIncident" #retailPayementIncident="ngModel"  
+                                [(ngModel)]="retail.payementIncident" [disabled]="true" name="retailPayementIncident" 
+                                class="form-select small-select" required>
+                                <option [value]="'Aucun incident'">Aucun incident</option>
+                                <option [value]="'incident de paiement sur cheque'">Incidents de paiement sur chéque durant les 3 derniers mois</option>
+    
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>
+                    <div class="border p-3 rounded mb-4" *ngIf="retail.clientNotation!=null"> 
+                        <h6 class="custom-label mb-3" style="color: navy;">SCORE CLIENT</h6>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="finalScore" class="form-label small-label">Score Final</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="retail.clientNotation.finalScore" name="finalScore" id="finalScore">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="pd" class="form-label small-label">PD</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #pd="ngModel" [(ngModel)]="retail.clientNotation.pd" name="pd" id="pd">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailNote" class="form-label small-label">Niveau</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" 
+								[(ngModel)]="retail.clientNotation.decisionOctroi" 
+								[ngClass]="getClassByLevel(retail.clientNotation.decisionOctroi)"
+								name="clientNotation" id="clientNotation">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="classe" class="form-label small-label">Classe</label>
+                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" 
+								[(ngModel)]="retail.clientNotation.classe" 
+								[ngClass]="getClassByLevel(retail.clientNotation.decisionOctroi)"
+								name="classe" id="classe">
+                            </div>
+                        </div> <!-- Ligne séparatrice avec marge en bas -->
+                    </div>	
+					<div class="border p-3 rounded mb-4" *ngIf=" retail.clientNotation != null "> 
+						<h5 class="custom-label mb-3" style="color: navy;">VALIDATION NOTE</h5>
+						<hr class="mb-3">
+						<div class="form-row mb-3 d-flex align-items-end">
+							
+							<div class="form-group me-3">
+								<label for="statut" class="form-label small-label">Statut </label>
+								<select id="retailStatut" #retailStatut="ngModel" 
+								[disabled]="true"
+								[(ngModel)]="retail.statutDossier" 
+								name="retailStatut" class="form-select small-select" required>
+								<option *ngFor="let option of statutOptions" [value]="option">{{ getStatusLabel(option) }}</option>
+								</select>
+							
+							</div>
+							<div class="form-group">
+							</div>
+							<div class="form-group">
+							</div>
+						</div>
+						<div class="form-row mb-3 d-flex align-items-end">
+							<div class="form-group me-3">
+								<label for="retourAnalyste" class="form-label small-label">Retour Analyste</label>
+								<textarea class="form-control small-input" required  rows="7" 
+								[disabled]="true"
+								#retourAnalyste="ngModel" [(ngModel)]="retail.retourAnalyste" 
+								name="retourAnalyste" id="retourAnalyste"></textarea>
+							</div>
+						</div>
+						 <!-- Ligne séparatrice avec marge en bas -->
+					</div>					
+                    <!--div class="border p-3 rounded mb-4"> 
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES CLIENT</h6>
+                        <hr class="mb-3"> 
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailCivilite" class="form-label small-label">Civilité</label>
@@ -147,10 +475,10 @@
                             </div>
                         </div>
                                                 
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données Financement</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                    </div-->
+                    <!--div class="border p-3 rounded mb-4"> 
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCEMENT</h6>
+                        <hr class="mb-3"> 
                                                 
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -162,7 +490,7 @@
                                 <select class="form-control small-input" required [disabled]="true"  [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
                                     <option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
                                 </select>
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+
                             </div>
                             
                         </div>
@@ -189,13 +517,13 @@
                             <div class="form-group me-3">
                                 <label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
                                 <input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+                                
                             </div>
                             
                         </div>
-                    </div>
-                    <div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
-                        <h6 class="custom-label mb-3">Employeur / Contrepartie </h6>
+                    </div-->
+                    <!--div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+						<h6 class="custom-label mb-3" style="color: navy;">EMPLOYEUR / CONTREPARTIE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -207,7 +535,7 @@
                                     <option [value]="'PME'">PME</option>
                                     <option [value]="'PME'">TPE</option>
                                 </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+
                             </div>
                             <div class="form-group me-3">
                                 <label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
@@ -230,108 +558,12 @@
                             <div class="form-group me-3">
                                 <label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
                                 <input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+
                             </div>
                             
                         </div>
-                        
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Engagement</h6>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId">
-                            </div>
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailStartDate" class="form-label small-label">Date début</label>
-                                <input type="date" class="form-control small-input" [disabled]="true" required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailEndDate" class="form-label small-label">Date Fin</label>
-                                <input type="date" class="form-control small-input" [disabled]="true" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
-                            </div>
-                        </div>
-                        
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Comportement client </h6>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailEcheance" class="form-label small-label">Echeance</label>
-                                <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
-                                [(ngModel)]="retail.echeance" [disabled]="true" name="echeance" id="echeance"
-                                (ngModelChange)="onEcheanceChange($event)">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailTauxEndettement" class="form-label small-label">Taux d'endettement</label>
-                                <input type="text" class="form-control small-input"  required #retailTauxEndettement="ngModel" 
-                                [(ngModel)]="retail.deptRatio" [disabled]="true" name="deptRatio" id="deptRatio"
-                                [disabled]="true">
-                            </div>
-                            
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailUnpaiedPresence" class="form-label small-label">Comportement client (Banque & Secteur) Presence d'impayé </label>
-                                <select id="retailUnpaiedPresence" #retailImpaye="ngModel"  
-                                [(ngModel)]="retail.unpaidPresence" [disabled]="true" name="retailUnpaiedPresence" 
-                                class="form-select small-select" required>
-                                <option [value]="'Aucun impayé'">Aucun impayé et IMP Secteur (Non)</option>
-                                <option [value]="'impayé inf 2 mois'">Impayés Inf à deux mois (< 2 Mois)</option>
-                                <option [value]="'impayé sup 2 mois'">2 Mois < Impayés <= 3 Mois</option>
-                                <option [value]="'impayé sup 3 mois'">Impayés Sup à 3 Mois et IMP Secteur (oui)</option>
-                            </select>
-                                
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailPayementIncident" class="form-label small-label">Incidents de paiement </label>
-                                <select id="retailPayementIncident" #retailPayementIncident="ngModel"  
-                                [(ngModel)]="retail.payementIncident" [disabled]="true" name="retailPayementIncident" 
-                                class="form-select small-select" required>
-                                <option [value]="'Aucun incident'">Aucun incident</option>
-                                <option [value]="'incident de paiement sur cheque'">Incidents de paiement sur chéque durant les 3 derniers mois</option>
-    
-                                </select>
-                                
-                            </div>
-                        </div>
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    <div class="border p-3 rounded mb-4" *ngIf="retail.clientNotation!=null"> 
-                        <h6 class="custom-label mb-3">Score Client</h6>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="finalScore" class="form-label small-label">Score Final</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #finalScore="ngModel" [(ngModel)]="retail.clientNotation.finalScore" name="finalScore" id="finalScore">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="pd" class="form-label small-label">PD</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #pd="ngModel" [(ngModel)]="retail.clientNotation.pd" name="pd" id="pd">
-                            </div>
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailNote" class="form-label small-label">Niveau</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="retail.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="classe" class="form-label small-label">Classe</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" [(ngModel)]="retail.clientNotation.classe" name="classe" id="classe">
-                            </div>
-                        </div> <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    
-                    <!-- Uncomment to add a submit button -->
-                    <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
+
+                    </div-->
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-custom-danger btn-small" data-bs-dismiss="modal">Annuler</button>
@@ -347,13 +579,13 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="retailEditModalLabel">Modifier client</h6>
+                <h5 class="modal-title" id="retailEditModalLabel">Modifier client</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="retailEditForm" (ngSubmit)="onEditSubmit()" #retailEditForm="ngForm">
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Agence</h6>
+                    <div class="border p-3 rounded mb-4">
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES AGENCE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -376,17 +608,14 @@
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
                     </div>
-                    
                     <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Demande</h6>
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES DEMANDE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailAnnee" class="form-label small-label">Année</label>
                                 <input type="text" class="form-control small-input" [disabled]="true" required #retailAnnee="ngModel" [(ngModel)]="retail.year" name="year" id="year">
-                            </div>
-                        </div> <!-- Ligne séparatrice avec marge en bas -->
-                        <div class="form-row mb-3 d-flex align-items-end">
+                            </div>						
                             <div class="form-group me-3">
                                 <label for="retailClientIdentifier" class="form-label small-label">Identifiant Client</label>
                                 <input type="text" class="form-control small-input" [disabled]="true" required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" name="clientRequest" id="clientRequest">
@@ -397,57 +626,45 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données client</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
-                        <div class="form-row mb-3 d-flex align-items-end">
+                    </div>					
+                    <div class="border p-3 rounded mb-4">
+						<h6 class="custom-label mb-3" style="color: navy;">INFORMATIONS CLIENT</h6>
+                        <hr class="mb-3">
+						<div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailCivilite" class="form-label small-label">Civilité</label>
-                                <select class="form-control small-input" required [(ngModel)]="retail.civility" name="civility" id="civility">
+                                <select class="form-control small-input" required [(ngModel)]="retail.civility" name="civility" id="civility"
+                                (ngModelChange)="onCivilityChange($event)">
                                     <option *ngFor="let option of civilityOptions" [value]="option">{{ option }}</option>
                                 </select>
                                 <!--input type="text" class="form-control small-input"  required #retailCivilite="ngModel" [(ngModel)]="retail.civility" name="civility" id="civility"-->
                             </div>
                             <div class="form-group me-3">
                                 <label for="retailSexe" class="form-label small-label">Sexe</label>
-                                <select class="form-control small-input" required [(ngModel)]="retail.gender" name="gender" id="gender">
-                                    <option *ngFor="let option of genderOptions" [value]="option">{{ option }}</option>
+                                <select class="form-control small-input" required [(ngModel)]="retail.gender" name="gender" id="gender" [disabled]="true">
+                                    <option *ngFor="let option of genderOptions" [disabled]="true" [value]="option">{{ option }}</option>
                                 </select>
                                 <!--input type="text" class="form-control small-input"  required #retailSexe="ngModel" [(ngModel)]="retail.gender" name="gender" id="gender"-->
                             </div>
                             <div class="form-group me-3">
-                                <label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
-                                <select class="form-control small-input" required [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
-                                    <option *ngFor="let situation  of familySituationOptions" [value]="situation ">{{ familySituationDisplay[situation] }}</option>
-                                </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation"-->
-                            </div>
-                        </div>
+                            </div>	
+						</div>	
                         <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailLastName" class="form-label small-label">Nom</label>
+                                <input type="text" class="form-control small-input" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
+                            </div>						
                             <div class="form-group me-3">
                                 <label for="retailFirstName" class="form-label small-label">Prenom</label>
                                 <input type="text" class="form-control small-input" required #retailFirstName="ngModel" [(ngModel)]="retail.firstName" name="firstName" id="firstName">
                             </div>
-                            <div class="form-group me-3">
-                                <label for="retailLastName" class="form-label small-label">Nom</label>
-                                <input type="text" class="form-control small-input" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
-                            </div>
-
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailBirthDate" class="form-label small-label">Date Naissance</label>
                                 <input type="date" class="form-control small-input"  required #retailBirthDate="ngModel" 
                                 [(ngModel)]="retail.birthDate" name="birthDate" id="birthDate"
                                 (ngModelChange)="onBirthDateChange($event)" >
                             </div>
-                            <div class="form-group me-3">
-                                <label for="retailAge" class="form-label small-label">Age</label>
-                                <input type="text" class="form-control small-input" [disabled]="true"  required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
-                            </div>
                         </div>
-                        
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailEmail" class="form-label small-label">Email</label>
@@ -457,124 +674,203 @@
                                 <label for="retailTel" class="form-label small-label">Téléphone</label>
                                 <input type="text" class="form-control small-input" required #retailTel="ngModel" [(ngModel)]="retail.telephone" name="telephone" id="telephone">
                             </div>
-                        </div>
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données Financement</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
-                                                
-                        <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
-                                <label for="retailProfession" class="form-label small-label">Profession</label>
-                                <input type="text" class="form-control small-input"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
                             </div>
-                            <div class="form-group me-3">
-                                <label for="retailEmploiStatus" class="form-label small-label">Statut Emplois</label>
-                                <select class="form-control small-input" required [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
-                                    <option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
-                                </select>
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
-                            </div>
-                            
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailRevenu" class="form-label small-label">Revenues Client</label>
-                                <input type="text" class="form-control small-input"  required #retailRevenu="ngModel" 
-                                [(ngModel)]="retail.revenu" name="revenu" id="revenu"
-                                (ngModelChange)="onRevenueChange($event)">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailNbrDependents" class="form-label small-label">Nombre des personnes a charge</label>
-                                <input type="text" class="form-control small-input"  required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
-                            </div>
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            
-                            <div class="form-group me-3">
-                                <label for="retailRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
-                                <input type="date" class="form-control small-input" required #retailRelationEntryDate="ngModel" 
-                                [(ngModel)]="retail.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
-                                (ngModelChange)="onRelationEntryDateChange($event)">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
-                                <input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
-                        <h6 class="custom-label mb-3">Employeur / Contrepartie </h6>
+                        </div>						
+                    </div> 
+					
+					<div class="border p-3 rounded mb-3">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES ENGAGEMENT</h6>
                         <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailEmployerSize" class="form-label small-label">Taille de l'employeur</label>
-                                <select id="employerSizeSelect" #retailEmployerSize="ngModel"  
-                                [(ngModel)]="retail.employerSize" name="retailEmployerSize" 
-                                class="form-select small-select" required>
-                                    <option [value]="'Grande Entreprise'">GE</option>
-                                    <option [value]="'PME'">PME</option>
-                                    <option [value]="'TPE'">TPE</option>
-                                </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
-                                <select id="activitySectorSelect" #corpoActivitySector="ngModel"  
-                                [(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
-                                class="form-select small-select" required
-                                (ngModelChange)="onActivitySectorChange($event)">
-                                    <option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
-                                </select>                            
-                            </div>
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Sollicité</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
+                                    <select id="financingTypeSelect" #retailFinancingType="ngModel"  
+                                    [(ngModel)]="retail.financingType.financingTypeCode" name="retailFinancingType" 
+                                    class="form-select small-select" required
+                                    (ngModelChange)="onFinancingTypeChange($event)">
+                                        <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
+                                    </select>								
+                                </div>						
+								<div class="form-group me-3">
+									<label for="retailStartDate" class="form-label small-label">Date début</label>
+									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEndDate" class="form-label small-label">Date Fin</label>
+									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+								</div>
+							</div>  
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntSollicite" class="form-label small-label">Montant crédit Sollicité</label>
+								<input type="text" class="form-control small-input"  required #retailMntSollicite="ngModel" [(ngModel)]="retail.mntSollicite" name="retailMntSollicite" id="retailMntSollicite">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntSollEcheance" class="form-label small-label">Montant de l'échéance</label>
+								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDuree" class="form-label small-label">Durée (en mois)</label>
+								<input type="text" class="form-control small-input"  required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
+								</div>
+							</div>   							
+							<!--div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailCapitalNominal" class="form-label small-label">Capital Nominal</label>
+									<input type="text" class="form-control small-input" required #retailCapitalNominal="ngModel" [(ngModel)]="retail.capitalNominal" name="capitalNominal" id="capitalNominal">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailCapitalImpaye" class="form-label small-label">Capital Impayé</label>
+									<input type="text" class="form-control small-input"  required #retailCapitalImpaye="ngModel" [(ngModel)]="retail.capitalImpaye" name="capitalImpaye" id="capitalImpaye">
+								</div>
+							</!--div-->							
+                            <!-- Ligne séparatrice avec marge en bas -->
                         </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            
-                            <div class="form-group me-3">
-                                <label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
-                                <input type="date" class="form-control small-input" required #retailEmployementEntryDate="ngModel" 
-                                [(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
-                                (ngModelChange)="onEmployementEntryDateChange($event)">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
-                                <input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
-                            </div>
-                            
+						<div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Encours</h6>
+                            <hr class="mb-3"> 
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntInitial" class="form-label small-label">Montant Initial</label>
+								<input type="text" class="form-control small-input"  required #retailMntInitial="ngModel" [(ngModel)]="retail.mntInitial" name="retailMntInitial" id="retailMntInitial">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntCapitalRestant" class="form-label small-label">Capital Restant Dû</label>
+								<input type="text" class="form-control small-input"  required #retailMntCapitalRestant="ngModel" [(ngModel)]="retail.capitalRestantDu" name="retailMntCapitalRestant" id="retailMntCapitalRestant">
+								</div>
+
+							</div>  
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
+								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
+								<input type="date" class="form-control small-input"   #retailDateFinEnc="ngModel" [(ngModel)]="retail.endDateEncours" name="retailDateFinEnc" id="retailDateFinEnc">
+								</div>								
+							</div>  							
                         </div>
-                        
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Engagement</h6>
+                    </div> 	
+					<div class="border p-3 rounded mb-4">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES SCORING</h6>
                         <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
-                                <select id="financingTypeSelect" #retailFinancingType="ngModel"  [(ngModel)]="retail.financingType.financingTypeCode" name="retailFinancingType" class="form-select small-select" required>
-                                    <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
-                                </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
-                            </div>
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Données Client</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailAge" class="form-label small-label">Age</label>
+									<input type="text" class="form-control small-input" [disabled]="true"  required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
+								</div>				
+								<div class="form-group me-3">
+									<label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
+									<select class="form-control small-input" required [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
+										<option *ngFor="let situation  of familySituationOptions" [value]="situation ">{{ familySituationDisplay[situation] }}</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbrDependents" class="form-label small-label">Nombre des personnes a charge</label>
+									<input type="text" class="form-control small-input"  required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
+								</div>
+							</div> 
+							
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailProfession" class="form-label small-label">Profession</label>
+									<input type="text" class="form-control small-input"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEmploiStatus" class="form-label small-label">Statut Emploi</label>
+									<select class="form-control small-input" required [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
+										<option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailRevenu" class="form-label small-label">Revenus Client</label>
+									<input type="text" class="form-control small-input"  required #retailRevenu="ngModel" 
+									[(ngModel)]="retail.revenu" name="revenu" id="revenu"
+									(ngModelChange)="onRevenueChange($event)">
+								</div>							
+							</div>   							
+                            
+ 
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+									<input type="date" class="form-control small-input" required #retailRelationEntryDate="ngModel" 
+									[(ngModel)]="retail.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+									(ngModelChange)="onRelationEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+
+								</div>
+							</div>							
+                            <!-- Ligne séparatrice avec marge en bas -->							
                         </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailStartDate" class="form-label small-label">Date début</label>
-                                <input type="date" class="form-control small-input" required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailEndDate" class="form-label small-label">Date Fin</label>
-                                <input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
-                            </div>
-                        </div>
-                        
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
+						<div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+                            <h6 class="custom-label p-3 mb-3">Données Employeur</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEmployerSize" class="form-label small-label">Taille de l'employeur</label>
+									<select id="employerSizeSelect" #retailEmployerSize="ngModel"  
+									[(ngModel)]="retail.employerSize" name="retailEmployerSize" 
+									class="form-select small-select" required>
+										<option [value]="'Grande Entreprise'">GE</option>
+										<option [value]="'PME'">PME</option>
+										<option [value]="'TPE'">TPE</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
+									<select id="activitySectorSelect" #corpoActivitySector="ngModel"  
+									[(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
+									class="form-select small-select" required
+									(ngModelChange)="onActivitySectorChange($event)">
+										<option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
+									</select>                            
+								</div>
+							</div>
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
+									<input type="date" class="form-control small-input" required #retailEmployementEntryDate="ngModel" 
+									[(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
+									(ngModelChange)="onEmployementEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								
+							</div>		
+                            <!-- Ligne séparatrice avec marge en bas -->							
+                        </div>						
+                    </div>		
+
+
                     <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Comportement client </h6>
+						<h6 class="custom-label mb-3" style="color: navy;">COMPORTEMENT CLIENT</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -620,7 +916,7 @@
                         <!-- Ligne séparatrice avec marge en bas -->
                     </div>
                     <div class="border p-3 rounded mb-4" *ngIf="retail.clientNotation !=null"> 
-                        <h6 class="custom-label mb-3">Score Client</h6>
+						<h6 class="custom-label mb-3" style="color: navy;">SCORE CLIENT</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             
@@ -636,18 +932,202 @@
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailNote" class="form-label small-label">Niveau</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" [(ngModel)]="retail.clientNotation.decisionOctroi" name="clientNotation" id="clientNotation">
+                                <input type="text" class="form-control small-input" [disabled]="true" required #retailNote="ngModel" 
+								[(ngModel)]="retail.clientNotation.decisionOctroi" 
+								[ngClass]="getClassByLevel(retail.clientNotation.decisionOctroi)"
+								name="clientNotation" id="clientNotation">
                             </div>
                             <div class="form-group me-3">
                                 <label for="classe" class="form-label small-label">Classe</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" [(ngModel)]="retail.clientNotation.classe" name="classe" id="classe">
+                                <input type="text" class="form-control small-input" [disabled]="true" required #classe="ngModel" 
+								[(ngModel)]="retail.clientNotation.classe" 
+								[ngClass]="getClassByLevel(retail.clientNotation.decisionOctroi)"
+								name="classe" id="classe">
                             </div>
                         </div> <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
+                    </div>		
+					<div class="border p-3 rounded mb-4" *ngIf=" retail.clientNotation != null "> 
+						<h5 class="custom-label mb-3" style="color: navy;">VALIDATION NOTE</h5>
+						<hr class="mb-3">
+						<div class="form-row mb-3 d-flex align-items-end">
+							
+							<div class="form-group me-3">
+								<label for="statut" class="form-label small-label">Statut </label>
+								<select id="retailStatut" #retailStatut="ngModel" 
+								[disabled]="true"
+								[(ngModel)]="retail.statutDossier" 
+								name="retailStatut" class="form-select small-select" required>
+								<option *ngFor="let option of statutOptions" [value]="option">{{ getStatusLabel(option) }}</option>
+								</select>
+							
+							</div>
+							<div class="form-group">
+							</div>
+							<div class="form-group">
+							</div>
+						</div>
+						<div class="form-row mb-3 d-flex align-items-end">
+							<div class="form-group me-3">
+								<label for="retourAnalyste" class="form-label small-label">Retour Analyste</label>
+								<textarea class="form-control small-input" required rows="5" 
+									[disabled]="true"
+									#retourAnalyste="ngModel" [(ngModel)]="retail.retourAnalyste" 
+									name="retourAnalyste" id="retourAnalyste"></textarea>
+							</div>
+						</div>
+						 <!-- Ligne séparatrice avec marge en bas -->
+					</div>						
+                    <!--div class="border p-3 rounded mb-4"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES CLIENT</h6>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailCivilite" class="form-label small-label">Civilité</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.civility" name="civility" id="civility">
+                                    <option *ngFor="let option of civilityOptions" [value]="option">{{ option }}</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSexe" class="form-label small-label">Sexe</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.gender" name="gender" id="gender">
+                                    <option *ngFor="let option of genderOptions" [value]="option">{{ option }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
+                                    <option *ngFor="let situation  of familySituationOptions" [value]="situation ">{{ familySituationDisplay[situation] }}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailFirstName" class="form-label small-label">Prenom</label>
+                                <input type="text" class="form-control small-input" required #retailFirstName="ngModel" [(ngModel)]="retail.firstName" name="firstName" id="firstName">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailLastName" class="form-label small-label">Nom</label>
+                                <input type="text" class="form-control small-input" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
+                            </div>
+
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailBirthDate" class="form-label small-label">Date Naissance</label>
+                                <input type="date" class="form-control small-input"  required #retailBirthDate="ngModel" 
+                                [(ngModel)]="retail.birthDate" name="birthDate" id="birthDate"
+                                (ngModelChange)="onBirthDateChange($event)" >
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailAge" class="form-label small-label">Age</label>
+                                <input type="text" class="form-control small-input" [disabled]="true"  required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input"  required #retailEmail="ngModel" [(ngModel)]="retail.email" name="email" id="email">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" required #retailTel="ngModel" [(ngModel)]="retail.telephone" name="telephone" id="telephone">
+                            </div>
+                        </div>
+                    </div-->
+                    <!--div class="border p-3 rounded mb-4"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCEMENT</h6>
+                        <hr class="mb-3">
+                                                
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailProfession" class="form-label small-label">Profession</label>
+                                <input type="text" class="form-control small-input"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailEmploiStatus" class="form-label small-label">Statut Emplois</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
+                                    <option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailRevenu" class="form-label small-label">Revenues Client</label>
+                                <input type="text" class="form-control small-input"  required #retailRevenu="ngModel" 
+                                [(ngModel)]="retail.revenu" name="revenu" id="revenu"
+                                (ngModelChange)="onRevenueChange($event)">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailNbrDependents" class="form-label small-label">Nombre des personnes a charge</label>
+                                <input type="text" class="form-control small-input"  required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            
+                            <div class="form-group me-3">
+                                <label for="retailRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+                                <input type="date" class="form-control small-input" required #retailRelationEntryDate="ngModel" 
+                                [(ngModel)]="retail.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+                                (ngModelChange)="onRelationEntryDateChange($event)">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+                                <input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                            </div>
+                            
+                        </div>
+                    </div-->
+                    <!--div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  ">
+						<h6 class="custom-label mb-3" style="color: navy;">EMPLOYEUR / CONTREPARTIE</h6>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmployerSize" class="form-label small-label">Taille de l'employeur</label>
+                                <select id="employerSizeSelect" #retailEmployerSize="ngModel"  
+                                [(ngModel)]="retail.employerSize" name="retailEmployerSize" 
+                                class="form-select small-select" required>
+                                    <option [value]="'Grande Entreprise'">GE</option>
+                                    <option [value]="'PME'">PME</option>
+                                    <option [value]="'TPE'">TPE</option>
+                                </select>
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
+                                <select id="activitySectorSelect" #corpoActivitySector="ngModel"  
+                                [(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
+                                class="form-select small-select" required
+                                (ngModelChange)="onActivitySectorChange($event)">
+                                    <option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            
+                            <div class="form-group me-3">
+                                <label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
+                                <input type="date" class="form-control small-input" required #retailEmployementEntryDate="ngModel" 
+                                [(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
+                                (ngModelChange)="onEmployementEntryDateChange($event)">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
+                                <input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
+
+                            </div>
+                            
+                        </div>
+                        
+                    </div-->
+
                     <!-- Uncomment to add a submit button -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                     <div class="modal-footer">
-                        <button class="btn btn-custom-success btn-small"  [disabled]="!retailEditForm.form.valid" type="submit">Submit</button>
+                        <button class="btn btn-custom-success btn-small"  [disabled]="!retailEditForm.form.valid" type="button" (click)="envoiDossierValidation()">Envoi Pour Validation</button>
+                        <button class="btn btn-custom-success btn-small"  [disabled]="!retailEditForm.form.valid" type="submit">Enregistrer</button>
                         <button type="button" class="btn btn-custom-danger btn-small" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 
@@ -664,13 +1144,13 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="retailModalLabel">Créer un nouveau client</h6>
+                <h5 class="modal-title" id="retailModalLabel">Créer un nouveau client</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="retailForm" (ngSubmit)="onSubmit()" #retailForm="ngForm">
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Agence</h6>
+                    <div class="border p-3 rounded mb-3"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES AGENCE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -690,17 +1170,14 @@
                             </div>
                         </div>
                     </div>
-                                        
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Demande</h6>
-                        <hr class="mb-3">
+                    <div class="border p-3 rounded mb-3"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES DEMANDE</h6>
+                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailAnnee" class="form-label small-label">Année</label>
                                 <input type="text" class="form-control small-input" [disabled]="true" required #retailAnnee="ngModel" [(ngModel)]="retail.year" name="year" id="year">
                             </div>
-                        </div> <!-- Ligne séparatrice avec marge en bas -->
-                        <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailClientIdentifier" class="form-label small-label">Identifiant Client</label>
                                 <input type="text" class="form-control small-input" [disabled]="false" required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" name="clientRequest" id="clientRequest">
@@ -711,12 +1188,11 @@
                             </div>
                         </div>
 
-                    </div>
-                    
-                    <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données client</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
-                        <div class="form-row mb-3 d-flex align-items-end">
+                    </div>					
+                    <div class="border p-3 rounded mb-4">
+						<h6 class="custom-label mb-3" style="color: navy;">INFORMATIONS CLIENT</h6>
+                        <hr class="mb-3">
+						<div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="retailCivilite" class="form-label small-label">Civilité</label>
                                 <select class="form-control small-input" required [(ngModel)]="retail.civility" name="civility" id="civility"
@@ -733,11 +1209,295 @@
                                 <!--input type="text" class="form-control small-input"  required #retailSexe="ngModel" [(ngModel)]="retail.gender" name="gender" id="gender"-->
                             </div>
                             <div class="form-group me-3">
+                            </div>				
+                        </div> <!-- Ligne séparatrice avec marge en bas -->							
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailLastName" class="form-label small-label">Nom</label>
+                                <input type="text" class="form-control small-input" required #retailLastName="ngModel" [(ngModel)]="retail.lastName" name="lastName" id="lastName">
+                            </div>						
+                            <div class="form-group me-3">
+                                <label for="retailFirstName" class="form-label small-label">Prenom</label>
+                                <input type="text" class="form-control small-input" required #retailFirstName="ngModel" [(ngModel)]="retail.firstName" name="firstName" id="firstName">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailBirthDate" class="form-label small-label">Date Naissance</label>
+                                <input type="date" class="form-control small-input"  required #retailBirthDate="ngModel" 
+                                [(ngModel)]="retail.birthDate" name="birthDate" id="birthDate"
+                                (ngModelChange)="onBirthDateChange($event)" >
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEmail" class="form-label small-label">Email</label>
+                                <input type="text" class="form-control small-input"  required #retailEmail="ngModel" [(ngModel)]="retail.email" name="email" id="email">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTel" class="form-label small-label">Téléphone</label>
+                                <input type="text" class="form-control small-input" required #retailTel="ngModel" [(ngModel)]="retail.telephone" name="telephone" id="telephone">
+                            </div>
+                            <div class="form-group me-3">
+                            </div>
+                        </div>						
+                    </div>                                            
+
+					<div class="border p-3 rounded mb-3">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES ENGAGEMENT</h6>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Sollicité</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
+                                    <select id="financingTypeSelect" #retailFinancingType="ngModel"  
+                                    [(ngModel)]="retail.financingType.financingTypeCode" name="retailFinancingType" 
+                                    class="form-select small-select" required
+                                    (ngModelChange)="onFinancingTypeChange($event)">
+                                        <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
+                                    </select>								
+                                </div>						
+								<div class="form-group me-3">
+									<label for="retailStartDate" class="form-label small-label">Date début</label>
+									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEndDate" class="form-label small-label">Date Fin</label>
+									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+								</div>
+							</div>  
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntSollicite" class="form-label small-label">Montant crédit Sollicité</label>
+								<input type="text" class="form-control small-input"  required #retailMntSollicite="ngModel" [(ngModel)]="retail.mntSollicite" name="retailMntSollicite" id="retailMntSollicite">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntSollEcheance" class="form-label small-label">Montant de l'échéance</label>
+								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDuree" class="form-label small-label">Durée (en mois)</label>
+								<input type="text" class="form-control small-input"  required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
+								</div>
+							</div>   							
+							<!--div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailCapitalNominal" class="form-label small-label">Capital Nominal</label>
+									<input type="text" class="form-control small-input" required #retailCapitalNominal="ngModel" [(ngModel)]="retail.capitalNominal" name="capitalNominal" id="capitalNominal">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailCapitalImpaye" class="form-label small-label">Capital Impayé</label>
+									<input type="text" class="form-control small-input"  required #retailCapitalImpaye="ngModel" [(ngModel)]="retail.capitalImpaye" name="capitalImpaye" id="capitalImpaye">
+								</div>
+							</!--div-->							
+                            <!-- Ligne séparatrice avec marge en bas -->
+                        </div>
+						<div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Crédit Encours</h6>
+                            <hr class="mb-3"> 
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailMntInitial" class="form-label small-label">Montant Initial</label>
+								<input type="text" class="form-control small-input"  required #retailMntInitial="ngModel" [(ngModel)]="retail.mntInitial" name="retailMntInitial" id="retailMntInitial">
+								</div>						
+								<div class="form-group me-3">
+									<label for="retailMntCapitalRestant" class="form-label small-label">Capital Restant Dû</label>
+								<input type="text" class="form-control small-input"  required #retailMntCapitalRestant="ngModel" [(ngModel)]="retail.capitalRestantDu" name="retailMntCapitalRestant" id="retailMntCapitalRestant">
+								</div>
+
+							</div>  
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
+								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
+								<input type="date" class="form-control small-input"   #retailDateFinEnc="ngModel" [(ngModel)]="retail.endDateEncours" name="retailDateFinEnc" id="retailDateFinEnc">
+								</div>								
+							</div>  							
+                        </div>						
+                    </div>          
+					<div class="border p-3 rounded mb-4">
+                        <br>
+                        <h6 class="custom-label mb-3" style="color: navy;">DONNEES SCORING</h6>
+                        <hr class="mb-3">
+                        <br>
+                        <div class="border p-3 rounded mb-4"> 
+                            <h6 class="custom-label p-3 mb-3">Données Client</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailAge" class="form-label small-label">Age</label>
+									<input type="text" class="form-control small-input" [disabled]="true"  required #retailAge="ngModel" [(ngModel)]="retail.age" name="age" id="age">
+								</div>				
+								<div class="form-group me-3">
+									<label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
+									<select class="form-control small-input" required [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
+										<option *ngFor="let situation  of familySituationOptions" [value]="situation ">{{ familySituationDisplay[situation] }}</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbrDependents" class="form-label small-label">Nombre des personnes a charge</label>
+									<input type="text" class="form-control small-input"  required #retailNbrDependents="ngModel" [(ngModel)]="retail.nbrDependents" name="nbrDependents" id="nbrDependents">
+								</div>
+							</div> 
+							
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailProfession" class="form-label small-label">Profession</label>
+									<input type="text" class="form-control small-input"  required #retailProfession="ngModel" [(ngModel)]="retail.profession" name="profession" id="profession">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailEmploiStatus" class="form-label small-label">Statut Emploi</label>
+									<select class="form-control small-input" required [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
+										<option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailRevenu" class="form-label small-label">Revenus Client</label>
+									<input type="text" class="form-control small-input"  required #retailRevenu="ngModel" 
+									[(ngModel)]="retail.revenu" name="revenu" id="revenu"
+									(ngModelChange)="onRevenueChange($event)">
+								</div>							
+							</div>   							
+                            
+ 
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
+									<input type="date" class="form-control small-input" required #retailRelationEntryDate="ngModel" 
+									[(ngModel)]="retail.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+									(ngModelChange)="onRelationEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								<div class="form-group me-3">
+
+								</div>
+							</div>							
+                            <!-- Ligne séparatrice avec marge en bas -->							
+                        </div>
+						<div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+                            <h6 class="custom-label p-3 mb-3">Données Employeur</h6>
+                            <hr class="mb-3">
+							<div class="form-row mb-3 d-flex align-items-end">
+								<div class="form-group me-3">
+									<label for="retailEmployerSize" class="form-label small-label">Taille de l'employeur</label>
+									<select id="employerSizeSelect" #retailEmployerSize="ngModel"  
+									[(ngModel)]="retail.employerSize" name="retailEmployerSize" 
+									class="form-select small-select" required>
+										<option [value]="'Grande Entreprise'">GE</option>
+										<option [value]="'PME'">PME</option>
+										<option [value]="'TPE'">TPE</option>
+									</select>
+									<!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+								</div>
+								<div class="form-group me-3">
+									<label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
+									<select id="activitySectorSelect" #corpoActivitySector="ngModel"  
+									[(ngModel)]="retail.activitySector.code" name="retailActivitySector" 
+									class="form-select small-select" required
+									(ngModelChange)="onActivitySectorChange($event)">
+										<option *ngFor="let activite of activities" [value]="activite.code">{{ activite.description}}</option>
+									</select>                            
+								</div>
+							</div>
+							<div class="form-row mb-3 d-flex align-items-end">
+								
+								<div class="form-group me-3">
+									<label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
+									<input type="date" class="form-control small-input" required #retailEmployementEntryDate="ngModel" 
+									[(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
+									(ngModelChange)="onEmployementEntryDateChange($event)">
+								</div>
+								<div class="form-group me-3">
+									<label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
+									<input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
+									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
+								</div>
+								
+							</div>		
+                            <!-- Ligne séparatrice avec marge en bas -->							
+                        </div>						
+                    </div>	
+
+                    <div class="border p-3 rounded mb-3"> 
+						<h6 class="custom-label mb-3" style="color: navy;">COMPORTEMENT CLIENT</h6>
+                        <hr class="mb-3">
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailEcheance" class="form-label small-label">Echeance</label>
+                                <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
+                                [(ngModel)]="retail.echeance" name="echeance" id="echeance"
+                                (ngModelChange)="onEcheanceChange($event)">
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailTauxEndettement" class="form-label small-label">Taux d'endettement</label>
+                                <input type="text" class="form-control small-input"  required #retailTauxEndettement="ngModel" 
+                                [(ngModel)]="retail.deptRatio" name="deptRatio" id="deptRatio"
+                                [disabled]="true">
+                            </div>
+                            
+                        </div>
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailUnpaiedPresence" class="form-label small-label">Comportement client (Banque & Secteur) Presence d'impayé </label>
+                                <select id="retailUnpaiedPresence" #retailImpaye="ngModel"  
+                                [(ngModel)]="retail.unpaidPresence" name="retailUnpaiedPresence" 
+                                class="form-select small-select" required>
+                                <option [value]="'Aucun impayé'">Aucun impayé et IMP Secteur (Non)</option>
+                                <option [value]="'impayé inf 2 mois'">Impayés Inf à deux mois (< 2 Mois)</option>
+                                <option [value]="'impayé sup 2 mois'">2 Mois < Impayés <= 3 Mois</option>
+                                <option [value]="'impayé sup 3 mois'">Impayés Sup à 3 Mois et IMP Secteur (oui)</option>
+                                </select>
+                                
+                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailPayementIncident" class="form-label small-label">Incidents de paiement </label>
+                                <select id="retailPayementIncident" #retailPayementIncident="ngModel"  
+                                [(ngModel)]="retail.payementIncident" name="retailPayementIncident" 
+                                class="form-select small-select" required>
+                                <option [value]="'Aucun incident'">Aucun incident</option>
+                                <option [value]="'incident de paiement sur cheque'">Incidents de paiement sur chéque durant les 3 derniers mois</option>
+    
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <!-- Ligne séparatrice avec marge en bas -->
+                    </div>					
+                    <!--div class="border p-3 rounded mb-3"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES CLIENT</h6>
+                        <hr class="mb-3"> 
+                        <div class="form-row mb-3 d-flex align-items-end">
+                            <div class="form-group me-3">
+                                <label for="retailCivilite" class="form-label small-label">Civilité</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.civility" name="civility" id="civility"
+                                (ngModelChange)="onCivilityChange($event)">
+                                    <option *ngFor="let option of civilityOptions" [value]="option">{{ option }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group me-3">
+                                <label for="retailSexe" class="form-label small-label">Sexe</label>
+                                <select class="form-control small-input" required [(ngModel)]="retail.gender" name="gender" id="gender" [disabled]="true">
+                                    <option *ngFor="let option of genderOptions" [disabled]="true" [value]="option">{{ option }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group me-3">
                                 <label for="retailFamilySituation" class="form-label small-label">Situation de Famille</label>
                                 <select class="form-control small-input" required [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation">
                                     <option *ngFor="let situation  of familySituationOptions" [value]="situation ">{{ familySituationDisplay[situation] }}</option>
                                 </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFamilySituation="ngModel" [(ngModel)]="retail.familySituation" name="familySituation" id="familySituation"-->
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
@@ -811,10 +1571,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h4 class="custom-label mb-3">Données Financement</h4>
-                        <hr class="mb-3"> <!-- Ligne séparatrice avec marge en bas -->
+                    </div-->
+                    <!--div class="border p-3 rounded mb-3"> 
+						<h6 class="custom-label mb-3" style="color: navy;">DONNEES FINANCEMENT</h6>
+                        <hr class="mb-3">
                                                 
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -826,7 +1586,6 @@
                                 <select class="form-control small-input" required [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus">
                                     <option *ngFor="let option of emploiStatusOptions" [value]="option">{{ option }}</option>
                                 </select>
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
                             </div>
                             
                         </div>
@@ -853,13 +1612,12 @@
                             <div class="form-group me-3">
                                 <label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
                                 <input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
                             </div>
                             
                         </div>
-                    </div>
-                    <div class="border p-3 rounded mb-4" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
-                        <h6 class="custom-label mb-3">Employeur / Contrepartie </h6>
+                    </div-->
+                    <!--div class="border p-3 rounded mb-3" *ngIf="retail.employementStatus =='CDD' ||retail.employementStatus =='CDI'  "> 
+						<h6 class="custom-label mb-3" style="color: navy;">EMPLOYEUR / CONTREPARTIE</h6>
                         <hr class="mb-3">
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
@@ -871,7 +1629,6 @@
                                     <option [value]="'PME'">PME</option>
                                     <option [value]="'PME'">TPE</option>
                                 </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
                             </div>
                             <div class="form-group me-3">
                                 <label for="retailActivitySector" class="form-label small-label">Secteur d'activité </label>
@@ -894,97 +1651,10 @@
                             <div class="form-group me-3">
                                 <label for="retailNbYearExperience" class="form-label small-label">Ancienneté de l'employeur</label>
                                 <input type="texy" class="form-control small-input" [disabled]="true" required #retailNbYearExperience="ngModel" [(ngModel)]="retail.nbYearExperience" name="nbYearExperience" id="nbYearExperience">
-                                <!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
-                            </div>
-                            
-                        </div>
-                        
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Données Engagement</h6>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailFinancingType" class="form-label small-label">Type de Financement</label>
-                                <select id="financingTypeSelect" #retailFinancingType="ngModel"  
-                                [(ngModel)]="retail.financingType.financingTypeCode" name="retailFinancingType" 
-                                class="form-select small-select" required
-                                (ngModelChange)="onFinancingTypeChange($event)">
-                                    <option *ngFor="let type of financingTypes" [value]="type.financingTypeCode">{{ type.financingTypeCode}}</option>
-                                </select>
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
                             </div>
                         </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailStartDate" class="form-label small-label">Date début</label>
-                                <input type="date" class="form-control small-input" required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailEndDate" class="form-label small-label">Date Fin</label>
-                                <input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
-                            </div>
-                        </div>
-                        <!--div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailCapitalNominal" class="form-label small-label">Capital Nominal</label>
-                                <input type="text" class="form-control small-input" required #retailCapitalNominal="ngModel" [(ngModel)]="retail.capitalNominal" name="capitalNominal" id="capitalNominal">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailCapitalImpaye" class="form-label small-label">Capital Impayé</label>
-                                <input type="text" class="form-control small-input"  required #retailCapitalImpaye="ngModel" [(ngModel)]="retail.capitalImpaye" name="capitalImpaye" id="capitalImpaye">
-                            </div>
-                        </!--div-->
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
-                    
-                    <div class="border p-3 rounded mb-4"> 
-                        <h6 class="custom-label mb-3">Comportement client </h6>
-                        <hr class="mb-3">
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailEcheance" class="form-label small-label">Echeance</label>
-                                <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
-                                [(ngModel)]="retail.echeance" name="echeance" id="echeance"
-                                (ngModelChange)="onEcheanceChange($event)">
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailTauxEndettement" class="form-label small-label">Taux d'endettement</label>
-                                <input type="text" class="form-control small-input"  required #retailTauxEndettement="ngModel" 
-                                [(ngModel)]="retail.deptRatio" name="deptRatio" id="deptRatio"
-                                [disabled]="true">
-                            </div>
-                            
-                        </div>
-                        <div class="form-row mb-3 d-flex align-items-end">
-                            <div class="form-group me-3">
-                                <label for="retailUnpaiedPresence" class="form-label small-label">Comportement client (Banque & Secteur) Presence d'impayé </label>
-                                <select id="retailUnpaiedPresence" #retailImpaye="ngModel"  
-                                [(ngModel)]="retail.unpaidPresence" name="retailUnpaiedPresence" 
-                                class="form-select small-select" required>
-                                <option [value]="'Aucun impayé'">Aucun impayé et IMP Secteur (Non)</option>
-                                <option [value]="'impayé inf 2 mois'">Impayés Inf à deux mois (< 2 Mois)</option>
-                                <option [value]="'impayé sup 2 mois'">2 Mois < Impayés <= 3 Mois</option>
-                                <option [value]="'impayé sup 3 mois'">Impayés Sup à 3 Mois et IMP Secteur (oui)</option>
-                                </select>
-                                
-                                <!--input type="text" class="form-control small-input"  required #retailFinancingType="ngModel" [(ngModel)]="retail.financingType.description" name="financingTypeId" id="financingTypeId"-->
-                            </div>
-                            <div class="form-group me-3">
-                                <label for="retailPayementIncident" class="form-label small-label">Incidents de paiement </label>
-                                <select id="retailPayementIncident" #retailPayementIncident="ngModel"  
-                                [(ngModel)]="retail.payementIncident" name="retailPayementIncident" 
-                                class="form-select small-select" required>
-                                <option [value]="'Aucun incident'">Aucun incident</option>
-                                <option [value]="'incident de paiement sur cheque'">Incidents de paiement sur chéque durant les 3 derniers mois</option>
-    
-                                </select>
-                                
-                            </div>
-                        </div>
-                        <!-- Ligne séparatrice avec marge en bas -->
-                    </div>
+                    </div-->
+
                     
                     <!-- Uncomment to add a submit button -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
