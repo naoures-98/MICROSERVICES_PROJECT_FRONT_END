@@ -9,7 +9,7 @@ export class Retail extends ScoringContractData{
     gender : Gender | null = null;
     firstName : string | null = null;
     lastName : string | null = null;
-    birthDate : Date | null = null;
+    birthDate : string | null = null;
     age : number | null = null;
     revenu : number | null = null;;
     nbrDependents : number | null = null;
@@ -20,13 +20,13 @@ export class Retail extends ScoringContractData{
     activitySector;
     activitySectorId : number  | null = null;
     deptRatio : number | null = null;
-    relationEntryDate : Date | null = null;
+    relationEntryDate : string | null = null;
     seniorityRelation : number | null = null;
     unpaidPresence : string | null = null;
     payementIncident : string | null = null;
-    echeance : number | null = null;
+    echeance : number ;
 
-    employementEntryDate : Date | null = null;
+    employementEntryDate : string | null = null;
     nbYearExperience : number | null = null;
 
     public constructor(){
@@ -37,6 +37,7 @@ export class Retail extends ScoringContractData{
         this.lastName = '';
         this.age = null;
         this.revenu = 0;
+        this.echeance= 0;
         this.nbrDependents = 0;
         this.familySituation= null;
         this.telephone = '';

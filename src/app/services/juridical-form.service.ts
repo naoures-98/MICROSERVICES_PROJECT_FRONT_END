@@ -57,7 +57,7 @@ export class JuridicalFormService {
     });
   }
   getJuridicalFormById( id : Number){
-    return this.http.get(this.urlJuridicalForm+id, {
+    return this.http.get<JuridicalForm>(this.urlJuridicalForm+'/'+id, {
       headers:this.createAuthorizationHeader()
       
     });

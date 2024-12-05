@@ -3,6 +3,10 @@ export enum Civility {
     MADEMOISELLE = 'MADEMOISELLE',
     MONSIEUR = 'MONSIEUR',
 }
+export enum Segment {
+    PARTICULIERS = 'PARTICULIERS',
+    ENTREPRISE = 'ENTREPRISE'
+}
 export enum Statut {
     En_cours = 'En_cours',
     AttenteValidation = 'AttenteValidation',

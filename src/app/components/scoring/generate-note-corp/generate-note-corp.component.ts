@@ -295,7 +295,7 @@ calculerScoreCorporate(selectedCorporate : any ){
     else if(this.corporate.fiablityFinancialStatus == "certifiés avec reserves")
     this.scoreFiabiliteEtatsFinanciers = 10 ;
     else if(this.corporate.fiablityFinancialStatus == "non certifiés")
-    this.scoreFiabiliteEtatsFinanciers = 5 ;
+    this.scoreFiabiliteEtatsFinanciers = 0 ;
     
   }	
   //score avec ponderation
@@ -405,7 +405,7 @@ calculerScoreCorporate(selectedCorporate : any ){
     } else if (this.corporate.payementIncident== "Incidents non régularisés" ){
     this.scoreIncidentsPaiement = 0;
     } else if (this.corporate.payementIncident== "Nouveau client" ){
-    this.scoreIncidentsPaiement = 10;
+    this.scoreIncidentsPaiement = 5;
     } 
   }
   //score avec ponderation

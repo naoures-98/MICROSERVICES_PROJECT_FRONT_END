@@ -9,11 +9,11 @@ export class Corporate extends ScoringContractData{
     clientCategory : ClientCategory | null = null;
     numNis : string | null = null;
     numRegistreCommerce : string | null = null;
-    creationDate : Date | null = null;
+    creationDate : string | null = null;
 
 
     nbYearExercice : Number | null = null;
-    relationEntryDate : Date | null = null;
+    relationEntryDate : string | null = null;
     seniorityRelation : Number | null = null;
     fiablityFinancialStatus : String | null = null;
     evolutionMarche  : String | null = null;

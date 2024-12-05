@@ -30,6 +30,8 @@ export class RetailComponent implements OnInit {
 
   statutDisplay : any = StatutDisplay;
 
+  dateError = false; // Indicateur d'erreur
+  dateErrorMessage = ''; // Message d'erreur
 
   lastSequentialNumber = 0; // Variable pour garder la trace du dernier nombre séquentiel
 
@@ -124,6 +126,40 @@ onEcheanceChange( montant: number): void {
     this.retail.deptRatio = ((montant)/this.retail.revenu)*100;
   }else {
     this.retail.deptRatio = 0;
+  }
+}
+calculateEcheance(): void {
+  if(Number(this.retail.mntSolliEcheance) > 0 && Number(this.retail.mntEncEcheance )> 0) {
+    this.retail.echeance = Number(this.retail.mntSolliEcheance) + Number(this.retail.mntEncEcheance);
+    if(this.retail.revenu !=null && this.retail.revenu > 0)
+      this.retail.deptRatio = ((this.retail.echeance)/this.retail.revenu)*100;
+  }
+}
+formatDate(date: Date): string {
+  return date.toISOString().split('T')[0];
+}
+recupererDonneesClient(): void {
+  if(this.retail.clientRequest == '012575') {
+      this.retail.firstName = 'MAKREM' ;
+      this.retail.civility = Civility.MONSIEUR ;
+      this.retail.gender = Gender.Homme;
+      this.retail.familySituation = FamilySituation.CELIBATAIRE;
+      this.retail.lastName = 'BEN AMMAR' ;
+      this.retail.email = 'ahmed5825@gmail.com' ;
+      this.retail.profession = 'Ingénieur civil' ;
+      this.retail.employementStatus = EmployementStatus.CDI ;
+      
+      this.retail.relationEntryDate = this.formatDate(new Date('2000-05-05'));
+      this.retail.seniorityRelation = 24;
+      this.retail.revenu = 4000;
+      this.retail.mntInitial = 9000;
+      this.retail.capitalRestantDu = 2000;
+      this.retail.mntEncEcheance = 400;
+      this.retail.endDateEncours = this.formatDate(new Date('2025-04-05'));
+
+      this.retail.telephone = '58258796' ;
+      this.retail.birthDate = this.formatDate(new Date('1987-05-05'));
+      this.retail.age = 37;
   }
 }
 onRelationEntryDateChange(relationEntryDate: string): void {
@@ -273,6 +309,37 @@ generateContractReference(lastSequentialNumber : String): void {
       return  "N/A";
     
     return this.statutDisplay[statut] || statut;
+  }
+
+  calculateDuration(): void {
+    if (this.retail.startDate && this.retail.endDate) {
+      const start = new Date(this.retail.startDate);
+      const end = new Date(this.retail.endDate);
+
+      // Validation : La date de fin doit être après la date de début
+      if (end < start) {
+        this.dateError = true;
+        this.dateErrorMessage = 'La date de fin ne peut pas être antérieure à la date de début.';
+        this.retail.duree = 0; // Réinitialiser la durée
+        return;
+      } else {
+        this.dateError = false; // Réinitialiser l'erreur
+        this.dateErrorMessage = '';
+      }
+
+      // Calcul de la différence en mois
+      const yearsDiff = end.getFullYear() - start.getFullYear();
+      const monthsDiff = end.getMonth() - start.getMonth();
+
+      // Total mois
+      const totalMonths = yearsDiff * 12 + monthsDiff;
+
+      this.retail.duree = totalMonths >= 0 ? totalMonths : 0;
+    } else {
+      this.retail.duree = 0; // Réinitialiser si une des deux dates est manquante
+      this.dateError = false; // Réinitialiser l'erreur
+      this.dateErrorMessage = '';
+    }
   }
   getStatusClass(statut: string | null): string {
     switch (statut) {

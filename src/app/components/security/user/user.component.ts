@@ -8,6 +8,8 @@ import { GroupService } from '../../../services/group.service';
 import { Group } from '../../../classes/group';
 import { OraganizationUserService } from '../../../services/oraganization-user.service';
 import { OrganizationUser } from '../../../classes/organization-user';
+//import { SMTPClient } from 'emailjs';
+import emailjs from '@emailjs/browser'
 
 @Component({
   selector: 'app-user',
@@ -30,7 +32,7 @@ export class UserComponent  implements OnInit{
   //FILTRER LA LISTE DES users :
   searchText: string = '';
   p: number = 1; // Page courante
-  itemsPerPage: number = 10; // Nombre d'éléments par page
+  itemsPerPage: number = 50; // Nombre d'éléments par page
 
   constructor(private route: ActivatedRoute, 
     private router: Router, public jwtService : JwtService,
@@ -122,6 +124,7 @@ export class UserComponent  implements OnInit{
               this.orgUserService.createNewOrganizationUser(this.organizationUser).subscribe(
                 res=>{
                   console.log(res);
+                  this.send();
               },
                 err=>{console.log(err);          
                 }
@@ -131,6 +134,7 @@ export class UserComponent  implements OnInit{
             }
           );
           this.toast.success('User '+res.userCode+' Created Successfully');
+          
           this.ngOnInit();
       },
         err=>{console.log(err);
@@ -140,8 +144,6 @@ export class UserComponent  implements OnInit{
       );
 
     }, err => {console.log (err)});
-    
-
   }
   editUser(selectedUser : any){
     this.user.id = selectedUser.id;
@@ -164,6 +166,7 @@ export class UserComponent  implements OnInit{
           this.jwtService.editUser(this.user).subscribe(
             res=>{              
               this.toast.success('User '+this.user.userCode+' modified Successfully');
+              //this.send();
           },
             err=>{console.log(err);
               this.toast.danger('PROBLEM ERROR');
@@ -178,34 +181,21 @@ export class UserComponent  implements OnInit{
     }
   }
 
-
-
-/*  onEditSubmit(){
-    console.log("selectedRoleId= "+ this.selectedRoleId);
-    if (this.selectedRoleId != null)
-      this.groupService.getGroupById(this.selectedRoleId).subscribe(group =>{
-      this.group = group ; 
-      this.user.group = group;
-      console.log("group = "+this.group);
-      this.jwtService.editUser(this.user).subscribe(
-        res=>{
-          console.log(res);
-          console.log(res.id);
-          
-          this.toast.success('User '+res.userCode+' Created Successfully');
-      },
-        err=>{console.log(err);
-          this.toast.danger('PROBLEM ERROR');
-  
-        }
-      );
-
-    }, err => {console.log (err)});   
-  }*/
   openDeleteModal(id : Number) {
     this.selectedUserId = id;
   }
   confirmDelete() {
 
+  }
+
+  async send(){
+    emailjs.init('BOsjkLZ68x1zBrtOC');
+    let response = await emailjs.send("service_wvdg07n","template_tekp46w",{
+      from_name: "BFI GROUPE",
+      to_name: this.organizationUser.user.userCode,
+      login: this.user.userCode,
+      mdp: this.user.password,
+      });
+      
   }
 }

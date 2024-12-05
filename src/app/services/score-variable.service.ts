@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ScoreVariable } from '../classes/score-variable';
 import { Observable } from 'rxjs';
-import { Branch } from '../classes/branch';
+
 @Injectable({
   providedIn: 'root'
 })
-export class BranchService {
+export class ScoreVariableService {
 
   constructor( private http : HttpClient ) { }
-  private urlReferentiel = 'http://localhost:8222/Referentiel/Branchs';
-  private urlRef = 'http://localhost:8071/Referentiel/Branchs';
-
+  private url = 'http://localhost:8222/Scoring/ScoreVariable';
 
       private createAuthorizationHeader() {
         const userData = localStorage.getItem('jwt');
@@ -27,34 +26,34 @@ export class BranchService {
           return new HttpHeaders();
         }
       }
-  createNewBranch(branch : Branch ){
-    console.log(branch.name);
-    return this.http.post(this.urlReferentiel,branch, {
+  createNewScoreVariable(scoreVariable : ScoreVariable ){
+    //console.log(branch.name);
+    return this.http.post(this.url,scoreVariable, {
       headers:this.createAuthorizationHeader()
       
     });
   }
 
-  getAllBranchs(): Observable<Branch[]> {
-    return this.http.get<Branch[]>(this.urlReferentiel, {
+  getAllScoreVariables(): Observable<ScoreVariable[]> {
+    return this.http.get<ScoreVariable[]>(this.url, {
       headers:this.createAuthorizationHeader()
       
     });
   }
-  deleteBranch( id : Number ) {
-    return this.http.delete(this.urlReferentiel+'/'+id, {
+  deleteScoreVariable( id : Number ) {
+    return this.http.delete(this.url+'/'+id, {
       headers:this.createAuthorizationHeader()
       
     });
   }
-  getBranchById( id : Number){
-    return this.http.get<Branch>(this.urlReferentiel+'/'+id, {
+  getScoreVariableById( id : Number){
+    return this.http.get<ScoreVariable>(this.url+'/'+id, {
       headers:this.createAuthorizationHeader()
       
     });
   }
-  editBranch( branch : Branch){
-    return this.http.put(this.urlReferentiel, branch, {
+  editScoreVariable( scoreVariable : ScoreVariable){
+    return this.http.put(this.url, scoreVariable, {
       headers:this.createAuthorizationHeader()
       
     });

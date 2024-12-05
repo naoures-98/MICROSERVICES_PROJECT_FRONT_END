@@ -106,7 +106,9 @@
 						<div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="corpoRaisonSociale" class="form-label small-label">Raison sociale</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" name="raisonSocial" id="raisonSocial">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoRaisonSociale="ngModel" [(ngModel)]="corporate.raisonSocial" 
+                                name="raisonSocial" id="raisonSocial">
                             </div>	
 						    <div class="form-group me-3">
                             </div>							
@@ -114,32 +116,42 @@
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="corpoCreationDate" class="form-label small-label">Date Création</label>
-                                <input type="date" class="form-control small-input" [disabled]="true" required #corpoCreationDate="ngModel" [(ngModel)]="corporate.creationDate" name="creationDate" id="creationDate">
+                                <input type="date" class="form-control small-input" [disabled]="true" required 
+                                #corpoCreationDate="ngModel" [(ngModel)]="corporate.creationDate" name="creationDate" 
+                                id="creationDate">
                             </div>
 
                             <div class="form-group me-3">
                                 <label for="corpoCreationPlace" class="form-label small-label">Lieu de création</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" name="creationPlace" id="creationPlace">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoCreationPlace="ngModel" [(ngModel)]="corporate.creationPlace" 
+                                name="creationPlace" id="creationPlace">
                             </div>
                         </div>
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="corpoNis" class="form-label small-label">Numero NIS</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoNis="ngModel" [(ngModel)]="corporate.numNis" name="numNis" id="numNis">
                             </div>
                             <div class="form-group me-3">
                                 <label for="corpoNumRegi" class="form-label small-label">Numero Registre de commerce</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" name="numRegistreCommerce" id="numRegistreCommerce">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoNumRegi="ngModel" [(ngModel)]="corporate.numRegistreCommerce" 
+                                name="numRegistreCommerce" id="numRegistreCommerce">
                             </div>
                         </div>						
                         <div class="form-row mb-3 d-flex align-items-end">
                             <div class="form-group me-3">
                                 <label for="corpoEmail" class="form-label small-label">Email</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoEmail="ngModel" [(ngModel)]="corporate.email" name="email" id="email">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoEmail="ngModel" [(ngModel)]="corporate.email" name="email" id="email">
                             </div>
                             <div class="form-group me-3">
                                 <label for="corpoTel" class="form-label small-label">Téléphone</label>
-                                <input type="text" class="form-control small-input" [disabled]="true" required #corpoTel="ngModel" [(ngModel)]="corporate.telephone" name="telephone" id="telephone">
+                                <input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoTel="ngModel" [(ngModel)]="corporate.telephone" name="telephone" 
+                                id="telephone">
                             </div>
                         </div>				
                     </div>
@@ -188,22 +200,30 @@
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="corpoMntInitial" class="form-label small-label">Montant Initial</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #corpoMntInitial="ngModel" [(ngModel)]="corporate.mntInitial" name="corpoMntInitial" id="corpoMntInitial">
+								<input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoMntInitial="ngModel" [(ngModel)]="corporate.mntInitial" name="corpoMntInitial" 
+                                id="corpoMntInitial">
 								</div>						
 								<div class="form-group me-3">
 									<label for="corpoMntCapitalRestant" class="form-label small-label">Capital Restant Dû</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #corpoMntCapitalRestant="ngModel" [(ngModel)]="corporate.capitalRestantDu" name="corpoMntCapitalRestant" id="corpoMntCapitalRestant">
+								<input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoMntCapitalRestant="ngModel" [(ngModel)]="corporate.capitalRestantDu" 
+                                name="corpoMntCapitalRestant" id="corpoMntCapitalRestant">
 								</div>
 
 							</div>  
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="corpoEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #corpoEncEcheance="ngModel" [(ngModel)]="corporate.mntEncEcheance" name="corpoEncEcheance" id="corpoEncEcheance">
+								<input type="text" class="form-control small-input" [disabled]="true" required 
+                                #corpoEncEcheance="ngModel" [(ngModel)]="corporate.mntEncEcheance" 
+                                name="corpoEncEcheance" id="corpoEncEcheance">
 								</div>
 								<div class="form-group me-3">
 									<label for="corpoDateFinEnc" class="form-label small-label">Date Fin</label>
-								<input type="date" class="form-control small-input" [disabled]="true"  #corpoDateFinEnc="ngModel" [(ngModel)]="corporate.endDateEncours" name="corpoDateFinEnc" id="corpoDateFinEnc">
+								<input type="date" class="form-control small-input" [disabled]="true"  
+                                #corpoDateFinEnc="ngModel" [(ngModel)]="corporate.endDateEncours" 
+                                name="corpoDateFinEnc" id="corpoDateFinEnc">
 								</div>								
 							</div>  							
                         </div>						
@@ -218,11 +238,16 @@
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="corpoClientCategory" class="form-label small-label">Catégorie client</label>
-									<input type="text" class="form-control small-input" [disabled]="true" required #corpoClientCategory="ngModel" [(ngModel)]="corporate.clientCategory" name="clientCategory" id="clientCategory">
+									<input type="text" class="form-control small-input" [disabled]="true" 
+                                    required #corpoClientCategory="ngModel" [(ngModel)]="corporate.clientCategory" 
+                                    name="clientCategory" id="clientCategory">
 								</div>
 								<div class="form-group me-3">
 									<label for="corpoActivitySector" class="form-label small-label">Secteur d'activité</label>
-									<input type="text" class="form-control small-input" [disabled]="true" required #corpoActivitySector="ngModel" [(ngModel)]="corporate.activitySector.description" name="activitySector" id="activitySector">
+									<input type="text" class="form-control small-input" [disabled]="true" 
+                                    required #corpoActivitySector="ngModel" 
+                                    [(ngModel)]="corporate.activitySector.description" name="activitySector" 
+                                    id="activitySector">
 								</div>								
 								<div class="form-group me-3">
 									<label for="corpoNbYearExercice" class="form-label small-label">Nombre d'années d'exercice</label>
@@ -306,12 +331,15 @@
                                 <div class="form-group me-3">
                                     <label for="corpoRelationEntryDate" class="form-label small-label">Date d'entrée en relation avec la Banque </label>
                                     <input type="date" class="form-control small-input" [disabled]="true" required #corpoRelationEntryDate="ngModel" 
-                                    [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" id="relationEntryDate"
+                                    [(ngModel)]="corporate.relationEntryDate" name="relationEntryDate" 
+                                    id="relationEntryDate"
                                     (ngModelChange)="onRelationEntryDateChange($event)">
                                 </div>
                                 <div class="form-group me-3">
                                     <label for="corpoSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
-                                    <input type="text" class="form-control small-input" [disabled]="true" required #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+                                    <input type="text" class="form-control small-input" [disabled]="true" required 
+                                    #corpoSeniorityRelation="ngModel" [(ngModel)]="corporate.seniorityRelation" 
+                                    name="seniorityRelation" id="seniorityRelation">
                                 </div>
                             </div>
                             
@@ -1526,7 +1554,10 @@
                             </div>						
                             <div class="form-group me-3">
                                 <label for="corpoClientIdentifier" class="form-label small-label">Identifiant Client</label>
-                                <input type="text" class="form-control small-input" [disabled]="false" required #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" name="clientRequest" id="clientRequest">
+                                <input type="text" class="form-control small-input" [disabled]="false" required 
+                                #corpoClientIdentifier="ngModel" [(ngModel)]="corporate.clientRequest" 
+                                name="clientRequest" id="clientRequest"
+                                (change)="recupererDonneesClient()">
                             </div>
                             <div class="form-group me-3" *ngIf = "corporate.contractReference.length>0 ">
                                 <label for="corpoRequestRef" class="form-label small-label">Référence demande</label>

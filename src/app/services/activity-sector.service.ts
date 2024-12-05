@@ -58,7 +58,7 @@ export class ActivitySectorService {
     });
   }
   getActivityById( id : Number){
-    return this.http.get(this.urlActivitySector+id, {
+    return this.http.get<ActivitySector>(this.urlActivitySector+'/'+id, {
       headers:this.createAuthorizationHeader()
       
     });

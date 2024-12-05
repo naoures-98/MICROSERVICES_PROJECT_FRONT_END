@@ -32,11 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           // Si le serveur retourne 401 Unauthorized
           console.error('Token expiré ou invalide');
-          
           // Supprimez le token local pour éviter des requêtes inutiles
           localStorage.removeItem('jwt');
           // Affichez un message d'erreur
-          this.toast.danger('Votre session a expiré, veuillez vous reconnecter.');
+          //this.toast.danger('Votre session a expiré, veuillez vous reconnecter.');
           // Redirigez vers la page de connexion
           this.router.navigateByUrl('/login');
         }else if (error.status === 500 ) {

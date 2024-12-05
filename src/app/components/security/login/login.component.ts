@@ -41,8 +41,8 @@ export class LoginComponent  implements OnInit{
         this.router.navigateByUrl('/dashboard');
       },
       (err) => {
-        console.error('Erreur lors de la connexion:', err);
-        this.toast.danger('Erreur lors de la connexion');
+        console.error('Erreur lors de la connexion', err);
+        this.toast.danger('Erreur lors de la connexion: Login ou Mdp incorrect');
       }
     );
   }

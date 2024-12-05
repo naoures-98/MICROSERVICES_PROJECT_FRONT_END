@@ -28,7 +28,7 @@ import { LoginComponent } from './components/security/login/login.component';
 import { GroupComponent } from './components/security/group/group.component';
 import { OrganizationUnitComponent } from './components/security/organization-unit/organization-unit.component';
 import { UserComponent } from './components/security/user/user.component';
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from './services/auth.interceptor';
 import { ClientsNotesComponent } from './components/scoring/clients-notes/clients-notes.component';
 import { GenerateNotePartComponent } from './components/scoring/generate-note-part/generate-note-part.component';
 import { GenerateNoteCorpComponent } from './components/scoring/generate-note-corp/generate-note-corp.component';

@@ -292,9 +292,9 @@ export class GenerateNotePartComponent   implements OnInit{
           else if(this.retail.nbYearExperience >= 4 && this.retail.nbYearExperience <9)
             this.scoreAncienneteEmployeur = 10 ;
           else if(this.retail.nbYearExperience >= 9 && this.retail.nbYearExperience <14)
-            this.scoreAncienneteEmployeur = 15 ;
-          else
             this.scoreAncienneteEmployeur = 20 ;
+          /*else
+            this.scoreAncienneteEmployeur = 20 ;*/
         }
         //score avec ponderation
         this.scoreAncienneteEmployeur = this.scoreAncienneteEmployeur * 0.20;
@@ -371,9 +371,9 @@ export class GenerateNotePartComponent   implements OnInit{
           else if (this.retail.nbrDependents >2 && this.retail.nbrDependents <=  5)
             this.scoreNbrDependents = 15 ;
           else if (this.retail.nbrDependents >5 && this.retail.nbrDependents <= 7)
-            this.scoreNbrDependents = 10 ;
-          else if (this.retail.nbrDependents >7 )
             this.scoreNbrDependents = 5 ;
+          else if (this.retail.nbrDependents >7 )
+            this.scoreNbrDependents = 0 ;
         }
         //score avec ponderation
         this.scoreNbrDependents = this.scoreNbrDependents * 0.05;
@@ -412,13 +412,13 @@ export class GenerateNotePartComponent   implements OnInit{
         //Score age
         if(this.retail.age != null){
           if(this.retail.age < 30)
-            this.scoreAgeRetail = 5 ;
-          else if (this.retail.age >= 30 && this.retail.age < 40)
             this.scoreAgeRetail = 10 ;
+          else if (this.retail.age >= 30 && this.retail.age < 40)
+            this.scoreAgeRetail = 20 ;
           else if (this.retail.age >= 40 && this.retail.age < 50)
-            this.scoreAgeRetail = 15 ;
+            this.scoreAgeRetail = 10 ;
           else
-            this.scoreAgeRetail = 15 ;
+            this.scoreAgeRetail = 5 ;
         }
         //score avec ponderation
         this.scoreAgeRetail = this.scoreAgeRetail * 0.10;

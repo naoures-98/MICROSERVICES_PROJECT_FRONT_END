@@ -22,7 +22,7 @@ export class ScoringContractData {
     mntInitial: Number | null =null;
     capitalRestantDu: Number | null =null;
     mntEncEcheance: Number | null =null;
-    endDateEncours: Date | null = null;
+    endDateEncours: string | null = null;
     statutDossier : Statut | null = null;
 
     retourAnalyste : String | null = null;

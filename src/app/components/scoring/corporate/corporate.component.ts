@@ -153,6 +153,38 @@ scoreComportement = 0;
         return ''; // Classe par défaut si le statut est inconnu
     }
   }
+  formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+  recupererDonneesClient(): void {
+    if(this.corporate.clientRequest == '012114') {
+        this.corporate.raisonSocial = 'SOCIETE SAIF';
+        this.corporate.creationDate = this.formatDate(new Date('1988-05-05'));
+        this.corporate.creationPlace = 'TUNIS';
+        this.corporate.numNis = '2597';
+        this.corporate.numRegistreCommerce = 'TF258';
+        this.corporate.email = 'saifbgo@gmail.com';
+        this.corporate.telephone ='71831477';
+        this.corporate.mntInitial=0;
+        this.corporate.capitalRestantDu = 0;
+        this.corporate.mntEncEcheance = 8000;
+        this.corporate.endDateEncours = null//this.formatDate(new Date('2026-05-05'));
+        this.corporate.clientCategory = ClientCategory.ASSURANCES;
+        this.activitySectorService.getActivityById(17).subscribe( 
+          res=>{
+            this.corporate.activitySector = res;
+            this.corporate.activitySectorId = res.id;
+          });
+        this.corporate.nbYearExercice = 36;
+        this.corporate.relationEntryDate = this.formatDate(new Date('2022-05-05'));
+        this.corporate.seniorityRelation = 22 ; 
+        this.juridicalFormService.getJuridicalFormById(6).subscribe( 
+          res=>{
+            this.corporate.juridicalForm = res;
+            this.corporate.juridicalFormId = res.id;
+          });
+    }
+  }
 
   get filteredCorporates() {
     return this.corporates.filter(corporate => 
@@ -195,11 +227,11 @@ scoreComportement = 0;
   }
   onFinancingTypeChange(selectedFinancingTypeCode: string) {
     console.log("selectedFinancingTypeCode = "+ selectedFinancingTypeCode);
-    // Recherche de l'agence correspondant au code sélectionné
+    
     const selectedFinancingType= this.financingTypes.find(financingType => 
       financingType.financingTypeCode === selectedFinancingTypeCode);
 
-    // Si une agence est trouvée, met à jour la description (nom)
+    
     if (selectedFinancingType) {
       this.corporate.financingType =selectedFinancingType;
       this.corporate.financingTypeId = selectedFinancingType.id;

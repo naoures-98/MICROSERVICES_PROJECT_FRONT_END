@@ -44,11 +44,14 @@ export class HeaderComponent implements OnInit {
   }
 
   canSeeSecurite(): boolean {
-    return this.authService.hasRole('ROLE_admin');////this.authService.hasRole('ROLE_Juridiction') || 
+    return this.authService.hasRole('ROLE_admin') || this.authService.hasRole('ROLE_Juridiction');////this.authService.hasRole('ROLE_Juridiction') || 
   }
   canSeeScoring(): boolean {
     return this.authService.hasRole('ROLE_Charge Clientele') ||this.authService.hasRole('ROLE_ChargÃ© Clientele')
     ||this.authService.hasRole('ROLE_admin');
+  }
+  canSeeVariableScoring(): boolean {
+    return this.authService.hasRole('ROLE_DSI') ||this.authService.hasRole('ROLE_admin');
   }
   canSeeValidation(): boolean {
     return this.authService.hasRole('ROLE_Analyste Risque') || this.authService.hasRole('ROLE_admin');
@@ -83,6 +86,14 @@ export class HeaderComponent implements OnInit {
       this.currentSection = 'Gestion Groupes';
     }else if (currentUrl.includes('organizationUnit')) {
       this.currentSection = 'Gestion Personnel de la banque';
+    }else if (currentUrl.includes('clientsNotes')) {
+      this.currentSection = 'Liste des Personnes Notées';
+    }else if (currentUrl.includes('generateNotePart')) {
+      this.currentSection = 'Liste des Personnes Physiques';
+    }else if (currentUrl.includes('generateNoteCorpo')) {
+      this.currentSection = 'Liste des Personnes Morales';
+    }else if (currentUrl.includes('variablesScoring')) {
+      this.currentSection = 'Gestion des Variables Scoring';
     }else {
       this.currentSection = ''; // Ou une autre section par défaut
     }

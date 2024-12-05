@@ -193,22 +193,29 @@
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="retailMntInitial" class="form-label small-label">Montant Initial</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #retailMntInitial="ngModel" [(ngModel)]="retail.mntInitial" name="retailMntInitial" id="retailMntInitial">
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailMntInitial="ngModel" 
+                                [(ngModel)]="retail.mntInitial" name="retailMntInitial" id="retailMntInitial">
 								</div>						
 								<div class="form-group me-3">
 									<label for="retailMntCapitalRestant" class="form-label small-label">Capital Restant Dû</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #retailMntCapitalRestant="ngModel" [(ngModel)]="retail.capitalRestantDu" name="retailMntCapitalRestant" id="retailMntCapitalRestant">
+								<input type="text" class="form-control small-input" [disabled]="true" required 
+                                #retailMntCapitalRestant="ngModel" [(ngModel)]="retail.capitalRestantDu" 
+                                name="retailMntCapitalRestant" id="retailMntCapitalRestant">
 								</div>
 
 							</div>  
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
-								<input type="text" class="form-control small-input" [disabled]="true" required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								<input type="text" class="form-control small-input" [disabled]="true" required 
+                                #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" 
+                                id="retailEncEcheance">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
-								<input type="date" class="form-control small-input" [disabled]="true"  #retailDateFinEnc="ngModel" [(ngModel)]="retail.endDateEncours" name="retailDateFinEnc" id="retailDateFinEnc">
+								<input type="date" class="form-control small-input" [disabled]="true"  
+                                #retailDateFinEnc="ngModel" [(ngModel)]="retail.endDateEncours" name="retailDateFinEnc" 
+                                id="retailDateFinEnc">
 								</div>								
 							</div>  							
                         </div>						
@@ -267,7 +274,9 @@
 								</div>
 								<div class="form-group me-3">
 									<label for="retailSeniorityRelation" class="form-label small-label">Ancienneté relation avec la banque</label>
-									<input type="texy" class="form-control small-input" [disabled]="true" required #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" name="seniorityRelation" id="seniorityRelation">
+									<input type="texy" class="form-control small-input" [disabled]="true" required 
+                                    #retailSeniorityRelation="ngModel" [(ngModel)]="retail.seniorityRelation" 
+                                    name="seniorityRelation" id="seniorityRelation">
 									<!--input type="text" class="form-control small-input"  required #retailEmploiStatus="ngModel" [(ngModel)]="retail.employementStatus" name="employementStatus" id="employementStatus"-->
 								</div>
 								<div class="form-group me-3">
@@ -305,7 +314,9 @@
 								
 								<div class="form-group me-3">
 									<label for="retailEmployementEntryDate" class="form-label small-label">Date Création</label>
-									<input type="date" class="form-control small-input"  [disabled]="true" required #retailEmployementEntryDate="ngModel" 
+									<input type="date" class="form-control small-input"  
+                                     [value]="retail.employementEntryDate | date:'yyyy-MM-dd'"
+                                    [disabled]="true" required #retailEmployementEntryDate="ngModel" 
 									[(ngModel)]="retail.employementEntryDate" name="employementEntryDate" id="employementEntryDate"
 									(ngModelChange)="onEmployementEntryDateChange($event)">
 								</div>
@@ -699,12 +710,22 @@
                                 </div>						
 								<div class="form-group me-3">
 									<label for="retailStartDate" class="form-label small-label">Date début</label>
-									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" 
+                                    [(ngModel)]="retail.startDate" name="startDate" id="startDate"
+                                    (change)="calculateDuration()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailEndDate" class="form-label small-label">Date Fin</label>
-									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" 
+                                    [(ngModel)]="retail.endDate" name="endDate" id="endDate"
+                                    (change)="calculateDuration()">
 								</div>
+                                <div  *ngIf="dateError" class="form-row mb-3 d-flex align-items-end">
+                                    <!-- Message d'erreur -->
+                                    <div class="text-danger small">
+                                        {{ dateErrorMessage }}
+                                    </div>
+                                </div>
 							</div>  
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
@@ -713,11 +734,13 @@
 								</div>						
 								<div class="form-group me-3">
 									<label for="retailMntSollEcheance" class="form-label small-label">Montant de l'échéance</label>
-								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance">
+								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" 
+                                [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance"
+                                (change)="calculateEcheance()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailDuree" class="form-label small-label">Durée (en mois)</label>
-								<input type="text" class="form-control small-input"  required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
 								</div>
 							</div>   							
 							<!--div class="form-row mb-3 d-flex align-items-end">
@@ -749,7 +772,9 @@
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
-								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" 
+                                [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance"
+                                (change)="calculateEcheance()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
@@ -877,7 +902,8 @@
                                 <label for="retailEcheance" class="form-label small-label">Echeance</label>
                                 <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
                                 [(ngModel)]="retail.echeance" name="echeance" id="echeance"
-                                (ngModelChange)="onEcheanceChange($event)">
+                                (ngModelChange)="onEcheanceChange($event)"
+                                [disabled]="true">
                             </div>
                             <div class="form-group me-3">
                                 <label for="retailTauxEndettement" class="form-label small-label">Taux d'endettement</label>
@@ -1180,7 +1206,10 @@
                             </div>
                             <div class="form-group me-3">
                                 <label for="retailClientIdentifier" class="form-label small-label">Identifiant Client</label>
-                                <input type="text" class="form-control small-input" [disabled]="false" required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" name="clientRequest" id="clientRequest">
+                                <input type="text" class="form-control small-input" [disabled]="false" 
+                                required #retailClientIdentifier="ngModel" [(ngModel)]="retail.clientRequest" 
+                                name="clientRequest" id="clientRequest"
+                                (change)="recupererDonneesClient()">
                             </div>
                             <div class="form-group me-3" *ngIf="retail.contractReference !=null && retail.contractReference!=''">
                                 <label for="retailRequestRef" class="form-label small-label">Référence demande</label>
@@ -1261,12 +1290,22 @@
                                 </div>						
 								<div class="form-group me-3">
 									<label for="retailStartDate" class="form-label small-label">Date début</label>
-									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" [(ngModel)]="retail.startDate" name="startDate" id="startDate">
+									<input type="date" class="form-control small-input"  required #retailStartDate="ngModel" 
+                                    [(ngModel)]="retail.startDate" name="startDate" id="startDate"
+                                    (change)="calculateDuration()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailEndDate" class="form-label small-label">Date Fin</label>
-									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" [(ngModel)]="retail.endDate" name="endDate" id="endDate">
+									<input type="date" class="form-control small-input" required #retailEndDate="ngModel" 
+                                    [(ngModel)]="retail.endDate" name="endDate" id="endDate"
+                                    (change)="calculateDuration()">
 								</div>
+                                <div  *ngIf="dateError" class="form-row mb-3 d-flex align-items-end">
+                                    <!-- Message d'erreur -->
+                                    <div class="text-danger small">
+                                        {{ dateErrorMessage }}
+                                    </div>
+                                </div>
 							</div>  
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
@@ -1275,11 +1314,13 @@
 								</div>						
 								<div class="form-group me-3">
 									<label for="retailMntSollEcheance" class="form-label small-label">Montant de l'échéance</label>
-								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance">
+								<input type="text" class="form-control small-input"  required #retailMntEcheance="ngModel" 
+                                [(ngModel)]="retail.mntSolliEcheance" name="retailMntEcheance" id="retailMntEcheance"
+                                (change)="calculateEcheance()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailDuree" class="form-label small-label">Durée (en mois)</label>
-								<input type="text" class="form-control small-input"  required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
+								<input type="text" class="form-control small-input" [disabled]="true" required #retailDuree="ngModel" [(ngModel)]="retail.duree" name="retailDuree" id="retailDuree">
 								</div>
 							</div>   							
 							<!--div class="form-row mb-3 d-flex align-items-end">
@@ -1311,7 +1352,9 @@
 							<div class="form-row mb-3 d-flex align-items-end">
 								<div class="form-group me-3">
 									<label for="retailEncEcheance" class="form-label small-label">Echeance Mensuelle</label>
-								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance">
+								<input type="text" class="form-control small-input"  required #retailEncEcheance="ngModel" 
+                                [(ngModel)]="retail.mntEncEcheance" name="retailEncEcheance" id="retailEncEcheance"
+                                (change)="calculateEcheance()">
 								</div>
 								<div class="form-group me-3">
 									<label for="retailDateFinEnc" class="form-label small-label">Date Fin</label>
@@ -1438,6 +1481,7 @@
                                 <label for="retailEcheance" class="form-label small-label">Echeance</label>
                                 <input type="text" class="form-control small-input" required #retailEcheance="ngModel" 
                                 [(ngModel)]="retail.echeance" name="echeance" id="echeance"
+                                [disabled]="true"
                                 (ngModelChange)="onEcheanceChange($event)">
                             </div>
                             <div class="form-group me-3">
@@ -1659,7 +1703,7 @@
                     <!-- Uncomment to add a submit button -->
                     <!-- <button class="btn btn-success" [disabled]="!editSegmentForm.form.valid" type="submit">Submit</button> -->
                     <div class="modal-footer">
-                        <button class="btn btn-custom-success btn-small"  [disabled]="!retailForm.form.valid" type="submit">Submit</button>
+                        <button class="btn btn-custom-success btn-small"  [disabled]="!retailForm.form.valid" type="submit">Sauvegarder</button>
                         <button type="button" class="btn btn-custom-danger btn-small" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 

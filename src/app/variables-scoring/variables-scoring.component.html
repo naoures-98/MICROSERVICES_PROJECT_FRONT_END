@@ -1,64 +1,219 @@
-<div class="container">
-    <!-- Titre principal de la page -->
-    <h2>Paramètres de Scoring</h2>
-  
-    <!-- Début du formulaire -->
-    <form (ngSubmit)="saveScoringConfig()">
-      <!-- Section Taille d'Employeur -->
-      <div class="form-group custom-container">
-        <label for="employerSize">Taille d'Employeur</label>
-        <div class="form-row">
-          <!-- Itération sur les tailles d'employeurs avec ngFor -->
-          <div *ngFor="let size of ['TPE', 'PME', 'GrandeEntreprise']" class="form-group">
-            <label class="small-label">{{ size }} :</label>
-            <input 
-              type="number" 
-              [(ngModel)]="scoringConfig.employerSize[size]" 
-              name="employerSize{{size}}" 
-              class="small-input form-control" 
-              placeholder="Score" />
-          </div>
-        </div>
-      </div>
-  
-      <div class="form-group custom-container">
-        <label for="nbYearExperience">Années d'expérience</label>
-        <div class="form-row">
-          <!-- Itération sur les clés de scoringConfig.nbYearExperience -->
-          <div *ngFor="let experience of experienceKeys()" class="form-group">
-            <label class="small-label">{{ experience }} ans :</label>
-            <input 
-              type="number" 
-              [(ngModel)]="scoringConfig.nbYearExperience[experience]" 
-              name="nbYearExperience{{experience}}" 
-              class="small-input form-control" 
-              placeholder="Score" />
-          </div>
-        </div>
-      </div>
-      
-  
-      <!-- Section Revenu -->
-      <!--div class="form-group custom-container">
-        <label for="revenu">Revenu</label>
-        <div class="form-row">
-         
-          <div *ngFor="let amount of Object.keys(scoringConfig.revenu)" class="form-group">
-            <label class="small-label">{{ amount }} € :</label>
-            <input 
-              type="number" 
-              [(ngModel)]="scoringConfig.revenu[amount]" 
-              name="revenu{{amount}}" 
-              class="small-input form-control" 
-              placeholder="Score" />
-          </div>
-        </div>
-      </!--div-->
-  
-      <!-- Bouton de soumission -->
-      <div class="form-group">
-        <button type="submit" class="btn btn-custom-primary btn-small">Enregistrer</button>
-      </div>
-    </form>
+<div class="container mt-2">
+  <h4>Gestion des Scoring Variables</h4>
+
+  <!-- Ajouter une ScoringVariable -->
+  <div class="container mt-2">
+    <button type="button" class="btn btn-custom-secondary me-2 mb-3 btn-small" data-bs-toggle="modal" data-bs-target="#scoringVariableModal">
+      Ajouter une nouvelle Scoring Variable
+    </button>
+    <input type="text" [(ngModel)]="searchText" class="form-control mb-3 small-input" placeholder="Rechercher...">
   </div>
-  
+
+  <!-- Table de présentation des Scoring Variables -->
+  <table class="table table-bordered table-small">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Segment</th>
+        
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sv of filteredScoringVariables | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+        <td>{{ sv.id }}</td>
+        <td>{{ sv.code }}</td>
+        <td>{{ sv.description }}</td>
+        <td>{{ sv.segment }}</td>
+        <td class="text-center">
+          <button class="btn btn-custom-warning me-2 btn-small" (click)="editScoringVariable(sv)" data-bs-toggle="modal" data-bs-target="#scoringVariableEditModal">
+            Modifier
+          </button>
+          <button class="btn btn-custom-danger me-2 btn-small" (click)="openDeleteModal(sv.id)" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<!-- Modal pour Ajouter une Scoring Variable -->
+<div class="modal fade" id="scoringVariableModal" tabindex="-1" aria-labelledby="scoringVariableModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="scoringVariableModalLabel">Créer une nouvelle Variable Scoring</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="scoringForm" (ngSubmit)="onSubmit()">
+          <!-- Code -->
+          <div>
+            <label for="code" class="form-label small-label">Code:</label>
+            <input type="text" class="form-control small-input" id="code" formControlName="code" />
+            <div *ngIf="scoringForm.get('code')?.invalid && scoringForm.get('code')?.touched">
+              Code is required.
+            </div>
+          </div>
+        
+          <!-- Description -->
+          <div>
+            <label for="description" class="form-label small-label">Description:</label>
+            <textarea id="description" class="form-control small-input" rows="7" formControlName="description"></textarea>
+            <div *ngIf="scoringForm.get('description')?.invalid && scoringForm.get('description')?.touched">
+              Description is required.
+            </div>
+          </div>
+        
+          <!-- Segment -->
+          <div>
+            <label for="segment" class="form-label small-label">Segment:</label>
+            <select id="segment" formControlName="segment" class="form-control small-select">
+              <option value="ENTREPRISE">ENTREPRISE</option>
+              <option value="PARTICULIERS">PARTICULIERS</option>
+            </select>
+          </div>
+        
+          <!-- Score Variables -->
+          <!-- Champs Score Variables -->
+          <div formArrayName="scoreVariables">
+            <div *ngFor="let scoreVariable of scoreVariables.controls; let i = index" [formGroupName]="i">
+              <br>
+              <fieldset>
+                <legend >Score Variable {{ i + 1 }}</legend>
+                
+                <label class="form-label small-label" for="valeur-{{ i }}">Valeur:</label>
+                <input class="form-control small-input"  type="text" id="valeur-{{ i }}" formControlName="valeur" />
+                <div *ngIf="scoreVariable.get('valeur')?.invalid && scoreVariable.get('valeur')?.touched">
+                  Valeur is required.
+                </div>
+
+                <label class="form-label small-label" for="score-{{ i }}">Score:</label>
+                <input class="form-control small-input"  type="number" id="score-{{ i }}" formControlName="score" />
+                <div *ngIf="scoreVariable.get('score')?.invalid && scoreVariable.get('score')?.touched">
+                  Score must be a positive number.
+                </div>
+                <button class="btn btn-custom-success btn-small " type="button" (click)="removeScoreVariable(i)">Supprimer</button>
+              </fieldset>
+            </div>
+          </div>
+          
+          <br>
+          <!-- Bouton pour ajouter une Score Variable -->
+          <button class="btn btn-custom-success btn-small mb-3" type="button" 
+          (click)="addScoreVariable()">Ajouter une nouvelle Valeur</button>  
+          <br>
+          <hr>
+          <!-- Submit -->
+          <button class="btn btn-custom-muted btn-small me-8" type="submit" 
+          [disabled]="scoringForm.invalid">Enregistrer</button>
+        </form>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal pour Modifier une Scoring Variable -->
+<div class="modal fade" id="scoringVariableEditModal" tabindex="-1" aria-labelledby="scoringVariableEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="scoringVariableEditModalLabel">Modifier une Variable Scoring</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editScoringForm" (ngSubmit)="onEditSubmit()">
+          <!-- Code -->
+          <div>
+            
+            <label for="editCode" class="form-label small-label">Code:</label>
+            <input type="text" class="form-control small-input" id="editCode"  formControlName="code"  />
+            <div *ngIf="editScoringForm.get('code')?.invalid && editScoringForm.get('code')?.touched">
+              Code is required.
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label for="editDescription" class="form-label small-label">Description:</label>
+            <textarea id="editDescription" class="form-control small-input" rows="7" 
+            formControlName="description"></textarea>
+            <div *ngIf="editScoringForm.get('description')?.invalid && editScoringForm.get('description')?.touched">
+              Description is required.
+            </div>
+          </div>
+
+          <!-- Segment -->
+          <div>
+            <label for="editSegment" class="form-label small-label">Segment:</label>
+            <select id="editSegment" class="form-control small-select" formControlName="segment">
+              <option *ngFor="let option of segmentOptions" [value]="option">{{ option }}</option>
+              <!--option value="ENTREPRISE">ENTREPRISE</!--option-->
+              <!--option value="PARTICULIERS">PARTICULIERS</!--option-->
+            </select>
+          </div>
+
+          <!-- Liste des Score Variables -->
+          <div formArrayName="scoreVariables">
+            <div *ngFor="let scoreVariable of editScoreVariables.controls; let i = index" [formGroupName]="i">
+              <br>
+              <fieldset>
+                <legend>Score Variable {{ i + 1 }}</legend>
+
+                <label for="editValeur-{{ i }}" class="form-label small-label">Valeur:</label>
+                <input type="text" id="editValeur-{{ i }}"  class="form-control small-input" formControlName="valeur" />
+                <div *ngIf="scoreVariable.get('valeur')?.invalid && scoreVariable.get('valeur')?.touched">
+                  Valeur is required.
+                </div>
+
+                <label for="editScore-{{ i }}" class="form-label small-label">Score:</label>
+                <input type="number" id="editScore-{{ i }}" class="form-control small-input" formControlName="score" />
+                <div *ngIf="scoreVariable.get('score')?.invalid && scoreVariable.get('score')?.touched">
+                  Score must be a positive number.
+                </div>
+                <button type="button" class="btn btn-custom-success btn-small " 
+                (click)="removeEditScoreVariable(i)">Supprimer</button>
+              </fieldset>
+            </div>
+          </div>
+          <br>
+          <!-- Ajouter une Score Variable -->
+          <button type="button" class="btn btn-custom-success btn-small me-8" (click)="addEditScoreVariable()">
+            Ajouter une nouvelle Valeur</button>
+          <hr>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-custom-muted btn-small me-8"
+          [disabled]="editScoringForm.invalid">Enregistrer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmation de Suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="font-size: 13px;">
+        Êtes-vous sûr de vouloir supprimer cette  Variable ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-small" (click)="confirmDelete()">Supprimer</button>
+        <button type="button" class="btn btn-outline-secondary btn-small" data-bs-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
